@@ -141,14 +141,16 @@ const removeInnerShadow = (index) => {
                         </SwipeNumber>
                     </a-col>
                     <a-col :span="20">
-                        <a-input
-                                size="mini"
-                                v-model="item.color"
-                        >
-                            <template #prefix>
-                                阴影颜色
-                            </template>
-                        </a-input>
+                        <a-color-picker v-model="item.color" size="mini" >
+                            <a-input
+                                    size="mini"
+                                    v-model="item.color"
+                            >
+                                <template #prefix>
+                                    阴影颜色<div class="w18px h18px ml5px" :style="{backgroundColor: item.color}"></div>
+                                </template>
+                            </a-input>
+                        </a-color-picker>
                     </a-col>
                     <a-col :span="20">
                         <a-checkbox v-model="item.box" @change="refreshShadow">只显示图形外部的阴影</a-checkbox>
@@ -204,14 +206,16 @@ const removeInnerShadow = (index) => {
                         </SwipeNumber>
                     </a-col>
                     <a-col :span="20">
-                        <a-input
-                                size="mini"
-                                v-model="item.color"
-                        >
-                            <template #prefix>
-                                阴影颜色
-                            </template>
-                        </a-input>
+                        <a-color-picker v-model="item.color" size="mini" >
+                            <a-input
+                                    size="mini"
+                                    v-model="item.color"
+                            >
+                                <template #prefix>
+                                    阴影颜色<div class="w18px h18px ml5px" :style="{backgroundColor: item.color}"></div>
+                                </template>
+                            </a-input>
+                        </a-color-picker>
                     </a-col>
                     <a-col :span="20">
                         <a-checkbox v-model="item.box" @change="refreshInnerShadow">只显示图形外部的阴影</a-checkbox>

@@ -6,12 +6,23 @@
  */
 export function addCustomFonts(fontList: any = []) {
     let styleTag = document.createElement('style');
+    styleTag.setAttribute('data-fonts', 'true');
     let fontRules = fontList.map((font: any) => `@font-face {
         font-family: "${font.name}";
         src: local("${font.name}"), url("${font.download}")
     }`).join('\n');
     styleTag.textContent = fontRules;
     document.head.appendChild(styleTag);
+    // TODO 加载到系统字体库中
+
+}
+
+/**
+ * 获取自定义字体样式
+ */
+export function getCustomFontsStyle() {
+    const styleTag = document.querySelector('style[data-fonts]');
+    return styleTag.textContent
 }
 
 /**

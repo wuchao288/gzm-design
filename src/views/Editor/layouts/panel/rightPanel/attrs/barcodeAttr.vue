@@ -216,24 +216,28 @@ const textPositionOptions = reactive([
                         </SwipeNumber>
                     </a-col>
                     <a-col :span="20">
-                        <a-input
-                                size="mini"
-                                v-model="lineColorVal"
-                        >
-                            <template #prefix>
-                                码颜色
-                            </template>
-                        </a-input>
+                        <a-color-picker v-model="lineColorVal" size="mini" >
+                            <a-input
+                                    size="mini"
+                                    v-model="lineColorVal"
+                            >
+                                <template #prefix>
+                                    码颜色<div class="w18px h18px ml5px" :style="{backgroundColor: lineColorVal}"></div>
+                                </template>
+                            </a-input>
+                        </a-color-picker>
                     </a-col>
                     <a-col :span="20">
-                        <a-input
-                                size="mini"
-                                v-model="backgroundVal"
-                        >
-                            <template #prefix>
-                                背景色
-                            </template>
-                        </a-input>
+                        <a-color-picker v-model="backgroundVal" size="mini" >
+                            <a-input
+                                    size="mini"
+                                    v-model="backgroundVal"
+                            >
+                                <template #prefix>
+                                    背景色<div class="w18px h18px ml5px" :style="{backgroundColor: backgroundVal}"></div>
+                                </template>
+                            </a-input>
+                        </a-color-picker>
                     </a-col>
                 </a-row>
             </a-space>

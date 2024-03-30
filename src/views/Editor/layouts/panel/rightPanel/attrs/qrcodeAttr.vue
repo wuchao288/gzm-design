@@ -104,24 +104,28 @@ const errorCorrectionLevelOptions = reactive([
                         </SwipeNumber>
                     </a-col>
                     <a-col :span="20">
-                        <a-input
-                                size="mini"
-                                v-model="darkColor"
-                        >
-                            <template #prefix>
-                                码颜色(hex)
-                            </template>
-                        </a-input>
+                        <a-color-picker v-model="darkColor" size="mini" >
+                            <a-input
+                                    size="mini"
+                                    v-model="darkColor"
+                            >
+                                <template #prefix>
+                                    码颜色<div class="w18px h18px ml5px" :style="{backgroundColor: darkColor}"></div>
+                                </template>
+                            </a-input>
+                        </a-color-picker>
                     </a-col>
                     <a-col :span="20">
-                        <a-input
-                                size="mini"
-                                v-model="lightColor"
-                        >
-                            <template #prefix>
-                                码背景色(hex)
-                            </template>
-                        </a-input>
+                        <a-color-picker v-model="lightColor" size="mini" >
+                            <a-input
+                                    size="mini"
+                                    v-model="lightColor"
+                            >
+                                <template #prefix>
+                                    码背景色<div class="w18px h18px ml5px" :style="{backgroundColor: lightColor}"></div>
+                                </template>
+                            </a-input>
+                        </a-color-picker>
                     </a-col>
                 </a-row>
             </a-space>

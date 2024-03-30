@@ -31,7 +31,7 @@ import { reactive, ref } from "vue"
 import { onMounted, defineEmits, watch } from "vue"
 import axios from 'axios'
 // import { updateImg } from '@/api/order/order'
-const emits = defineEmits(["getContent"])
+const emits = defineEmits(["getContent",'changeFontFamily'])
 //这里我选择将数据定义在props里面，方便在不同的页面也可以配置出不同的编辑器，当然也可以直接在组件中直接定义
 const props = defineProps({
     value: {
@@ -51,6 +51,15 @@ const props = defineProps({
     height: {
         type: [Number,String],
         default: 400,
+    },
+    //字体
+    font_family_formats: {
+        type: [String],
+        default: 'Arial=arial,helvetica,sans-serif; 宋体=SimSun; 微软雅黑=Microsoft Yahei; Impact=impact,chicago;',
+    },
+    contentStyle: {
+        type: [String],
+        default: '',
     },
     //必填
     plugins: {
@@ -84,7 +93,7 @@ const init = reactive({
     image_dimensions: false, //去除宽高属性
     plugins: props.plugins,  //这里的数据是在props里面就定义好了的
     toolbar: props.toolbar, //这里的数据是在props里面就定义好了的
-    font_formats: 'Arial=arial,helvetica,sans-serif; 宋体=SimSun; 微软雅黑=Microsoft Yahei; Impact=impact,chicago;', //字体
+    font_family_formats: props.font_family_formats, //字体
     fontsize_formats: '11px 12px 14px 16px 18px 24px 36px 48px 64px 72px', //文字大小
     // paste_convert_word_fake_lists: false, // 插入word文档需要该属性
     paste_webkit_styles: "all",
@@ -93,6 +102,25 @@ const init = reactive({
     paste_auto_cleanup_on_paste: false,
     file_picker_types: 'file',
     content_css: '/tinymce/skins/content/default/content.css', //以css文件方式自定义可编辑区域的css样式，css文件需自己创建并引入
+    content_style:props.contentStyle,
+    setup: editor => {
+        let lastFont = null;
+        editor.on('ExecCommand', e => {
+            if (e.command === 'FontName') {
+                const font = editor.queryCommandValue('FontName');
+                console.log('Selected font: ', font);
+                emits('changeFontFamily', font);
+            }
+        });
+        // editor.on('NodeChange', e => {
+        //     const font = editor.dom.getStyle(editor.selection.getNode(), 'font-family');
+        //     console.log('font=',font)
+        //     if (font && font !== lastFont) {
+        //         emits('changeFontFamily', font);
+        //         lastFont = font;
+        //     }
+        // });
+    },
     //图片上传
     images_upload_handler: (blobInfo, progress) => new Promise((resolve, reject) => {
 
@@ -160,7 +188,9 @@ watch(
 )
 //在onMounted中初始化编辑器
 onMounted(() => {
-    tinymce.init({})
+    tinymce.init({
+
+    })
 })
 </script>
 <style lang="less">
