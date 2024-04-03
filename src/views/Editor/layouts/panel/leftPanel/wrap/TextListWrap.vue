@@ -124,13 +124,13 @@ const handleClick = (item: any) => {
             editable: true,
             x:0,
             y:0,
-            // TODO 2023-11-10 这里官方有bug，在new Text对象时fill参数传入数组后返回的fill值格式不对，已反馈 等待修复
-            fill: [
-                {
-                    type:'solid',
-                    color:'rgba(0,0,0,1)',
-                },
-            ],
+            fill:'rgba(0,0,0,1)',
+            // fill: [
+            //     {
+            //         type:'solid',
+            //         color:'rgba(0,0,0,1)',
+            //     },
+            // ],
             ...item.json,
         })
     }else if (editor.objectIsTypes(item.json,'HTMLText')){
