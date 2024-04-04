@@ -19,7 +19,7 @@ Leafer Design 是一个免费开源的海报设计器。使用了最新的`vue3`
 - 地址1：<a href="http://gzm-design.guozimi.cn/" target="_blank">gzm-design</a>
 - 备用地址：<a href="http://gzm-design.sourcenet.cc/" target="_blank">gzm-design</a>
 
-![image](http://oss.guozimi.cn/gzm-design/cover.png)
+![image](http://oss.guozimi.cn/gzm-design/cover1.png)
 
 ## 文档
 
