@@ -1,7 +1,7 @@
 <template>
     <a-popover v-model:popup-visible="showFileOper" position="bottom" trigger="click" content-class="down-list">
         <a-button class="icon-btn">
-            文件
+            <icon-folder class="m-r-2px" :size="17"/>文件
             <icon-down class="m-l-2px"/>
         </a-button>
         <template #content>

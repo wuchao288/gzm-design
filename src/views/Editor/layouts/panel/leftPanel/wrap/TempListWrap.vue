@@ -7,7 +7,7 @@
                     <a-card hoverable @click="handleClick(item)" class="cursor-pointer drop-shadow" :body-style="{ padding: '0px' }">
                         <div class="">
                             <div class="tags">
-                                <div class="tag">免费</div>
+                                <div class="tag">VIP</div>
 <!--                                <div>ag</div>-->
                             </div>
                             <LazyImg :url="url" class="img" />

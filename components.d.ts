@@ -114,6 +114,7 @@ declare module 'vue' {
     IconDragDotVertical: typeof import('@arco-design/web-vue/es/icon')['IconDragDotVertical']
     IconEye: typeof import('@arco-design/web-vue/es/icon')['IconEye']
     IconEyeInvisible: typeof import('@arco-design/web-vue/es/icon')['IconEyeInvisible']
+    IconFolder: typeof import('@arco-design/web-vue/es/icon')['IconFolder']
     IconFullscreen: typeof import('@arco-design/web-vue/es/icon')['IconFullscreen']
     IconHome: typeof import('@arco-design/web-vue/es/icon')['IconHome']
     IconImport: typeof import('@arco-design/web-vue/es/icon')['IconImport']
