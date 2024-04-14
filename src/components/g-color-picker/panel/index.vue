@@ -3,8 +3,12 @@
         <PanelHeader v-bind="$props" :mode="mode" @mode-change="handleModeChange"/>
         <div :class="[`${baseClassName}__body`]">
             <div v-if="colorModes.includes(mode)">
-                <template v-if="isGradient">
+                <template v-if="isGradientLinear">
                     <LinearGradient v-bind="baseProps" @change="handleGradientChange"
+                                    :enable-multiple-gradient="enableMultipleGradient"/>
+                </template>
+                <template v-if="isGradientRadial">
+                    <RadialGradient v-bind="baseProps" @change="handleGradientChange"
                                     :enable-multiple-gradient="enableMultipleGradient"/>
                 </template>
 
@@ -22,7 +26,7 @@
                         <div :class="[`${baseClassName}__sliders-preview`, `${baseClassName}--bg-alpha`]">
             <span
                     :class="[`${baseClassName}__sliders-preview-inner`]"
-                    :style="{ background: isGradient ? color.linearGradient : color.rgba }"
+                    :style="{ background: isGradientLinear ? color.linearGradient : isGradientRadial?color.radialGradient :color.rgba }"
             ></span>
                         </div>
                     </template>
@@ -79,10 +83,11 @@ import {
     DEFAULT_COLOR,
     DEFAULT_LINEAR_GRADIENT,
     TD_COLOR_USED_COLORS_MAX_SIZE,
-    DEFAULT_SYSTEM_SWATCH_COLORS, COLOR_MODES,
+    DEFAULT_SYSTEM_SWATCH_COLORS, COLOR_MODES, DEFAULT_RADIAL_GRADIENT,
 } from '../const';
 import PanelHeader from './header.vue';
 import LinearGradient from './linear-gradient.vue';
+import RadialGradient from './radial-gradient.vue';
 import SaturationPanel from './saturation.vue';
 import HueSlider from './hue.vue';
 import AlphaSlider from './alpha.vue';
@@ -115,10 +120,19 @@ export default defineComponent({
         console.log('recentColors=', recentColors)
         const [innerValue, setInnerValue] = useVModel(inputValue, modelValue, props.defaultValue, props.onChange);
 
-        const defaultEmptyColor = computed(() => (isGradient.value ? DEFAULT_LINEAR_GRADIENT : DEFAULT_COLOR));
+        const defaultEmptyColor = computed(() => {
+            if((isGradientLinear.value )){
+                return DEFAULT_LINEAR_GRADIENT
+            }else if((isGradientRadial.value )){
+                return DEFAULT_RADIAL_GRADIENT
+            }else{
+                return DEFAULT_COLOR
+            }
+        });
 
         const mode = ref<TdColorModes>(props.colorModes?.length === 1 ? props.colorModes[0] : 'monochrome');
-        const isGradient = computed(() => mode.value === 'linear-gradient');
+        const isGradientLinear = computed(() => mode.value === 'linear-gradient');
+        const isGradientRadial = computed(() => mode.value === 'radial-gradient');
 
         const color = ref(new Color(innerValue.value || defaultEmptyColor.value));
         const updateColor = () => color.value.update(innerValue.value || defaultEmptyColor.value);
@@ -151,6 +165,9 @@ export default defineComponent({
             // 渐变模式下直接输出css样式
             if (mode.value === 'linear-gradient') {
                 return color.value.linearGradient;
+            }
+            if (mode.value === 'radial-gradient') {
+                return color.value.radialGradient;
             }
             return color.value.getFormatsColorMap()[props.format] || color.value.css;
         };
@@ -202,7 +219,7 @@ export default defineComponent({
             (newColor) => {
                 if (newColor !== formatValue()) {
                     updateColor();
-                    mode.value = color.value.isGradient ? 'linear-gradient' : 'monochrome';
+                    mode.value = color.value.isLinerGradient ? 'linear-gradient':color.value.isRadialGradient?'radial-gradient' : 'monochrome';
                 }
             },
         );
@@ -218,6 +235,10 @@ export default defineComponent({
             if (value === 'linear-gradient') {
                 color.value.update(
                     color.value.gradientColors.length > 0 ? color.value.linearGradient : DEFAULT_LINEAR_GRADIENT,
+                );
+            }else if (value === 'radial-gradient') {
+                color.value.update(
+                    color.value.gradientColors.length > 0 ? color.value.radialGradient : DEFAULT_LINEAR_GRADIENT,
                 );
             } else {
                 color.value.update(color.value.rgba);
@@ -329,10 +350,17 @@ export default defineComponent({
                     mode.value = 'linear-gradient';
                     color.value.update(value);
                     color.value.updateCurrentGradientColor();
+                }if (props.colorModes.includes('radial-gradient')) {
+                    mode.value = 'radial-gradient';
+                    color.value.update(value);
+                    color.value.updateCurrentGradientColor();
                 } else {
                     console.warn('该模式不支持渐变色');
                 }
             } else if (mode.value === 'linear-gradient') {
+                color.value.updateStates(value);
+                color.value.updateCurrentGradientColor();
+            } else if (mode.value === 'radial-gradient') {
                 color.value.updateStates(value);
                 color.value.updateCurrentGradientColor();
             } else {
@@ -350,7 +378,9 @@ export default defineComponent({
             mode,
             formatModel,
             recentlyUsedColors,
-            isGradient,
+            // isGradient,
+            isGradientLinear,
+            isGradientRadial,
             systemColors,
             showSystemColors,
             showUsedColors,
@@ -370,6 +400,7 @@ export default defineComponent({
     components: {
         PanelHeader,
         LinearGradient,
+        RadialGradient,
         SaturationPanel,
         HueSlider,
         AlphaSlider,

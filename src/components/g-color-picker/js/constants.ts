@@ -15,6 +15,7 @@ export const DEFAULT_COLOR = '#001F97';
 
 // 默认渐变色
 export const DEFAULT_LINEAR_GRADIENT = 'linear-gradient(90deg, rgba(241,29,0,1) 0%, rgba(73,106,220,1) 100%);';
+export const DEFAULT_RADIAL_GRADIENT = 'radial-gradient(90deg, rgba(241,29,0,1) 0%, rgba(73,106,220,1) 100%);';
 
 // 默认系统色彩
 export const DEFAULT_SYSTEM_SWATCH_COLORS = [
