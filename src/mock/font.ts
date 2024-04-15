@@ -3,9 +3,6 @@ import setupMock, { successResponseWrap } from '@/utils/setup-mock';
 import fontData from '@/assets/data/fonts.json'
 import {MockParams} from "@/types/mock";
 
-/**
- * TODO 优化图库，抓取unsplash图片
- */
 setupMock({
     setup() {
         Mock.mock(new RegExp('/api/font/list'), (params:MockParams) => {

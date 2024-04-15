@@ -124,7 +124,6 @@ const handleClick = (item: any) => {
             editable: true,
             x:0,
             y:0,
-            // TODO 2023-11-10 这里官方有bug，在new Text对象时fill参数传入数组后返回的fill值格式不对，已反馈 等待修复
             fill: [
                 {
                     type:'solid',
