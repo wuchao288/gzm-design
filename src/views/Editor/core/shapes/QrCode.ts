@@ -109,7 +109,7 @@ class QrCode extends Rect {
             })
         } catch (e: any) {
             if (e.message.indexOf('nvalid hex color') > -1) {
-                // TODO 非标准的hex颜色格式
+                // 非标准的hex颜色格式
             } else {
                 console.error(e)
             }

@@ -124,13 +124,12 @@ const handleClick = (item: any) => {
             editable: true,
             x:0,
             y:0,
-            fill:'rgba(0,0,0,1)',
-            // fill: [
-            //     {
-            //         type:'solid',
-            //         color:'rgba(0,0,0,1)',
-            //     },
-            // ],
+            fill: [
+                {
+                    type:'solid',
+                    color:'rgba(0,0,0,1)',
+                },
+            ],
             ...item.json,
         })
     }else if (editor.objectIsTypes(item.json,'HTMLText')){

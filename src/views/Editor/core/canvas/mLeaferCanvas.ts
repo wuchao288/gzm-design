@@ -1,5 +1,14 @@
 import {createDecorator} from '@/views/Editor/core/instantiation/instantiation'
-import {ICanvasContext2D, IGroup, ILeafer, IPointData, IUI, IUIInputData, IZoomType} from "@leafer-ui/interface";
+import {
+    ICanvasContext2D,
+    IGroup,
+    ILeafer, ILeaferCanvas,
+    IPointData,
+    IRenderOptions,
+    IUI,
+    IUIInputData,
+    IZoomType
+} from "@leafer-ui/interface";
 import {
     App,
     ChildEvent,
@@ -15,7 +24,7 @@ import '@leafer-in/editor'
 import '@leafer-in/view'
 import { ScrollBar } from '@leafer-in/scroll'
 import {Ruler} from 'leafer-x-ruler'
-import {IWorkspacesService, WorkspacesService} from "@/views/Editor/core/workspaces/workspacesService";
+import {IWorkspace, IWorkspacesService, WorkspacesService} from "@/views/Editor/core/workspaces/workspacesService";
 import {EventbusService, IEventbusService} from "@/views/Editor/core/eventbus/eventbusService";
 import {HierarchyService, IHierarchyService} from "@/views/Editor/core/layer/hierarchyService";
 import {typeUtil} from "@/views/Editor/utils/utils";
@@ -29,6 +38,11 @@ import './proxyData'
 import {EditorEvent} from "@leafer-in/editor";
 import {BOTTOM_CANVAS_NAME} from "@/views/Editor/utils/constants";
 import {v4 as uuidv4} from 'uuid'
+
+// TODO 2024-4-18 临时解决在移动端画布变大的问题，问题已反馈，待修复后需移除此代码
+App.prototype.__render = function(canvas: ILeaferCanvas, options: IRenderOptions): void {
+    this.children.forEach(leafer => canvas.copyWorld(leafer.canvas))
+}
 
 type ExtendedOption = {
     width: number
@@ -117,7 +131,7 @@ export class MLeaferCanvas {
      */
     public readonly ref = {
         zoom: ref(toFixed(this.getZoom(), 2)),
-        _children: computed(() => this.contentFrame.children),
+        _children: shallowRef<IUI[]>([]),
         // 是否启用辅助线
         enabledRuler: ref(true),
     }
@@ -132,7 +146,12 @@ export class MLeaferCanvas {
         const app = new App({
             width: 800,
             height: 800,
-            editor: {},
+            editor: {
+                point: { cornerRadius: 0 },
+                middlePoint: {},
+                rotatePoint: { width: 16, height: 16 },
+                rect: { dashPattern: [3, 2] }
+            },
         })
         // 启用滚动条
         // new ScrollBar(app)
@@ -203,16 +222,11 @@ export class MLeaferCanvas {
                 this.discardActiveObject()
                 const page = this.pages.get(newId)
                 this.setZoom(page?.scale)
-                // this.setZoom(1) // reset zoom so pan actions work as expected
-
                 this.pageId = newId
                 if (page) {
                     // this.contentLayer.set(page)
                     this.importJsonToCurrentPage(page, true)
                 }
-                // this.zoomToInnerPoint(1)
-                // 由于_children数组改变了，需要执行调度器
-                this.childrenEffect()
             }
         })
         this.eventbus.on('workspaceChangeRefresh', ({newId}) => {
@@ -246,7 +260,7 @@ export class MLeaferCanvas {
         // 子元素添加事件
         this.contentLayer.on(ChildEvent.ADD, (arg: ChildEvent) => {
             // this.selectObject(arg.target)
-            // this.childrenEffect()
+            this.childrenEffect()
         })
 
         // 子元素移除事件
@@ -291,7 +305,6 @@ export class MLeaferCanvas {
             // ...this.pages.get(id),
             ...json,
         })
-        console.log('this.pages=', this.pages.get(id))
     }
 
     /**
@@ -451,17 +464,61 @@ export class MLeaferCanvas {
         this.zoomToFit()
     }
 
+    // /**
+    //  * 导入JSON（多页）
+    //  * @param pages 多页面json
+    //  * @param clearHistory 是否清除历史画布数据
+    //  */
+    // public importPages(pages: any, clearHistory?: boolean) {
+    //     if (clearHistory) {
+    //         this.contentFrame.clear()
+    //     }
+    //     console.log('pages', pages)
+    //     // TODO 多页面数据导入
+    // }
+
+
     /**
      * 导入JSON（多页）
+     * importPages
      * @param pages 多页面json
      * @param clearHistory 是否清除历史画布数据
      */
-    public importPages(pages: any, clearHistory?: boolean) {
+    public async importPages(json: any, clearHistory?: boolean) {
+        if (!json) {
+            return Promise.reject(new Error('`json` is undefined'))
+        }
         if (clearHistory) {
             this.contentFrame.clear()
         }
-        console.log('pages', pages)
-        // TODO 多页面数据导入
+        const serialized = typeof json === 'string' ? JSON.parse(json) : json
+
+        const {
+            workspaces,
+            pages,
+        }: {
+            workspaces: IWorkspace[]
+            pages: {
+                id: string
+                children: IUI[]
+            }[]
+        } = serialized
+
+        if (!workspaces || !pages || workspaces.length === 0 || pages.length === 0) {
+            return Promise.reject(new Error('`json` is not valid'))
+        }
+
+        this.workspacesService.clear()
+        this.pages.clear()
+
+        for (const { name, id } of workspaces) {
+            this.workspacesService.add(name, id)
+        }
+
+        for (const page of pages.reverse()) {
+            this.workspacesService.setCurrentId(page.id)
+            await this.reLoadFromJSON(page.children)
+        }
     }
 
     public getActiveObjects(): IUI[] {
@@ -502,12 +559,12 @@ export class MLeaferCanvas {
      * 执行调度器 更新_children值
      */
     public childrenEffect() {
-        triggerRef(this.ref._children)
+        this.ref._children.value = []
+        this.ref._children.value = this.contentFrame.children
     }
 
 
     public setZoom(scale: number | undefined) {
-        // TODO 处理初次切换页面时页面展示的缩放值不匹配的问题
         this.zoomToInnerPoint(<number>scale)
     }
 

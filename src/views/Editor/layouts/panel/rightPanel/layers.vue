@@ -347,7 +347,7 @@ onMounted(() => {
 })
 
 // 多选
-// todo: shift键选择范围
+// shift键选择范围
 const multiple = ref(false)
 const {meta, ctrl,shift} = useMagicKeys()
 watchEffect(() => {
