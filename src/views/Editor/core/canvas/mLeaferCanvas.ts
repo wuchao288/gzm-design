@@ -394,7 +394,7 @@ export class MLeaferCanvas {
     public selectObject(target: IUI | null) {
         if (this.activeTool === 'select') { // 选择器
             console.log('选中：', target)
-            this.app.editor.target = target
+            this.app.editor.select(target)
             console.log('Editor element：', this.app.editor.element)
             this.setActiveObjectValue(this.app.editor.element)
         }
@@ -404,7 +404,7 @@ export class MLeaferCanvas {
      * 取消选中元素
      */
     public discardActiveObject() {
-        this.app.editor.target = null
+        this.app.editor.cancel()
         this.setActiveObjectValue(this.contentFrame)
     }
 
