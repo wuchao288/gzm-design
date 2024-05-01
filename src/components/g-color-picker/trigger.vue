@@ -10,6 +10,7 @@
         <template #prefix>
             <div :class="[`${baseClassName}__trigger--default__color`, `${baseClassName}--bg-alpha`]">
             <span
+                    v-if="colorModes.includes(mode)"
                     :class="[
                 'color-inner',
                 {
@@ -18,6 +19,13 @@
               ]"
                     :style="{ background: value }"
             ></span>
+                <span v-else>
+                    <template v-for="(value, key) in $slots" :key="key">
+                    <div v-if="(mode+'-view') == key">
+                        <slot :name="key"></slot>
+                    </div>
+                </template>
+                </span>
             </div>
         </template>
     </a-input>
@@ -64,14 +72,27 @@ export default defineComponent({
             type: String as PropType<TdColorPickerProps['size']>,
             default: 'mini',
         },
+        mode: {
+            type: String,
+            default: '',
+        },
+        colorModes: {
+            type: Array,
+            default: () => ['monochrome', 'linear-gradient','radial-gradient'],
+        },
     },
     setup(props) {
         const baseClassName = useBaseClassName();
         const value = ref(props.color);
+        const modeV = ref(props.mode);
         const {SIZE: sizeClassNames} = useCommonClassName();
         watch(
             () => [props.color],
             () => (value.value = props.color),
+        );
+        watch(
+            () => [props.mode],
+            () => (modeV.value = props.mode),
         );
 
         const handleChange = (input: string) => {
@@ -90,6 +111,7 @@ export default defineComponent({
         return {
             baseClassName,
             value,
+            modeV,
             handleChange,
             sizeClassNames,
         };

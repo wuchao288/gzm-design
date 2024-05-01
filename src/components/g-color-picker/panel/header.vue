@@ -2,7 +2,7 @@
     <div :class="`${baseClassName}__head`">
         <div :class="`${baseClassName}__mode`">
             <template v-if="colorModes?.length === 1">
-                {{ COLOR_MODES[colorModes[0]] }}
+                {{ ALL_COLOR_MODES[colorModes[0]] }}
             </template>
             <template v-else>
                 <a-radio-group
@@ -10,7 +10,7 @@
                         size="small"
                         v-model="modeValue"
                         @change="handleModeChange">
-                    <a-radio v-for="(value, key) in allColorModes" :key="key" :value="value">{{COLOR_MODES[value]}}</a-radio>
+                    <a-radio v-for="(value, key) in ALL_COLOR_MODES" :key="key" :value="key">{{value}}</a-radio>
                 </a-radio-group>
 <!--                <TRadioGroup-->
 <!--                        variant="default-filled"-->
@@ -56,9 +56,11 @@ export default defineComponent({
     setup(props) {
         const baseClassName = useBaseClassName();
         const modeValue = ref(props.mode);
-        const allColorModes = computed(() => {
-            return props.colorModes.concat(props.cusColorModes)
-        })
+        const ALL_COLOR_MODES = Object.assign({},COLOR_MODES,props.cusColorModes)
+        console.log('ALL_COLOR_MODES',ALL_COLOR_MODES)
+        // const allColorModes = computed(() => {
+        //     return props.colorModes.concat(props.cusColorModes)
+        // })
         const handleModeChange = (v: string) => props.onModeChange(v);
         watch(
             () => props.mode,
@@ -68,8 +70,7 @@ export default defineComponent({
             baseClassName,
             modeValue,
             handleModeChange,
-            COLOR_MODES,
-            allColorModes
+            ALL_COLOR_MODES
         };
     },
 })

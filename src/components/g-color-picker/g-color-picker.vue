@@ -2,6 +2,7 @@
     <a-trigger v-model="popProps.visible"
                :position="popProps.position"
                :trigger="popProps.trigger"
+               :style="{ '--color-picker-panel-width': width }"
                :unmount-on-close="false">
         <div style="width: fit-content">
             <DefaultTrigger
@@ -10,10 +11,12 @@
                     :clearable="clearable"
                     :input-props="inputProps"
                     :onTriggerChange="setInnerValue"
+                    :mode="mode"
+                    :colorModes="colorModes"
                     :size="size">
-<!--                <template v-for="(value, key) in $slots" #[key]="slotProps2" :key="key">-->
-<!--                    <slot :name="key" v-bind="slotProps2"></slot>-->
-<!--                </template>-->
+                <template v-for="(value, key) in $slots" #[key]="slotProps2" :key="key">
+                    <slot :name="key" v-bind="slotProps2"></slot>
+                </template>
             </DefaultTrigger>
         </div>
         <template #content>
@@ -25,6 +28,7 @@
                         :modelValue="innerValue"
                         @togglePopup="setVisible"
                         @change="onPickerChange"
+                        @modeChange="changeMode"
                 >
                     <!-- 循环注册 父级传递下来的slot -->
                     <template v-for="(value, key) in $slots" #[key]="slotProps" :key="key">
@@ -47,10 +51,15 @@ export default defineComponent({
     name: 'GColorPicker',
     props: {
         ...props,
+        width: {
+            type: String,
+            default: '266px'
+        }
     },
     setup(props) {
         const baseClassName = useBaseClassName();
         const visible = ref(false);
+        const mode = ref(props.colorModes[0]);
         const setVisible = (value: boolean) => (visible.value = value);
 
         const {value: inputValue, modelValue} = toRefs(props);
@@ -68,6 +77,9 @@ export default defineComponent({
         const onPickerChange = (value: string, context: TdColorContext) => {
             setInnerValue(value, context)
         }
+        const changeMode = (value: string) => {
+            mode.value = value
+        }
         return {
             popProps,
             newProps,
@@ -77,7 +89,9 @@ export default defineComponent({
             refTrigger,
             setVisible,
             setInnerValue,
-            onPickerChange
+            onPickerChange,
+            changeMode,
+            mode,
         };
     },
     components: {

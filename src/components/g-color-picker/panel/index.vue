@@ -76,7 +76,7 @@
     </div>
 </template>
 <script lang="ts">
-import {defineComponent, ref, toRefs, watch, computed} from 'vue';
+import {defineComponent, ref, toRefs, watch, computed,getCurrentInstance} from 'vue';
 import {useCommonClassName, useConfig} from '../hooks/useConfig';
 import props from '../props';
 import {
@@ -112,6 +112,7 @@ export default defineComponent({
 
     setup(props) {
         console.log('22222222222')
+        const {proxy} = getCurrentInstance()
         const baseClassName = useBaseClassName();
         const {STATUS} = useCommonClassName();
         const {t, globalConfig} = useConfig('colorPicker');
@@ -245,6 +246,7 @@ export default defineComponent({
             }
 
             emitColorChange();
+            proxy.$emit('modeChange', mode.value);
         };
 
         /**

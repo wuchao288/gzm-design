@@ -12,6 +12,9 @@
 // 如：@button-line-height-s
 
 @color-picker-panel-width: 266px;
+:root{
+  --color-picker-panel-width: @color-picker-panel-width;
+}
 @color-picker-margin-xxxs: 16px;
 @color-picker-margin-s: 16px;
 @color-picker-size-1: 2px;
@@ -50,8 +53,8 @@
 @color-picker-swatch-item-padding: calc(@color-picker-panel-padding - 8px); //make sure swatchItem scale
 @color-picker-swatch-item-left-negative-padding: calc(0px - @color-picker-swatch-item-padding);
 // columnGap = (panelWidth - (panelPadding * 2) + (swatchColor * columnsItem)) / 9
-@color-picker-swatch-row-gap: calc(calc(@color-picker-panel-width - calc(calc(@color-picker-panel-padding * 2) + calc(@color-picker-swatch-height * @color-picker-swatch-columns))) / 9);
-@color-picker-swatch-column-gap: calc(calc(@color-picker-panel-width - calc(calc(@color-picker-panel-padding * 2) + calc(@color-picker-swatch-width * @color-picker-swatch-columns))) / 9);
+@color-picker-swatch-row-gap: calc(calc(var(--color-picker-panel-width) - calc(calc(@color-picker-panel-padding * 2) + calc(@color-picker-swatch-height * @color-picker-swatch-columns))) / 9);
+@color-picker-swatch-column-gap: calc(calc(var(--color-picker-panel-width) - calc(calc(@color-picker-swatch-width * 2) + calc(@color-picker-swatch-width * @color-picker-swatch-columns))) / 9);
 @color-picker-swatch-wrap-margin-left: (@color-picker-swatch-padding + @color-picker-swatch-border-size) * -1;
 // 右边往外伸出一点，让滚动条居外侧
 @color-picker-swatch-wrap-margin-right: @color-picker-swatch-wrap-margin-left -
