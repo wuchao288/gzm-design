@@ -35,6 +35,7 @@ import {toFixed} from "@/utils/math";
 
 // 重写 proxyData，全局只需引入一次
 import './proxyData'
+import './initAttr'
 import {EditorEvent} from "@leafer-in/editor";
 import {BOTTOM_CANVAS_NAME} from "@/views/Editor/utils/constants";
 import {v4 as uuidv4} from 'uuid'
@@ -221,10 +222,8 @@ export class MLeaferCanvas {
                 useAppStore().activeTool = 'select'
                 this.discardActiveObject()
                 const page = this.pages.get(newId)
-                this.setZoom(page?.scale)
                 this.pageId = newId
                 if (page) {
-                    // this.contentLayer.set(page)
                     this.importJsonToCurrentPage(page, true)
                 }
             }
@@ -295,7 +294,6 @@ export class MLeaferCanvas {
     private setPageJSON(id: string, json: Partial<Page | IUIInputData | any>) {
         if (id === '') return
         this.pages.set(id, {
-            scale: <number>this.ref.zoom.value,
             // viewportTransform: this.viewportTransform,
             // backgroundColor: this.backgroundColor,
             // name: this.get('name'),
@@ -394,7 +392,7 @@ export class MLeaferCanvas {
     public selectObject(target: IUI | null) {
         if (this.activeTool === 'select') { // 选择器
             console.log('选中：', target)
-            this.app.editor.select(target)
+            this.app.editor.target = target
             console.log('Editor element：', this.app.editor.element)
             this.setActiveObjectValue(this.app.editor.element)
         }
@@ -404,7 +402,7 @@ export class MLeaferCanvas {
      * 取消选中元素
      */
     public discardActiveObject() {
-        this.app.editor.cancel()
+        this.app.editor.target = null
         this.setActiveObjectValue(this.contentFrame)
     }
 

@@ -54,8 +54,8 @@ dependencies:
     specifier: 1.0.0-rc.22
     version: 1.0.0-rc.22
   leafer-x-ruler:
-    specifier: ^1.0.10
-    version: 1.0.10
+    specifier: ^1.0.11
+    version: 1.0.11
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -2807,8 +2807,8 @@ packages:
       '@leafer/web': 1.0.0-rc.22
     dev: false
 
-  /leafer-x-ruler@1.0.10:
-    resolution: {integrity: sha512-JQnrs1XxIAttHYRu3+gsAtNlMsYlp+X1fm2QGVG/LKVEaIh0w7Oedl28md4qLkYhsu9CB18h1qtZOh7voEl+eQ==}
+  /leafer-x-ruler@1.0.11:
+    resolution: {integrity: sha512-ge0AEL7x1v8Bp5u+p0wKk89yT53769P4x3fcX/GPR/vsOZ14wqDui5D8HVBoT5Kh/LZ2DldyjO+3nMwU3oTkQg==}
     dependencies:
       '@leafer-in/editor': 1.0.0-rc.22
       '@leafer-ui/core': 1.0.0-rc.22

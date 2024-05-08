@@ -18,6 +18,7 @@ import {IUI} from "@leafer-ui/interface";
 import {watch} from "vue";
 
 interface ITreeNodeData extends TreeNodeData {
+    proxyData:any
     isCollection: boolean
     visible: boolean
     evented: boolean
@@ -74,7 +75,8 @@ const getTreeData = (
         const children = isCollection
             ? getTreeData(object.children, searchKey, parentVisible && proxyData.visible)
             : []
-        const nodeData = Object.assign(proxyData,{
+        const nodeData = Object.assign({
+            proxyData:proxyData,
             key: object.innerId,
             draggable: renameNodeKey.value !== object.id,
             getSvg: getSvg.bind(this, object),
@@ -104,7 +106,7 @@ const canAddToResult = (nodeData: ITreeNodeData, searchKey: string): boolean => 
     let isMatched = false
     while (!queue.isEmpty()) {
         const currentNode = queue.shift()!
-        const currentTitle = currentNode.name?.toLowerCase()
+        const currentTitle = currentNode.proxyData?.name?.toLowerCase()
         if (currentTitle?.includes(lowerSearchKey)) {
             isMatched = true
         }
@@ -248,7 +250,11 @@ const onDrop = (data: DropEvent) => {
  */
 const lockClick = (e: Event, node: any) => {
     e.stopPropagation()
-    node.locked = !node.locked
+    node.proxyData.locked = !node.proxyData.locked
+    if(node.proxyData.locked){
+        console.log('111')
+        canvas.app.editor.removeItem(node.proxyData)
+    }
 }
 
 /**
@@ -256,7 +262,7 @@ const lockClick = (e: Event, node: any) => {
  */
 const visibleClick = (e: Event, node: any) => {
     e.stopPropagation()
-    node.visible = !node.visible
+    node.proxyData.visible = !node.proxyData.visible
     // node.setDirty()
 }
 
@@ -282,7 +288,7 @@ const updateSelectedkeys = async () => {
     const activeObject = canvas.activeObject.value
     const editor = canvas?.app?.editor
 
-    if (!editor || !editor.hasTarget) {
+    if (!editor || !editor.target) {
         selectedkeys.value = []
         return
     }
@@ -448,8 +454,8 @@ const onInputChange = (value: string, e: Event) => {
                             v-if="isDefined(nodeData.key) && renameNodeKey === nodeData.key"
                             class="bg-transparent! border-none! px0!"
                             size="mini"
-                            v-model="nodeData.name"
-                            :default-value="nodeData.name"
+                            v-model="nodeData.proxyData.name"
+                            :default-value="nodeData.proxyData.name"
                             @blur="renameNodeKey = undefined"
                             @vue:mounted="onInputMounted"
                             @press-enter="renameNodeKey = undefined"
@@ -458,10 +464,10 @@ const onInputChange = (value: string, e: Event) => {
                             v-else
                             class="text-truncate"
                             :class="{
-                'op-50': !nodeData.visible,
+                'op-50': !nodeData.proxyData.visible,
               }"
                     >
-              {{ nodeData.name }}
+              {{ nodeData.proxyData.name }}
             </span>
                 </div>
             </template>
@@ -470,32 +476,32 @@ const onInputChange = (value: string, e: Event) => {
                         v-if="renameNodeKey !== nodeData.key"
                         class="extra pr4px"
                         :class="{
-              show:  !nodeData.visible || nodeData.locked
+              show:  !nodeData.proxyData.visible || nodeData.locked
             }"
                 >
                     <a-button
                             :class="{
-                show: !nodeData.locked,
+                show: !nodeData.proxyData.locked,
               }"
                             size="mini"
                             class="icon-btn"
                             @click="lockClick($event, nodeData)"
                     >
                         <template #icon>
-                            <icon-unlock v-if="!nodeData.locked"/>
+                            <icon-unlock v-if="!nodeData.proxyData.locked"/>
                             <icon-lock v-else/>
                         </template>
                     </a-button>
                     <a-button
                             :class="{
-                show: nodeData.visible,
+                show: nodeData.proxyData.visible,
               }"
                             size="mini"
                             class="icon-btn"
                             @click="visibleClick($event, nodeData)"
                     >
                         <template #icon>
-                            <icon-eye v-if="nodeData.visible"/>
+                            <icon-eye v-if="nodeData.proxyData.visible"/>
                             <icon-eye-invisible v-else/>
                         </template>
                     </a-button>
