@@ -252,7 +252,6 @@ const lockClick = (e: Event, node: any) => {
     e.stopPropagation()
     node.proxyData.locked = !node.proxyData.locked
     if(node.proxyData.locked){
-        console.log('111')
         canvas.app.editor.removeItem(node.proxyData)
     }
 }
