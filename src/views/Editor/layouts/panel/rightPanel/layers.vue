@@ -294,7 +294,7 @@ const updateSelectedkeys = async () => {
 
     let needExpandedKeys: Set<string> = new Set()
 
-    if (editor.hasTarget) {
+    if (editor.target) {
         const tempKeys: any[] = []
         editor.list.forEach(obj => {
             tempKeys.push(obj.innerId)
@@ -407,6 +407,7 @@ const onInputChange = (value: string, e: Event) => {
     target?.blur()
     if (!key || !value) return
     const object = canvas.findObjectById(key)
+    console.log('object=',object)
     if (!object) return
     object.proxyData.name = value
     // treeRef.value?.updateTreeView()

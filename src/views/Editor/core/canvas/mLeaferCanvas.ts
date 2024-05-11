@@ -247,6 +247,7 @@ export class MLeaferCanvas {
             name: BOTTOM_CANVAS_NAME,
             width: this.contentLayer.width,
             height: this.contentLayer.height,
+            fill:'#ffffff'
         })
         this.contentLayer.add(frame)
         this.contentFrame = frame
