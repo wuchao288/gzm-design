@@ -103,7 +103,7 @@
             },
             "lineHeight": {
               "type": "percent",
-              "value": 150
+              "value": 1.5
             },
             "paraIndent": 0,
             "textAlign": "left",
@@ -134,7 +134,7 @@
                 "color": "rgb(29.00115,19.99965,10.0011)"
               }
             ],
-            "text": "果子米设计器",
+            "text": "果米设计器",
             "fontFamily": "AlibabaPuHuiTi-Bold",
             "fontSize": 100,
             "italic": false,
@@ -144,12 +144,12 @@
             },
             "lineHeight": {
               "type": "percent",
-              "value": 150
+              "value": 1.5
             },
             "paraIndent": 0,
             "textAlign": "left",
             "verticalAlign": "middle",
-            "name": "果子米设计器",
+            "name": "果米设计器",
             "opacity": 1,
             "visible": true,
             "zIndex": 5,
@@ -211,7 +211,7 @@
             },
             "lineHeight": {
               "type": "percent",
-              "value": 150
+              "value": 1.5
             },
             "paraIndent": 0,
             "textAlign": "left",
@@ -250,7 +250,7 @@
             },
             "lineHeight": {
               "type": "percent",
-              "value": 150
+              "value": 1.5
             },
             "paraIndent": 0,
             "textAlign": "left",
@@ -318,7 +318,7 @@
             },
             "lineHeight": {
               "type": "percent",
-              "value": 190
+              "value": 1.9
             },
             "name": "图层13",
             "zIndex": 34,
@@ -353,7 +353,7 @@
             },
             "lineHeight": {
               "type": "percent",
-              "value": 150
+              "value": 1.5
             },
             "name": "图层14",
             "zIndex": 35,
@@ -407,7 +407,7 @@
             },
             "lineHeight": {
               "type": "percent",
-              "value": 150
+              "value": 1.5
             },
             "paraIndent": 0,
             "textAlign": "left",
@@ -630,7 +630,7 @@
             },
             "lineHeight": {
               "type": "percent",
-              "value": 150
+              "value": 1.5
             },
             "name": "图层12",
             "zIndex": 12,
@@ -662,7 +662,7 @@
             },
             "lineHeight": {
               "type": "percent",
-              "value": 150
+              "value": 1.5
             },
             "name": "图层13",
             "zIndex": 13,
@@ -879,7 +879,7 @@
                 },
                 "lineHeight": {
                   "type": "percent",
-                  "value": 150
+                  "value": 1.5
                 },
                 "textAlign": "left",
                 "name": "图层14",
@@ -914,11 +914,11 @@
                 "italic": true,
                 "letterSpacing": {
                   "type": "percent",
-                  "value": 16
+                  "value": 0.16
                 },
                 "lineHeight": {
                   "type": "percent",
-                  "value": 150
+                  "value": 1.5
                 },
                 "name": "图层15",
                 "zIndex": 16,
