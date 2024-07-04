@@ -112,7 +112,7 @@
             "opacity": 1,
             "visible": true,
             "zIndex": 4,
-            "x": 423.90909090909065,
+            "x": 400,
             "y": 458,
             "draggable": true,
             "editable": true,
@@ -120,7 +120,7 @@
           },
           {
             "tag": "Text",
-            "width": 616.363636363636,
+            "width": 500,
             "height": 170,
             "padding": [
               0,
@@ -153,7 +153,7 @@
             "opacity": 1,
             "visible": true,
             "zIndex": 5,
-            "x": 327.99999999999994,
+            "x": 373,
             "y": 605.2727272727273,
             "draggable": true,
             "editable": true,
