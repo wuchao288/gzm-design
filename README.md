@@ -1,5 +1,5 @@
 <div align="center"> 
-<h2>Leafer Design</h2>
+<h2>Gzm Design</h2>
 
 [![MIT License](https://img.shields.io/badge/license-MIT-brightgreen)](./LICENSE)
 [![Arco Design](https://img.shields.io/badge/arco--design-^2.53.3-brightgreen)](https://arco.design/vue)
@@ -12,7 +12,7 @@
 
 ## 简介
 
-Leafer Design 是一个免费开源的海报设计器。使用了最新的`vue3`,`vite4`,`TypeScript`等主流技术开发，开箱即用。
+Gzm Design是一个免费开源的海报设计器。使用了最新的`vue3`,`vite4`,`TypeScript`等主流技术开发，开箱即用。
 
 ## 预览
 

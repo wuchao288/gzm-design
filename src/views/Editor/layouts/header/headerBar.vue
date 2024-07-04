@@ -5,7 +5,7 @@
                 <div class="text-center px-15px">
                     <div style="width: max-content">
                         <icon-home class="m-r-5px" :size="20"/>
-                        <span class="black font-bold">果子米设计</span>
+                        <span class="black font-bold">果米设计</span>
                     </div>
                 </div>
                 <a-divider direction="vertical"/>

@@ -6,6 +6,7 @@ import SwipeNumber from '@/components/swipeNumber'
 import type {SelectProps} from '@arco-design/web-vue/es/select'
 import {useColor} from '@/views/Editor/hooks/useActiveObjectColor'
 import {watch} from "vue";
+import {parseStrokeOrFill} from "@/views/Editor/utils/jsonParse";
 
 const {canvas} = useEditor()
 
@@ -21,6 +22,7 @@ const {formatValue, colorBlock, changeColor, closeColorPicker, openColorPicker, 
         {
             attr: 'stroke',
             onChange() {
+                console.log('11=',strokeArray.value)
                 stroke.value.onChange(strokeArray.value)
             },
         },
@@ -75,14 +77,14 @@ const strokeCapOptions = reactive([
 const strokeArray = ref([])
 watchEffect(() => {
     if (stroke.value.modelValue) {
-        strokeArray.value = <any>stroke.value.modelValue
+        strokeArray.value = parseStrokeOrFill(stroke.value.modelValue)
+        // strokeArray.value = <any>stroke.value.modelValue
     } else {
         strokeArray.value = []
     }
 })
 
 const refreshStroke = () => {
-    stroke.value.onChange([])
     stroke.value.onChange(strokeArray.value.length <= 0 ? [] : strokeArray.value)
 }
 

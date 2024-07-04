@@ -54,6 +54,7 @@ const change = (value: number | undefined, ev: Event) => {
 // Swipe
 const { shift, alt } = useMagicKeys()
 const labelRef = ref<HTMLElement>()
+const inputRef = ref<HTMLElement>()
 const startValue = ref<number>()
 const { posStart, posEnd,stop } = usePointerSwipe(labelRef, {
     threshold: 0,
@@ -91,6 +92,7 @@ const hasLabel = computed(() => !!props.label || !!slots.label)
 
 <template>
     <a-input-number
+            ref="inputRef"
             v-model="numberValue"
             :modelEvent="modelEvent"
             :step="step"

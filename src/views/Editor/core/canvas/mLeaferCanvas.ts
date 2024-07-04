@@ -19,8 +19,13 @@ import {
     ResizeEvent,
     surfaceType,
     DragEvent, Box,
+    inviteCode,
+    version,
 } from "leafer-ui";
+import leaferConfig from "@/config/leaferConfig";
+inviteCode[version] = leaferConfig.inviteCode
 import '@leafer-in/editor'
+import '@leafer-in/text-editor'
 import '@leafer-in/view'
 import { ScrollBar } from '@leafer-in/scroll'
 import {Ruler} from 'leafer-x-ruler'
@@ -247,7 +252,10 @@ export class MLeaferCanvas {
             name: BOTTOM_CANVAS_NAME,
             width: this.contentLayer.width,
             height: this.contentLayer.height,
-            fill:'#ffffff'
+            fill:[{
+                type:'solid',
+                color:'#ffffff'
+            }]
         })
         this.contentLayer.add(frame)
         this.contentFrame = frame
