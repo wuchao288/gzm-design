@@ -38,7 +38,7 @@ export const useActiveObjectModel = <K extends keyof ILeaf, T = ILeaf[K] | undef
         activeObject = editor.activeObject.value
         // 锁定修改
         lockChange = true
-        undoRedo.disabledPropertyChangeWatch()
+        // undoRedo.disabledPropertyChangeWatch()
         let value
         let orgValue = activeObject.proxyData[key]
         if ((!isDefined(orgValue) || orgValue === 0) && defaultValue) {
@@ -63,6 +63,7 @@ export const useActiveObjectModel = <K extends keyof ILeaf, T = ILeaf[K] | undef
             }else {
                 obj[key] = newValue
             }
+            undoRedo.saveState()
         }
     }
 
@@ -82,9 +83,6 @@ export const useActiveObjectModel = <K extends keyof ILeaf, T = ILeaf[K] | undef
         },
         onChange: (value: T) => {
             changeValue(value, 'change')
-            // 保存历史
-            if (!isDefined(activeObject)) return
-            // editor.fire('object:modified', { target: editor.activeObject.value })
         },
     }))
 }

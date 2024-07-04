@@ -9,7 +9,7 @@ import { runWhenIdle, IDisposable } from '@/views/Editor/utils/async'
 import { UndoRedoService, IUndoRedoService } from '@/views/Editor/core/undoRedo/undoRedoService'
 import { CommandBase } from '@/views/Editor/core/undoRedo/commands'
 import { debounce } from 'lodash'
-import {PropertyEvent} from "leafer-ui";
+import {PropertyEvent,DragEvent,ChildEvent} from "leafer-ui";
 
 export const IEditorUndoRedoService =
     createDecorator<EditorUndoRedoService>('editorUndoRedoService')
@@ -65,9 +65,18 @@ export class EditorUndoRedoService extends Disposable {
             undoRedoService.redo()
         })
 
-        canvas.contentLayer.on(PropertyEvent.CHANGE,(arg:PropertyEvent) => {
-            // enablePropertyChange 用于控制是否开启属性值历史操作记录
-            if (this.enablePropertyChange && arg.oldValue !== arg.newValue){
+        // canvas.contentLayer.on(PropertyEvent.CHANGE,(arg:PropertyEvent) => {
+        //     // enablePropertyChange 用于控制是否开启属性值历史操作记录
+        //     if (this.enablePropertyChange && arg.oldValue !== arg.newValue){
+        //         this.saveState()
+        //     }
+        // })
+
+        canvas.app.editor.on(DragEvent.END,(arg:PropertyEvent) => {
+            this.saveState()
+        })
+        canvas.contentFrame.on([ChildEvent.ADD,ChildEvent.REMOVE],(arg:PropertyEvent) => {
+            if (this.enablePropertyChange){
                 this.saveState()
             }
         })
@@ -157,13 +166,14 @@ export class EditorUndoRedoService extends Disposable {
     }
 
     private getJson() {
-        return JSON.stringify(this.canvas.contentLayer.toJSON())
+        return JSON.stringify(this.canvas.contentFrame.toJSON())
     }
 
     private saveDispose: IDisposable | undefined
 
     // todo jsondiffpatch https://github.com/benjamine/jsondiffpatch
     public saveState = debounce(() => {
+        console.log('saveState')
         const pageId = this.pageId
         this.saveDispose?.dispose()
         this.saveDispose = runWhenIdle(() => {
