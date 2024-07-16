@@ -22,8 +22,7 @@ Gzm Design是一个免费开源的海报设计器。使用了最新的`vue3`,`vi
 ![image](http://oss.guozimi.cn/gzm-design/cover1.png)
 
 ## 文档
-
-编写中
+- <a href="http://gzm-design-doc.guozimi.cn/" target="_blank">文档预览</a>
 
 ## 功能/计划
 
