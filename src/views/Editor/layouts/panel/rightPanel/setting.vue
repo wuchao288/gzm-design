@@ -14,10 +14,13 @@ import VirtualElementAttr from "./attrs/virtualElementAttr.vue";
 import QrcodeAttr from "./attrs/qrcodeAttr.vue";
 import BarcodeAttr from "./attrs/barcodeAttr.vue";
 import GroupAttr from "./attrs/groupAttr.vue";
+import PenAttr from "./attrs/penAttr.vue";
 import {appInstance, useEditor} from "@/views/Editor/app";
 import {typeUtil} from "@/views/Editor/utils/utils";
+import {useAppStore} from "@/store";
 
 const {editor} = useEditor()
+const {activeTool} = storeToRefs(useAppStore())
 const splitRef = ref()
 const treeHeight = ref(0)
 
@@ -118,11 +121,11 @@ const componentList = computed(() => {
                 &&typeUtil.isCollection(activeObject)
                 && !editor.activeObjectIsType('Pen')
         },
-        // {
-        //     name: 'StrokeAttr',
-        //     component: StrokeAttr,
-        //     visual: isDefined(activeObject) && !util.isCollection(activeObject),
-        // },
+        {
+            name: 'PenAttr',
+            component: PenAttr,
+            visual: activeTool.value === 'pen',
+        },
         // 阴影
         // 模糊
     ]

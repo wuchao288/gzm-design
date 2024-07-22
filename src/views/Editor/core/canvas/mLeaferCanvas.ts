@@ -27,6 +27,7 @@ inviteCode[version] = leaferConfig.inviteCode
 import '@leafer-in/editor'
 import '@leafer-in/text-editor'
 import '@leafer-in/view'
+import '@leafer-in/state'
 import { ScrollBar } from '@leafer-in/scroll'
 import {Ruler} from 'leafer-x-ruler'
 import {IWorkspace, IWorkspacesService, WorkspacesService} from "@/views/Editor/core/workspaces/workspacesService";
@@ -44,11 +45,8 @@ import './initAttr'
 import {EditorEvent} from "@leafer-in/editor";
 import {BOTTOM_CANVAS_NAME} from "@/views/Editor/utils/constants";
 import {v4 as uuidv4} from 'uuid'
+import {PenDraw, SignaturePluginOptions} from "@/views/Editor/core/canvas/penDraw";
 
-// TODO 2024-4-18 临时解决在移动端画布变大的问题，问题已反馈，待修复后需移除此代码
-App.prototype.__render = function(canvas: ILeaferCanvas, options: IRenderOptions): void {
-    this.children.forEach(leafer => canvas.copyWorld(leafer.canvas))
-}
 
 type ExtendedOption = {
     width: number
@@ -140,6 +138,14 @@ export class MLeaferCanvas {
         _children: shallowRef<IUI[]>([]),
         // 是否启用辅助线
         enabledRuler: ref(true),
+        // 画笔配置
+        penDrawConfig: reactive<SignaturePluginOptions>({
+            type:'pen',
+            config:{
+                stroke:'red',
+                strokeWidth:2,
+            }
+        })
     }
 
     public backgroundColor?: string
@@ -156,7 +162,8 @@ export class MLeaferCanvas {
                 point: { cornerRadius: 0 },
                 middlePoint: {},
                 rotatePoint: { width: 16, height: 16 },
-                rect: { dashPattern: [3, 2] }
+                rect: { dashPattern: [3, 2] },
+                buttonsDirection:'top',
             },
         })
         // 启用滚动条

@@ -2,43 +2,42 @@
     <div id="text-list-wrap" style="margin-top: 0.5rem">
         <div class="basic-text-wrap">
             <div
-                v-for="(item, index) in basicTextList"
-                :key="index"
-                class="basic-text-item"
-                :style="{
+                    v-for="(item, index) in basicTextList"
+                    :key="index"
+                    class="basic-text-item"
+                    :style="{
                   fontSize: 14 + 'px',
-                  fontWeight: item.fontWeight,
+                  fontWeight: item.json.fontWeight,
                 }"
-                draggable="true"
-                @click="handleClick(item)"
-                @dragstart="dragStart($event, item)"
+                    draggable="true"
+                    @click="handleClick(item)"
             >
                 {{ item.title }}
             </div>
         </div>
         <comp-list2-wrap :data="page.dataList" :no-more="page.noMore"
-                            :option="{coverKey:'cover'}"
-                             @fetch-data="fetchData"
-                             @item-click="handleClick"
+                         :option="{coverKey:'cover'}"
+                         @fetch-data="fetchData"
+                         @item-click="handleClick"
         >
         </comp-list2-wrap>
-<!--        <div class="other-text-wrap">-->
-<!--            -->
-<!--            <comp-list-wrap @fetchData="fetchData"-->
-<!--                            :config="config"-->
-<!--                            :data="page.dataList" :noMore="page.noMore" max-height="calc(100vh - 115px)">-->
-<!--                <template #item="{ item, url, index }">-->
-<!--                    <a-card hoverable @click="handleClick(item)" class="cursor-pointer drop-shadow" :body-style="{ padding: '0px' }">-->
-<!--                        <div class="">-->
-<!--                            <LazyImg :url="url" class="img" />-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash;                      <div class="p5px">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                          <span class="name truncated">{{ item.name }}</span>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--                    </a-card>-->
-<!--                </template>-->
-<!--            </comp-list-wrap>-->
-<!--        </div>-->
+        <!--        <div class="other-text-wrap">-->
+        <!--            -->
+        <!--            <comp-list-wrap @fetchData="fetchData"-->
+        <!--                            :config="config"-->
+        <!--                            :data="page.dataList" :noMore="page.noMore" max-height="calc(100vh - 115px)">-->
+        <!--                <template #item="{ item, url, index }">-->
+        <!--                    <a-card hoverable @click="handleClick(item)" class="cursor-pointer drop-shadow" :body-style="{ padding: '0px' }">-->
+        <!--                        <div class="">-->
+        <!--                            <LazyImg :url="url" class="img" />-->
+        <!--                        </div>-->
+        <!--                        &lt;!&ndash;                      <div class="p5px">&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                          <span class="name truncated">{{ item.name }}</span>&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                      </div>&ndash;&gt;-->
+        <!--                    </a-card>-->
+        <!--                </template>-->
+        <!--            </comp-list-wrap>-->
+        <!--        </div>-->
     </div>
 </template>
 
@@ -52,11 +51,12 @@ import {queryTextMaterialList} from "@/api/editor/materials";
 import usePageMixin from "@/views/Editor/layouts/panel/leftPanel/wrap/mixins/pageMixin";
 import {HTMLText} from "@leafer-in/html";
 import CompCateListWrap from "@/views/Editor/layouts/panel/leftPanel/wrap/CompCateListWrap.vue";
+import {TextListType} from "@/views/Editor/layouts/panel/leftPanel/wrap/wrapType";
 
 const {editor} = useEditor()
 const NAME = 'text-list-wrap'
-const config= {
-    imgSelector:'cover',
+const config = {
+    imgSelector: 'cover',
     gutter: 2,
     breakpoints: {
         1200: {
@@ -73,22 +73,11 @@ const config= {
         }
     },
 }
-const basicTextList = ref([
-    // {
-    //     text: '大标题',
-    //     fontSize: 96,
-    //     fontWeight: 'bold',
-    // },
-    // {
-    //     text: '+ 添加文字',
-    //     fontSize: 60,
-    //     fontWeight: 'bold',
-    //     draggable: true
-    // },
+const basicTextList = ref<TextListType[]>([
     {
         title: '+ 添加普通文字',
-        json:{
-            tag:'Text',
+        json: {
+            tag: 'Text',
             text: '输入文本',
             fontSize: 40,
             fontWeight: 'normal',
@@ -96,61 +85,51 @@ const basicTextList = ref([
     },
     {
         title: '+ 添加富文本',
-        json:{
-            tag:'HTMLText',
-            name:'富文本',
+        json: {
+            tag: 'HTMLText',
+            name: '富文本',
             text: `<i style="font-size: 40px">输入文本</i>`,
             fontWeight: 'normal',
         }
     },
-    // {
-    //     text: '小标题',
-    //     fontSize: 36,
-    //     fontWeight: 'normal',
-    // },
-    // {
-    //     text: '正文内容',
-    //     fontSize: 28,
-    //     fontWeight: 'normal',
-    // },
 ])
 const handleClick = (item: any) => {
     // editor.add(item.json)
     let text
-    if (editor.objectIsTypes(item.json,'Text')){
+    if (editor.objectIsTypes(item.json, 'Text')) {
         text = new Text({
-            name:getDefaultName(editor.contentFrame),
+            name: getDefaultName(editor.contentFrame),
             // draggable: true,
             editable: true,
-            x:0,
-            y:0,
+            x: 0,
+            y: 0,
             fill: [
                 {
-                    type:'solid',
-                    color:'rgba(0,0,0,1)',
+                    type: 'solid',
+                    color: 'rgba(0,0,0,1)',
                 },
             ],
             ...item.json,
         })
-    }else if (editor.objectIsTypes(item.json,'HTMLText')){
+    } else if (editor.objectIsTypes(item.json, 'HTMLText')) {
         text = new HTMLText({
-            name:getDefaultName(editor.contentFrame),
+            name: getDefaultName(editor.contentFrame),
             editable: true,
-            x:0,
-            y:0,
+            x: 0,
+            y: 0,
             ...item.json,
         })
-    }else{
+    } else {
         text = new Group(item.json)
     }
 
-    console.log('text=',text)
+    console.log('text=', text)
     editor.add(text)
 }
-const { page } = usePageMixin()
+const {page} = usePageMixin()
 page.pageSize = 30
 const fetchData = () => {
-    console.log('page.pageNum=',page.pageNum)
+    console.log('page.pageNum=', page.pageNum)
     queryTextMaterialList(page).then(res => {
         if (res.success) {
             const newDataList = res.data.records
@@ -173,9 +152,6 @@ const fetchData = () => {
     //     bottom.value = true
     // }
 }
-const dragStart = (e: Element, item: any) => {
-
-}
 </script>
 
 <style lang="less" scoped>
@@ -183,25 +159,27 @@ const dragStart = (e: Element, item: any) => {
 @color0: #3b74f1; // Appears 2 times
 
 #text-list-wrap {
-    .basic-text-wrap {
-        padding: 10px;
-        .basic-text-item {
-            color: #33383e;
-            background-color: #f1f2f4;
-            cursor: pointer;
-            user-select: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0);
-            border-top: 1px solid rgba(255, 255, 255, 0);
-            // color: @color-black;
-            padding: 10px 0;
-            text-align: center;
-            margin-bottom: 5px;
-            &:hover {
-                // background-color: rgba(0, 0, 0, 0.07);
-                // border-bottom: 1px solid @color0;
-                // border-top: 1px solid @color0;
-            }
-        }
+  .basic-text-wrap {
+    padding: 10px;
+
+    .basic-text-item {
+      color: #33383e;
+      background-color: #f1f2f4;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0);
+      border-top: 1px solid rgba(255, 255, 255, 0);
+      // color: @color-black;
+      padding: 10px 0;
+      text-align: center;
+      margin-bottom: 5px;
+
+      &:hover {
+        // background-color: rgba(0, 0, 0, 0.07);
+        // border-bottom: 1px solid @color0;
+        // border-top: 1px solid @color0;
+      }
     }
+  }
 }
 </style>

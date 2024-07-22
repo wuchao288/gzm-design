@@ -41,7 +41,7 @@
             :src="previewUrl"
             v-model:visible="visiblePreview"
     />
-    <a-modal v-model:visible="exportVisible" title="下载作品" @ok="handleExport" width="600px" :top="50" :align-center="false">
+    <a-modal v-model:visible="exportVisible" title="下载作品" @ok="handleExport()" width="600px" :top="50" :align-center="false">
         <a-form ref="formRef" :model="exportForm" :rules="rules">
             <a-form-item field="fileType" label="导出文件类型">
                 <a-radio-group v-model="exportForm.fileType" type="button" :options="exportFileTypes"></a-radio-group>

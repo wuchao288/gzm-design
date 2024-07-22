@@ -71,7 +71,7 @@ const props = withDefaults(
         cateList: any,
         data: any,
         currentCate: any,
-        config?: object
+        config?: Record<string, any>
         maxHeight?: string | number,
         noMore?: boolean,
     }>(),
@@ -79,7 +79,7 @@ const props = withDefaults(
         cateList: [],
         data: [],
         currentCate:null,
-        config:{},
+        config: ()=>{ return {} },
         maxHeight: 'calc(100vh - 140px)',
         noMore: false
     }
@@ -88,14 +88,14 @@ const config = computed(() => {
     return Object.assign( props.config)
 })
 const emits = defineEmits(['fetchData','selectCate','backCate','itemClick'])
-const selectCate = (cate) => {
+const selectCate = (cate:string) => {
     emits('selectCate',cate)
     // loadList()
 }
 const back = () => {
     emits('backCate')
 }
-const handleClick = (item) => {
+const handleClick = (item:any) => {
     emits('itemClick',item)
 }
 const fetchData = () => {

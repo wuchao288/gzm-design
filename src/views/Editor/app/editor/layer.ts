@@ -1,15 +1,15 @@
 import {IMLeaferCanvas, MLeaferCanvas} from '@/views/Editor/core/canvas/mLeaferCanvas'
 import {IKeybindingService, KeybindingService} from '@/views/Editor/core/keybinding/keybindingService'
-// import type { AlignMethod } from 'app'
 import {Disposable} from '@/views/Editor/utils/lifecycle'
 import {EventbusService, IEventbusService} from "@/views/Editor/core/eventbus/eventbusService";
 import {keybindMap} from "@/views/Editor/utils/constants";
 import {flipHorizontally, flipVertically, getParentLayer} from "@/views/Editor/utils/utils";
 import {IUI} from "@leafer-ui/interface";
-// import { EventbusService, IEventbusService } from '@/views/Editor/core/eventbus/eventbusService'
 import { IEditorUndoRedoService, EditorUndoRedoService } from '@/views/Editor/app/editor/undoRedo/undoRedoService'
 import { IHierarchyService, HierarchyService } from '@/views/Editor/core/layer/hierarchyService'
 import {Box, DragEvent, DropEvent, PropertyEvent, ChildEvent} from "leafer-ui";
+import {v4 as uuidv4} from "uuid";
+import {Message} from "@arco-design/web-vue";
 
 export class Layer extends Disposable {
     constructor(
@@ -196,7 +196,7 @@ export class Layer extends Disposable {
 
         // 锁定/解锁
         this.keybinding.bind('mod+shift+l', () => {
-            if (this.canvas.app.editor.hasTarget) {
+            if (this.canvas.app.editor.editing) {
                 // 统一多选状态，多选以第一个元素状态为准
                 const firstLocked = this.canvas.app.editor.list[0].locked
                 if (firstLocked) {
@@ -206,6 +206,16 @@ export class Layer extends Disposable {
                 }
             }
             // this.undoRedo.saveState()
+            return false
+        })
+
+        // 另存为PNG
+        this.keybinding.bind('mod+shift+k', () => {
+            if (this.canvas.app.editor.element) {
+                this.canvas.app.editor.element.export(`${uuidv4()}.png`).catch(reason => {
+                    Message.error(`导出失败：${reason}`);
+                })
+            }
             return false
         })
     }

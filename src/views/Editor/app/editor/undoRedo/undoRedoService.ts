@@ -64,16 +64,10 @@ export class EditorUndoRedoService extends Disposable {
         keybinding.bind(['mod+y', 'mod+shift+z'], () => {
             undoRedoService.redo()
         })
-
-        // canvas.contentLayer.on(PropertyEvent.CHANGE,(arg:PropertyEvent) => {
-        //     // enablePropertyChange 用于控制是否开启属性值历史操作记录
-        //     if (this.enablePropertyChange && arg.oldValue !== arg.newValue){
-        //         this.saveState()
-        //     }
-        // })
-
         canvas.app.editor.on(DragEvent.END,(arg:PropertyEvent) => {
-            this.saveState()
+            if (this.enablePropertyChange) {
+                this.saveState()
+            }
         })
         canvas.contentFrame.on([ChildEvent.ADD,ChildEvent.REMOVE],(arg:PropertyEvent) => {
             if (this.enablePropertyChange){

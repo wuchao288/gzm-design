@@ -44,18 +44,23 @@ const scrollbar = ref(true);
 
 const props = withDefaults(
     defineProps<{
-        option?:object,
+        option?:Record<string,any>,
         data: any,
         config?: object
         maxHeight?: string | number,
         noMore?: boolean,
+        coverKey:string
     }>(),
     {
-        option:{
-          coverKey:'url'
+        option:()=>{
+          return {
+            coverKey:'url'
+          }
         },
         data: [],
-        config:{},
+        config:()=>{
+          return {}
+        },
         maxHeight: 'calc(100vh - 140px)',
         noMore: false
     }
@@ -65,7 +70,7 @@ const config = computed(() => {
 })
 const emits = defineEmits(['fetchData','itemClick'])
 
-const handleClick = (item) => {
+const handleClick = (item:any) => {
     emits('itemClick',item)
 }
 const fetchData = () => {

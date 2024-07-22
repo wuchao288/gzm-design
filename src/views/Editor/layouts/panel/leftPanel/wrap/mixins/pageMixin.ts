@@ -11,8 +11,8 @@ export default function usePageMixin() {
     // 定义需要共享的数据
     const page = reactive<{
         dataList?: any,
-        pageSize?: number,
-        pageNum?: number,
+        pageSize: number,
+        pageNum: number,
         noMore?: boolean,
         query:object,
     }>({

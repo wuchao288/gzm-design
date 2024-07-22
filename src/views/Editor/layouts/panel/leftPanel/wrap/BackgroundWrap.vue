@@ -79,7 +79,7 @@ const config= {
 const colors =  ['#000000ff', '#999999ff', '#CCCCCCff', '#FFFFFFff', '#E65353ff', '#FFD835ff', '#70BC59ff', '#607AF4ff', '#976BEEff']
 
 
-const setBGcolor = (color) => {
+const setBGcolor = (color:string) => {
     fillArray.value.push({
         type: 'solid',
         color: color,

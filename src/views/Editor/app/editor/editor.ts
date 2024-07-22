@@ -18,6 +18,7 @@ import {Zoom} from "@/views/Editor/app/editor/zoom";
 import {ToolBar} from "@/views/Editor/app/editor/toolBar";
 import { IEditorUndoRedoService, EditorUndoRedoService } from '@/views/Editor/app/editor/undoRedo/undoRedoService'
 import { Clipboard } from '@/views/Editor/app/editor/clipboard'
+import { FollowButton } from '@/views/Editor/app/editor/followButton'
 export class EditorMain extends BaseApp {
     public service!: IInstantiationService
 
@@ -44,6 +45,7 @@ export class EditorMain extends BaseApp {
                 this.service.createInstance(Zoom),
                 (this.contextMenu = this.service.createInstance(ContextMenu)),
                 this.service.createInstance(Clipboard),
+                this.service.createInstance(FollowButton),
             ]
             instances.forEach((instance) => {
                 this._register(instance)

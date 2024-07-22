@@ -6,12 +6,14 @@ import {getDefaultName} from "@/views/Editor/utils/utils";
  * 配置选项接口，用于描述签名插件的各种配置参数
  */
 export interface SignaturePluginOptions {
-    type: string,
+    // 目前暂时只限定画笔，提供后续扩展 如画矩形等
+    type: 'pen',
     config: {
-        stroke?: string;                     // 画笔颜色
-        strokeWidth?: number;                // 画笔粗细
-        penOpacity?: number;
-    }              // 画笔透明度
+        // 画笔颜色
+        stroke?: string;
+        // 画笔粗细
+        strokeWidth?: number;
+    }
     //todo 配置选项
 }
 
@@ -21,19 +23,12 @@ export class PenDraw{
     // 是否可以画
     private canDrawing: boolean = false;
     private isDrawing: boolean;
-    private config: SignaturePluginOptions;
 
     constructor(
         canvas: MLeaferCanvas,
     ) {
         this.canvas = canvas
         this.isDrawing = false;
-        this.config = {
-            type: "pen", config: {
-                stroke: 'red',
-                //笔颜色 strokeWidth: 2 //粗细 opacity:0.5 //透明度
-            }
-        }
     }
 
     /**
@@ -58,7 +53,7 @@ export class PenDraw{
             if (event.left && !event.spaceKey && this.canDrawing){
                 if (!this.pen){
                     this.pen = new Pen({
-                        name:getDefaultName(this.canvas.contentLayer),
+                        name:getDefaultName(this.canvas.contentFrame),
                         // 子元素是否响应交互事件
                         hitChildren: false,
                         editable: true,
@@ -68,9 +63,8 @@ export class PenDraw{
                 }
                 this.isDrawing = true;
                 this.pen.setStyle({
-                    stroke: this.config.config.stroke ? this.config.config.stroke : 'red',
-                    strokeWidth: this.config.config.strokeWidth ? this.config.config.strokeWidth : 2,
-                    opacity: this.config.config.penOpacity ? this.config.config.penOpacity : 1,
+                    stroke: this.canvas.ref.penDrawConfig.config.stroke ? this.canvas.ref.penDrawConfig.config.stroke : 'red',
+                    strokeWidth: this.canvas.ref.penDrawConfig.config.strokeWidth ? this.canvas.ref.penDrawConfig.config.strokeWidth : 2,
                 });
                 const center = {x:event.x,y:event.y}
                 const innerPoint = this.canvas.contentFrame.getInnerPoint(center)
