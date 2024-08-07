@@ -310,13 +310,9 @@ export class MLeaferCanvas {
     private setPageJSON(id: string, json: Partial<Page | IUIInputData | any>) {
         if (id === '') return
         this.pages.set(id, {
-            // viewportTransform: this.viewportTransform,
-            // backgroundColor: this.backgroundColor,
-            // name: this.get('name'),
             children: [],
             name: BOTTOM_CANVAS_NAME,
             id: id,
-            // ...this.pages.get(id),
             ...json,
         })
     }
@@ -338,11 +334,12 @@ export class MLeaferCanvas {
 
 
     public getCurrentPage(): Page {
-        // @ts-ignore
+        this.setPageJSON(this.workspacesService.getCurrentId(),this.contentFrame.toJSON())
         return this.pages.get(<string>this.pageId)
     }
 
     public getPages() {
+        this.setPageJSON(this.pageId,this.contentFrame.toJSON())
         return this.pages
     }
 

@@ -22,7 +22,6 @@ const {formatValue, colorBlock, changeColor, closeColorPicker, openColorPicker, 
         {
             attr: 'stroke',
             onChange() {
-                console.log('11=',strokeArray.value)
                 stroke.value.onChange(strokeArray.value)
             },
         },

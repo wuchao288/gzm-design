@@ -10,6 +10,7 @@ import { UndoRedoService, IUndoRedoService } from '@/views/Editor/core/undoRedo/
 import { CommandBase } from '@/views/Editor/core/undoRedo/commands'
 import { debounce } from 'lodash'
 import {PropertyEvent,DragEvent,ChildEvent} from "leafer-ui";
+import {InnerEditorEvent} from "@leafer-in/editor";
 
 export const IEditorUndoRedoService =
     createDecorator<EditorUndoRedoService>('editorUndoRedoService')
@@ -64,13 +65,27 @@ export class EditorUndoRedoService extends Disposable {
         keybinding.bind(['mod+y', 'mod+shift+z'], () => {
             undoRedoService.redo()
         })
-        canvas.app.editor.on(DragEvent.END,(arg:PropertyEvent) => {
+        canvas.app.editor.on(DragEvent.END, (arg: PropertyEvent) => {
             if (this.enablePropertyChange) {
                 this.saveState()
             }
         })
-        canvas.contentFrame.on([ChildEvent.ADD,ChildEvent.REMOVE],(arg:PropertyEvent) => {
-            if (this.enablePropertyChange){
+        canvas.contentFrame.on([ChildEvent.ADD, ChildEvent.REMOVE], (arg: PropertyEvent) => {
+            if (this.enablePropertyChange) {
+                this.saveState()
+            }
+        })
+
+
+        let oldValue: null | string = null
+        canvas.app.editor.on(InnerEditorEvent.BEFORE_OPEN, arg => {
+            // 关闭文本默认全选
+            arg.innerEditor.config.selectAll = false
+            oldValue = arg.editTarget.text
+        })
+        canvas.app.editor.on(InnerEditorEvent.CLOSE, arg => {
+            if (oldValue !== arg.editTarget.text) {
+                oldValue = null
                 this.saveState()
             }
         })
@@ -79,15 +94,19 @@ export class EditorUndoRedoService extends Disposable {
 
         this.initWorkspace()
     }
-    public canUndo(){
+
+    public canUndo() {
         return this.undoRedoService.canUndo.value
     }
-    public canRedo(){
+
+    public canRedo() {
         return this.undoRedoService.canRedo.value
     }
+
     public disabledPropertyChangeWatch() {
         this.enablePropertyChange = false
     }
+
     public enablePropertyChangeWatch() {
         this.enablePropertyChange = true
     }
@@ -147,7 +166,7 @@ export class EditorUndoRedoService extends Disposable {
         this.disabledPropertyChangeWatch()
         const undoRedo = this.getUndoRedo()
         if (!undoRedo) return
-        const { instantiation } = undoRedo
+        const {instantiation} = undoRedo
 
         try {
             instantiation.pause()
@@ -190,7 +209,7 @@ export class EditorUndoRedoService extends Disposable {
                 lastState: this.pageId === currentId ? this.getJson() : undefined,
             })
         })
-        this.eventbus.on('workspaceAddAfter', ({ newId }) => {
+        this.eventbus.on('workspaceAddAfter', ({newId}) => {
             this.undoRedos.set(newId, {
                 instantiation: new UndoRedoBase(),
                 lastState: this.pageId === newId ? this.getJson() : undefined,
@@ -199,7 +218,7 @@ export class EditorUndoRedoService extends Disposable {
         this.eventbus.on('workspaceRemoveAfter', (id) => {
             this.undoRedos.delete(id)
         })
-        this.eventbus.on('workspaceChangeAfter', ({ newId }) => {
+        this.eventbus.on('workspaceChangeAfter', ({newId}) => {
             this.pageId = newId
         })
     }

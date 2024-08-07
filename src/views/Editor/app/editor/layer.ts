@@ -50,7 +50,7 @@ export class Layer extends Disposable {
         this.keybinding.bind('shift+h', () => {
             const activeObject = canvas.getActiveObject()
             if (!activeObject) return
-            flipHorizontally(activeObject)
+            activeObject.flip("x")
             // this.undoRedo.saveState()
             return false
         })
@@ -59,7 +59,7 @@ export class Layer extends Disposable {
         this.keybinding.bind('shift+v', () => {
             const activeObject = canvas.getActiveObject()
             if (!activeObject) return
-            flipVertically(activeObject)
+            activeObject.flip("y")
             return false
         })
 

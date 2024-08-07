@@ -129,7 +129,6 @@ const handleClick = (item: any) => {
 const {page} = usePageMixin()
 page.pageSize = 30
 const fetchData = () => {
-    console.log('page.pageNum=', page.pageNum)
     queryTextMaterialList(page).then(res => {
         if (res.success) {
             const newDataList = res.data.records

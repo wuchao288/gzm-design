@@ -84,7 +84,6 @@ export class Clipboard extends Disposable {
                     const group = new Group(groupData)
                     // 粘贴到当前位置
                     if (currentLocation) {
-                        // TODO 拖动、缩放画布后重新复制元素时坐标有问题需获取到正确的坐标
                         const {x, y} = appInstance.editor.contextMenu?.pointer || this.pointer
                         const point = this.activeObject.parent ? this.activeObject.parent.getInnerPoint({
                             x: x,

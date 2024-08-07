@@ -2,9 +2,9 @@
     <div class="header-box">
         <div class="flex items-center h-40px px-2 header-bar">
             <div class="flex-1 flex items-center">
-                <div class="text-center px-15px">
+                <img src="/logo.png" style="width: 25px"/>
+                <div class="text-center px-5px">
                     <div style="width: max-content">
-                        <icon-home class="m-r-5px" :size="20"/>
                         <span class="black font-bold">果米设计</span>
                     </div>
                 </div>

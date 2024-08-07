@@ -160,8 +160,6 @@ const moveNode = (data: {
     // 获取对象的组
     const dragGroup = dragObject.parent
     let dropGroup = dropObject.parent
-    console.log('dragGroup=',dragGroup)
-    console.log('dropGroup=',dropGroup)
     let dropIndex = dropGroup?.children.indexOf(dropObject)
 
     // 画板不能进组
@@ -272,7 +270,6 @@ const selectedkeys = ref<(string | number)[]>([])
  */
 const onSelect = (_selectedkeys: (string | number)[] = selectedkeys.value) => {
     const objects = canvas.findObjectsByIds(_selectedkeys)
-    console.log('objects=',objects)
     if (objects.length) {
         canvas.setActiveObjects(objects)
     } else {
@@ -407,7 +404,6 @@ const onInputChange = (value: string, e: Event) => {
     target?.blur()
     if (!key || !value) return
     const object = canvas.findObjectById(key)
-    console.log('object=',object)
     if (!object) return
     object.proxyData.name = value
     // treeRef.value?.updateTreeView()

@@ -69,7 +69,6 @@ export const pointsToColorStops = (points: ColorPoint[]) => {
 }
 
 export const fabricGradientToPoints = (val: any): ColorPoint[] => {
-    console.log('val=', val)
     return val.stops.map((item: any) => {
         const _color = new Color(item.color)
         const {r, g, b, a} = _color.getRgba()

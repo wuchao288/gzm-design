@@ -85,6 +85,7 @@ import {useEditor} from "@/views/Editor/app";
 const {editor,keybinding} = useEditor()
 import {downFile} from "@/utils/designUtil.js";
 import {v4 as uuidv4} from "uuid";
+import {Notification} from "@arco-design/web-vue";
 
 const visiblePreview = ref(false)
 const previewUrl = ref()
@@ -127,9 +128,14 @@ const preview = async () => {
     visiblePreview.value = true
 }
 const save = () => {
-    console.log('Get pages：',editor.getPages())
+    Notification.info({
+        closable:true,
+        content:'请到控制台查看打印的JSON值'
+    })
+    console.log('多页面JSON：',editor.getPages())
+    editor.getCurrentPage()
     let json = editor.contentFrame.toJSON()
-    console.log(json)
+    console.log('当前页JSON：',json)
 }
 
 const handleDownload = () => {
@@ -164,7 +170,6 @@ const handleSelect = (v) => {
 };
 function saveJson() {
     const dataUrl = editor.contentFrame.toJSON();
-    console.log('dataUrl=',dataUrl)
     const fileStr = `data:text/json;charset=utf-8,${encodeURIComponent(
         JSON.stringify(dataUrl, null, '\t')
     )}`;
