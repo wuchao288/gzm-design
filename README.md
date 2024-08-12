@@ -40,7 +40,7 @@ Tips: 🕙筹划中 🔲筹备中 🚧进行中 ✅已完成
     - ✅ 文字解析
         - ✅ 普通文本
         - ✅ 富文本
-        - 🚧 效果/特效处理
+        - 🕙 效果/特效处理
     - ✅ 字体加载
     - 🕙 智能对象
 - ✅ JSON导入
@@ -76,7 +76,7 @@ Tips: 🕙筹划中 🔲筹备中 🚧进行中 ✅已完成
 - 🔲 图片裁剪
 - 🔲 图片滤镜
 - 🕙 SDK封装
-- 🚧 PSD导入插件化封装
+- 🕙 PSD导入插件化封装
 - 🕙 针对标尺线、元素的自动吸附功能
 - ✅ 二维码工具
 - ✅ 条形码码工具
@@ -175,6 +175,17 @@ Request。
 <a href="https://github.com/LvHuaiSheng/gzm-design/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=LvHuaiSheng/gzm-design" />
 </a>
+
+
+### 友情赞助商
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 150px)); gap: 25px;padding: 20px 20px 0 20px">
+  <div>
+    <a href="https://pro.kuaitu.cc/" target="_blank">
+      <img src="http://gzm-design-doc.guozimi.cn/sponsors/kt.png" alt="Sponsor 1 Logo" width="150" height="auto">
+    </a>
+  </div>
+</div>
 
 ## 开源协议
 
