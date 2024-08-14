@@ -29,7 +29,7 @@ const handleCancel = () => {
 }
 
 /**
- * TODO 这里切换的的字体在富文本中可以正常，但是添加到canvas中后就没有了，听leafer说是目前只能加载系统字体的原因，看看怎么解决
+ * TODO 这里切换的的字体在富文本中可以正常，但是添加到canvas中后就没有了，听leafer说是目前富文本只能加载系统字体的原因，临时可以把字体文件放到部署服务器系统字体中，然后可以直接加载系统字体就可以正常使用
  * @param record
  */
 const changeFontFamily = (record) => {
