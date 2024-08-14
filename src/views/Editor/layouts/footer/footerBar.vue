@@ -5,7 +5,7 @@
                 <div class="page-view " v-for="(item,index) in workspacesData"
                      @click="onSelect(item)"
                      @contextmenu.stop="openContextMenu($event,item)"
-                     :class="{'page-selected':workspaces.getCurrentId() === item.key}"
+                     :class="{'page-selected':workspaces.getCurrentId() === item.id}"
                      :key="index">
                     <a-avatar class="page-ava" :size="30" shape="square">{{ index + 1 }}</a-avatar>
                 </div>
@@ -22,7 +22,7 @@ import {useEditor} from "@/views/Editor/app";
 import ContextMenu from '@/components/contextMenu'
 
 const {canvas, workspaces, event} = useEditor()
-
+import {IWorkspace} from '@/views/Editor/core/workspaces/workspacesService'
 const pages = computed(() => {
     return canvas.getPages()
 })
@@ -30,15 +30,13 @@ const addOnClick = () => {
     workspaces.setCurrentId(workspaces.add(`${(pages.value.size + 1)}`))
     canvas.zoomToFit()
 }
-const workspacesData = ref([])
+const workspacesData = ref<IWorkspace[]>([])
 const updateWorkspaces = () => {
-    workspacesData.value = workspaces.all().map((workspace) => {
-        return {
-            key: workspace.id,
-            title: workspace.name,
-            cover: workspace.cover,
-        }
-    })
+    workspacesData.value = workspaces.all().map((workspace) => ({
+        id: workspace.id,
+        name: workspace.name,
+        cover: workspace.cover
+    }));
 }
 
 updateWorkspaces()
@@ -53,8 +51,8 @@ onUnmounted(() => {
     event.off('workspaceRemoveAfter', updateWorkspaces)
 })
 
-const onSelect = (item) => {
-    workspaces.setCurrentId(item.key.toString())
+const onSelect = (item:IWorkspace) => {
+    workspaces.setCurrentId(item.id.toString())
 }
 
 const openContextMenu = (e: MouseEvent, node: any) => {

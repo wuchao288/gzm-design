@@ -58,7 +58,7 @@
 <script setup lang="ts">
 import {checkFileExt, getImgStr, selectFiles, toArrayBuffer} from "@/utils/designUtil";
 import {Image} from "leafer-ui";
-import {parsePsdFile} from "@/utils/psd";
+import {parsePsdFile,PsdParseResult} from "@/utils/psd";
 import {useEditor} from "@/views/Editor/app";
 import {IUI} from "@leafer-ui/interface";
 import {Message} from "@arco-design/web-vue";
@@ -67,8 +67,8 @@ import {parseText} from "@/utils/psd/parser/text";
 import {parseImage} from "@/utils/psd/parser/image";
 import {parseGroup} from "@/utils/psd/parser/group";
 import {parseMask} from "@/utils/psd/parser/mask";
-import ImageOrgSvg from '@/assets/images/imageOrg.svg?raw'
-
+import ImageOrgSvg from '@/assets/images/imageOrg.svg?raw';
+import {Layer} from 'ag-psd';
 const {proxy} = getCurrentInstance()
 const {canvas, keybinding} = useEditor()
 
@@ -80,7 +80,7 @@ const processInfo = reactive({
     text: '解析中',
 })
 
-const fileOper = (type) => {
+const fileOper = (type:string) => {
     showFileOper.value = false
     switch (type) {
         case 'insertImg':
@@ -110,7 +110,7 @@ const insertImg = async (clear = false) => {
             // workspaces.removeAll()
         }
         Array.from(fileList).forEach(async (item) => {
-            const {arrayBuffer} = await toArrayBuffer(item)
+            // const {arrayBuffer} = await toArrayBuffer(item)
             const url = URL.createObjectURL(item);
             let image = new Image({
                 name: getDefaultName(canvas.contentFrame),
@@ -130,11 +130,11 @@ const importPsdFile = () => {
                 visible.value = true
                 processTitle.value = '正在解析'
                 console.log('开始执行')
-                const onProcess = (result) => {
+                const onProcess = () => {
 
                 }
                 // PSD文件
-                parsePsdFile(item, onProcess).then(async value => {
+                parsePsdFile(item, onProcess).then(async (value:PsdParseResult) => {
                     const {psd, layers} = value
                     processTitle.value = '正在导入'
                     canvas.contentFrame.clear()
@@ -177,7 +177,7 @@ const importJsonFile = () => {
         processTitle.value = '正在导入JSON文件'
         console.log('开始执行')
 
-        const [file] = files;
+        const file = files[0];
         const reader = new FileReader();
         reader.readAsText(file, 'UTF-8');
         reader.onload = () => {
@@ -186,17 +186,17 @@ const importJsonFile = () => {
         };
     });
 }
-const parseLayers = (layers, parent: IUI = canvas.contentFrame) => {
+const parseLayers = (layers:Layer[], parent: IUI = canvas.contentFrame) => {
     return new Promise((resolve) => {
         layers.reverse();
-        let group = [];
+        let group:Layer[] = [];
         let i = 0;
         let totalLayers = layers.length; // 总图层数量
         let processedLayers = 0; // 已解析的图层数量
 
         const processNextLayer = () => {
             if (i >= totalLayers) { // 使用 totalLayers 变量代替 layers.length
-                resolve(); // 解析完成后 resolve Promise
+                resolve(null); // 解析完成后 resolve Promise
                 return;
             }
 
@@ -213,6 +213,7 @@ const parseLayers = (layers, parent: IUI = canvas.contentFrame) => {
 
             // 层级：数值越大越靠前，与ps的层级相反
             let index = totalLayers - i; // 使用 totalLayers 变量代替 layers.length
+            // @ts-ignore
             layer.zIndex = index;
 
             if (layer.children) {
@@ -247,7 +248,7 @@ const parseLayers = (layers, parent: IUI = canvas.contentFrame) => {
     });
 };
 
-const addObj = (layer, parent: IUI = canvas.contentFrame) => {
+const addObj = (layer:Layer, parent: IUI = canvas.contentFrame) => {
     let obj
     if (layer.text) {
         // 文字
@@ -260,13 +261,13 @@ const addObj = (layer, parent: IUI = canvas.contentFrame) => {
     parent.add(obj)
     return obj;
 }
-const addGroup = (layer, parent: IUI = canvas.contentFrame) => {
+const addGroup = (layer:Layer, parent: IUI = canvas.contentFrame) => {
     let group = parseGroup(layer);
     canvas.bindDragDrop(group)
     parent.add(group)
     return group
 }
-const addMask = async (index, groups, parent: IUI = canvas.contentFrame) => {
+const addMask = async (index:number, groups:Layer[], parent: IUI = canvas.contentFrame) => {
     const mask = parseMask(index, groups, parent)
     return mask
 }

@@ -69,7 +69,7 @@ function getFilteredDataByKey(key: string) {
 
     return result;
 }
-const onSelect = (index,value) => {
+const onSelect = (index:number,value:any) => {
     editToolList.value[index] = { ...editToolList.value[index], ...value as EditToolListItem }
     onClick((value as EditToolListItem).key)
 }

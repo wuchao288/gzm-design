@@ -1,13 +1,16 @@
-import {Layer, readPsd} from "ag-psd";
+import {Layer, Psd, readPsd} from "ag-psd";
 
-
+export interface PsdParseResult {
+    psd: Psd,
+    layers: Layer[]
+}
 /**
  * 解析psd文件
  * @param file
  * @param onProcess
  */
 
-export async function parsePsdFile(file: File, onProcess: Function) {
+export async function parsePsdFile(file: File, onProcess: Function): Promise<PsdParseResult> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
 
