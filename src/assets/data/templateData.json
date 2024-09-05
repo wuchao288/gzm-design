@@ -2,7 +2,7 @@
   "list": [
     {
       "id": 2,
-      "cover": "http://oss.guozimi.cn/gzm-design/introduction/cover1.jpg",
+      "cover": "https://ossc.guozimi.cn/gzm-design/introduction/cover1.jpg",
       "title": "设计器简介",
       "state": 1,
       "json": {
@@ -34,7 +34,7 @@
             "fill": [
               {
                 "type":"image",
-                "url":"http://oss.guozimi.cn/gzm-design/introduction/bg.jpg"
+                "url":"https://ossc.guozimi.cn/gzm-design/introduction/bg.jpg"
               }
             ]
           },
@@ -54,7 +54,7 @@
             "fill": [
               {
                 "type":"image",
-                "url":"http://oss.guozimi.cn/gzm-design/introduction/nr1.png"
+                "url":"https://ossc.guozimi.cn/gzm-design/introduction/nr1.png"
               }
             ]
           },
@@ -74,7 +74,7 @@
             "fill": [
               {
                 "type":"image",
-                "url":"http://oss.guozimi.cn/gzm-design/introduction/sz1.png"
+                "url":"https://ossc.guozimi.cn/gzm-design/introduction/sz1.png"
               }
             ]
           },
@@ -181,7 +181,7 @@
             "fill": [
               {
                 "type":"image",
-                "url":"http://oss.guozimi.cn/gzm-design/introduction/mb.png"
+                "url":"https://ossc.guozimi.cn/gzm-design/introduction/mb.png"
               }
             ]
           },
@@ -432,7 +432,7 @@
     },
     {
       "id": 2,
-      "cover": "http://oss.guozimi.cn/gzm-design/lixia2/cover.jpg",
+      "cover": "https://ossc.guozimi.cn/gzm-design/lixia2/cover.jpg",
       "title": "国庆节节日祝福喜庆竖版海报",
       "state": 1,
       "json":{
@@ -478,7 +478,7 @@
             "editable": true,
             "fill": {
               "type":"image",
-              "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 1.jpg"
+              "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 1.jpg"
             }
           },
           {
@@ -496,7 +496,7 @@
             "editable": true,
             "fill": {
               "type":"image",
-              "url":"http://oss.guozimi.cn/gzm-design/lixia2/sldxfb2.png"
+              "url":"https://ossc.guozimi.cn/gzm-design/lixia2/sldxfb2.png"
             }
           },
           {
@@ -514,7 +514,7 @@
             "editable": true,
             "fill": {
               "type":"image",
-              "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 4.png"
+              "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 4.png"
             }
           },
           {
@@ -532,7 +532,7 @@
             "editable": true,
             "fill": {
               "type":"image",
-              "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 5.png"
+              "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 5.png"
             }
           },
           {
@@ -550,7 +550,7 @@
             "editable": true,
             "fill": {
               "type":"image",
-              "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 6.png"
+              "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 6.png"
             }
           },
           {
@@ -568,7 +568,7 @@
             "editable": true,
             "fill": {
               "type":"image",
-              "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 60 拷贝 2.png"
+              "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 60 拷贝 2.png"
             }
           },
           {
@@ -586,7 +586,7 @@
             "editable": true,
             "fill": {
               "type":"image",
-              "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 60 拷贝 3.png"
+              "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 60 拷贝 3.png"
             }
           },
           {
@@ -604,7 +604,7 @@
             "editable": true,
             "fill": {
               "type":"image",
-              "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 12.png"
+              "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 12.png"
             }
           },
           {
@@ -676,7 +676,7 @@
     },
     {
       "id": 2,
-      "cover": "http://oss.guozimi.cn/gzm-design/lixia/cover.jpg",
+      "cover": "https://ossc.guozimi.cn/gzm-design/lixia/cover.jpg",
       "title": "国庆节节日祝福喜庆竖版海报",
       "state": 1,
       "json": {
@@ -714,7 +714,7 @@
                 "fill": [
                   {
                     "type": "image",
-                    "url": "http://oss.guozimi.cn/gzm-design/lixia/kodo-resource.jpg"
+                    "url": "https://ossc.guozimi.cn/gzm-design/lixia/kodo-resource.jpg"
                   }
                 ]
               }
@@ -775,7 +775,7 @@
             "fill": [
               {
                 "type": "image",
-                "url": "http://oss.guozimi.cn/gzm-design/lixia/%E5%9B%BE%E5%B1%82%202.png"
+                "url": "https://ossc.guozimi.cn/gzm-design/lixia/%E5%9B%BE%E5%B1%82%202.png"
               }
             ]
           },
@@ -835,7 +835,7 @@
             "fill": [
               {
                 "type": "image",
-                "url": "http://oss.guozimi.cn/gzm-design/lixia/logo.png"
+                "url": "https://ossc.guozimi.cn/gzm-design/lixia/logo.png"
               }
             ]
           },
@@ -958,7 +958,7 @@
     },
     {
       "id": 2,
-      "cover": "http://oss.guozimi.cn/gzm-design/temp-cover/tp1.png",
+      "cover": "https://ossc.guozimi.cn/gzm-design/temp-cover/tp1.png",
       "title": "国庆节节日祝福喜庆竖版海报",
       "state": 1,
       "json": {
@@ -1987,7 +1987,7 @@
     },
     {
       "id": 11,
-      "cover": "http://oss.guozimi.cn/gzm-design/temp-cover/s12.png",
+      "cover": "https://ossc.guozimi.cn/gzm-design/temp-cover/s12.png",
       "title": "双12狂欢",
       "state": 1,
       "json": {
@@ -2005,7 +2005,7 @@
         "children": [
           {
             "tag": "Image",
-            "url": "http://oss.guozimi.cn/gzm-design/1212/背景.png",
+            "url": "https://ossc.guozimi.cn/gzm-design/1212/背景.png",
             "width": 1242,
             "height": 2208,
             "name": "背景",
@@ -2019,7 +2019,7 @@
             "fill": {
               "type": "image",
               "mode": "strench",
-              "url": "http://oss.guozimi.cn/gzm-design/1212/背景.png"
+              "url": "https://ossc.guozimi.cn/gzm-design/1212/背景.png"
             }
           },
           {
@@ -2035,7 +2035,7 @@
             "children": [
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/1212/图层 16.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/1212/图层 16.png",
                 "width": 1242,
                 "height": 2623,
                 "name": "图层 16",
@@ -2049,12 +2049,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/1212/图层 16.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/1212/图层 16.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/1212/红包.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/1212/红包.png",
                 "width": 1223,
                 "height": 961,
                 "name": "红包",
@@ -2068,12 +2068,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/1212/红包.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/1212/红包.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/1212/星球 拷贝.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/1212/星球 拷贝.png",
                 "width": 1704,
                 "height": 782,
                 "name": "星球 拷贝",
@@ -2087,12 +2087,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/1212/星球 拷贝.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/1212/星球 拷贝.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/1212/Post 2.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/1212/Post 2.png",
                 "width": 1194,
                 "height": 1152,
                 "name": "Post 2",
@@ -2106,12 +2106,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/1212/Post 2.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/1212/Post 2.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/1212/图层 18.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/1212/图层 18.png",
                 "width": 275,
                 "height": 556,
                 "name": "图层 18",
@@ -2125,12 +2125,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/1212/图层 18.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/1212/图层 18.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/1212/装饰.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/1212/装饰.png",
                 "width": 340,
                 "height": 1490,
                 "name": "装饰",
@@ -2144,12 +2144,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/1212/装饰.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/1212/装饰.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/1212/矢量智能对象.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/1212/矢量智能对象.png",
                 "width": 337,
                 "height": 90,
                 "name": "矢量智能对象",
@@ -2163,7 +2163,7 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/1212/矢量智能对象.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/1212/矢量智能对象.png"
                 }
               },
               {
@@ -2212,7 +2212,7 @@
     },
     {
       "id": 1,
-      "cover": "http://oss.guozimi.cn/gzm-design/temp-cover/yhsd.jpg",
+      "cover": "https://ossc.guozimi.cn/gzm-design/temp-cover/yhsd.jpg",
       "title": "约惠圣诞",
       "state": 1,
       "json": {
@@ -2230,7 +2230,7 @@
         "children": [
           {
             "tag": "Image",
-            "url": "http://oss.guozimi.cn/gzm-design/yhsd/背景.png",
+            "url": "https://ossc.guozimi.cn/gzm-design/yhsd/背景.png",
             "width": 2362,
             "height": 3543,
             "name": "背景",
@@ -2244,7 +2244,7 @@
             "fill": {
               "type": "image",
               "mode": "strench",
-              "url": "http://oss.guozimi.cn/gzm-design/yhsd/背景.png"
+              "url": "https://ossc.guozimi.cn/gzm-design/yhsd/背景.png"
             }
           },
           {
@@ -2260,7 +2260,7 @@
             "children": [
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/yhsd/组 5.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/yhsd/组 5.png",
                 "width": 2334,
                 "height": 2883,
                 "name": "组 5",
@@ -2274,12 +2274,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/yhsd/组 5.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/yhsd/组 5.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/yhsd/圣诞老人.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/yhsd/圣诞老人.png",
                 "width": 1792,
                 "height": 1403,
                 "name": "圣诞老人",
@@ -2293,12 +2293,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/yhsd/圣诞老人.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/yhsd/圣诞老人.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材1.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材1.png",
                 "width": 2661,
                 "height": 2638,
                 "name": "素材1",
@@ -2312,12 +2312,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材1.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材1.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材2.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材2.png",
                 "width": 817,
                 "height": 921,
                 "name": "素材2",
@@ -2331,12 +2331,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材2.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材2.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材3.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材3.png",
                 "width": 700,
                 "height": 109,
                 "name": "素材3",
@@ -2350,7 +2350,7 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材3.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材3.png"
                 }
               },
               {
@@ -2474,7 +2474,7 @@
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材4.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材4.png",
                 "width": 269,
                 "height": 64,
                 "name": "素材4",
@@ -2488,12 +2488,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材4.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材4.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材5.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材5.png",
                 "width": 221,
                 "height": 64,
                 "name": "素材5",
@@ -2507,7 +2507,7 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材5.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材5.png"
                 }
               },
               {
@@ -2590,7 +2590,7 @@
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材6.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材6.png",
                 "width": 251,
                 "height": 287,
                 "name": "素材6",
@@ -2604,12 +2604,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材6.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材6.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材7.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材7.png",
                 "width": 2854,
                 "height": 1214,
                 "name": "素材7",
@@ -2623,7 +2623,7 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/yhsd/素材7.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/yhsd/素材7.png"
                 }
               }
             ]
@@ -2633,7 +2633,7 @@
     },
     {
       "id": 1,
-      "cover": "http://oss.guozimi.cn/gzm-design/temp-cover/dw.jpg",
+      "cover": "https://ossc.guozimi.cn/gzm-design/temp-cover/dw.jpg",
       "title": "端午海报",
       "state": 1,
       "json": {
@@ -2681,7 +2681,7 @@
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/背景 拷贝.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/背景 拷贝.png",
                 "width": 3776,
                 "height": 2442,
                 "name": "背景 拷贝",
@@ -2695,12 +2695,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/背景 拷贝.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/背景 拷贝.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/图层 3.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 3.png",
                 "width": 1301,
                 "height": 4182,
                 "name": "图层 3",
@@ -2714,12 +2714,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/图层 3.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 3.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/图层 2.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 2.png",
                 "width": 1570,
                 "height": 1532,
                 "name": "图层 2",
@@ -2733,12 +2733,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/图层 2.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 2.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/图层 5 拷贝.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 5 拷贝.png",
                 "width": 2161,
                 "height": 569,
                 "name": "图层 5 拷贝",
@@ -2752,12 +2752,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/图层 5 拷贝.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 5 拷贝.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/图层 5 拷贝 2 副本 2.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 5 拷贝 2 副本 2.png",
                 "width": 3232,
                 "height": 762,
                 "name": "图层 5 拷贝 2 副本 2",
@@ -2771,12 +2771,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/图层 5 拷贝 2 副本 2.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 5 拷贝 2 副本 2.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/山 拷贝.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/山 拷贝.png",
                 "width": 2053,
                 "height": 1814,
                 "name": "山 拷贝",
@@ -2790,12 +2790,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/山 拷贝.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/山 拷贝.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/图层 5.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 5.png",
                 "width": 1097,
                 "height": 277,
                 "name": "图层 5",
@@ -2809,12 +2809,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/图层 5.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 5.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/图层 6.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 6.png",
                 "width": 190,
                 "height": 180,
                 "name": "图层 6",
@@ -2828,12 +2828,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/图层 6.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 6.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/水面.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/水面.png",
                 "width": 1597,
                 "height": 761,
                 "name": "水面",
@@ -2847,12 +2847,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/水面.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/水面.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/图层 10.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 10.png",
                 "width": 789,
                 "height": 343,
                 "name": "图层 10",
@@ -2866,12 +2866,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/图层 10.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 10.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/图层 10 拷贝.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 10 拷贝.png",
                 "width": 789,
                 "height": 343,
                 "name": "图层 10 拷贝",
@@ -2885,12 +2885,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/图层 10 拷贝.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 10 拷贝.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/图层 10 拷贝 2.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 10 拷贝 2.png",
                 "width": 789,
                 "height": 343,
                 "name": "图层 10 拷贝 2",
@@ -2904,12 +2904,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/图层 10 拷贝 2.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 10 拷贝 2.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/水面 拷贝 2.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/水面 拷贝 2.png",
                 "width": 2048,
                 "height": 355,
                 "name": "水面 拷贝 2",
@@ -2923,12 +2923,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/水面 拷贝 2.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/水面 拷贝 2.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/图层 10 副本 2.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 10 副本 2.png",
                 "width": 581,
                 "height": 253,
                 "name": "图层 10 副本 2",
@@ -2942,12 +2942,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/图层 10 副本 2.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 10 副本 2.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/组 6 副本 3.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/组 6 副本 3.png",
                 "width": 447,
                 "height": 409,
                 "name": "组 6 副本 3",
@@ -2961,12 +2961,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/组 6 副本 3.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/组 6 副本 3.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/组 6 副本 4.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/组 6 副本 4.png",
                 "width": 118,
                 "height": 108,
                 "name": "组 6 副本 4",
@@ -2980,12 +2980,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/组 6 副本 4.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/组 6 副本 4.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/图层 10 副本 3.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 10 副本 3.png",
                 "width": 581,
                 "height": 253,
                 "name": "图层 10 副本 3",
@@ -2999,12 +2999,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/图层 10 副本 3.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 10 副本 3.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/组 1.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/组 1.png",
                 "width": 1920,
                 "height": 2797,
                 "name": "组 1",
@@ -3018,12 +3018,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/组 1.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/组 1.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/端午.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/端午.png",
                 "width": 182,
                 "height": 562,
                 "name": "端午",
@@ -3037,12 +3037,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/端午.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/端午.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/图层 29.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 29.png",
                 "width": 47,
                 "height": 66,
                 "name": "图层 29",
@@ -3056,12 +3056,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/图层 29.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/图层 29.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/清明插柳 端午插艾.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/清明插柳 端午插艾.png",
                 "width": 74,
                 "height": 177,
                 "name": "清明插柳 端午插艾",
@@ -3075,12 +3075,12 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/清明插柳 端午插艾.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/清明插柳 端午插艾.png"
                 }
               },
               {
                 "tag": "Image",
-                "url": "http://oss.guozimi.cn/gzm-design/dw/节气.png",
+                "url": "https://ossc.guozimi.cn/gzm-design/dw/节气.png",
                 "width": 16,
                 "height": 36,
                 "name": "节气",
@@ -3094,7 +3094,7 @@
                 "fill": {
                   "type": "image",
                   "mode": "strench",
-                  "url": "http://oss.guozimi.cn/gzm-design/dw/节气.png"
+                  "url": "https://ossc.guozimi.cn/gzm-design/dw/节气.png"
                 }
               }
             ]

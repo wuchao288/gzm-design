@@ -128,7 +128,7 @@ export const textUtil = {
         if (layer.text.style.tracking) {
             const scale =textUtil.getAverageScale(layer.text.transform);
             let px = layer.text.style.fontSize * scale
-            return px * layer.text.style.tracking / 1000
+            return layer.text.style.tracking / px
         }
         return 0;
     },

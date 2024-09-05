@@ -16,6 +16,16 @@
             </a-space>
         </div>
     </a-layout-footer>
+    <div style="background: #f1f2f4">
+        <div class="flex justify-center flex-items-center p-b-5px" style="color: var(--color-text-2)">
+            <span>本网站由</span>
+            <a-link :hoverable="false" target="_blank"
+                    href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral">
+                <img class="h-28px m-l-4px m-r-4px" src="@/assets/images/又拍云_logo5.png">
+            </a-link>
+            <span>提供CDN加速/云存储服务</span>
+        </div>
+    </div>
 </template>
 <script setup lang="ts">
 import {useEditor} from "@/views/Editor/app";
@@ -23,6 +33,7 @@ import ContextMenu from '@/components/contextMenu'
 
 const {canvas, workspaces, event} = useEditor()
 import {IWorkspace} from '@/views/Editor/core/workspaces/workspacesService'
+
 const pages = computed(() => {
     return canvas.getPages()
 })
@@ -51,7 +62,7 @@ onUnmounted(() => {
     event.off('workspaceRemoveAfter', updateWorkspaces)
 })
 
-const onSelect = (item:IWorkspace) => {
+const onSelect = (item: IWorkspace) => {
     workspaces.setCurrentId(item.id.toString())
 }
 

@@ -14,15 +14,15 @@
 
 Gzm Design是一个免费开源的海报设计器。使用了最新的`vue3`,`vite4`,`TypeScript`等主流技术开发，开箱即用。
 
-## 预览
-
-- 地址1：<a href="http://gzm-design.guozimi.cn/" target="_blank">gzm-design</a>
-- 备用地址：<a href="http://gzm-design.sourcenet.cc/" target="_blank">gzm-design</a>
-
-![image](http://oss.guozimi.cn/gzm-design/cover1.png)
-
 ## 文档
-- <a href="http://gzm-design-doc.guozimi.cn/" target="_blank">文档预览</a>
+- 预览地址：<a href="http://gzm-design-doc.guozimi.cn/" target="_blank">文档预览</a>
+
+## 预览
+- 地址1：<a href="http://gzm-design.guozimi.cn/#/editor" target="_blank">gzm-design</a>
+- 备用地址：<a href="http://gzm-design.sourcenet.cc/#/editor" target="_blank">gzm-design</a>
+
+![image](http://ossc.guozimi.cn/gzm-design/bg-min.png)
+
 
 ## 功能/计划
 
@@ -124,12 +124,12 @@ pnpm build
 
 如果觉得还不错，请作者喝杯咖啡吧 ☺
 
-<img src="http://oss.guozimi.cn/sfk.png" width="450px">
+<img src="https://ossc.guozimi.cn/sfk.png" width="450px">
 
 ## 微信交流群
 
-<img src="http://oss.guozimi.cn/gzm-design/wx-group3.png" width="150px">
-<img src="http://oss.guozimi.cn/wxhy.png" width="150px">
+<img src="http://ossc.guozimi.cn/gzm-design/wx-group2-min.jpg" width="150px">
+<img src="https://ossc.guozimi.cn/wxhy.png" width="150px">
 
 ## 如何贡献
 

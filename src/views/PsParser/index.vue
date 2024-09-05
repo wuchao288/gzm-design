@@ -42,7 +42,7 @@ const json = {
             "editable": true,
             "fill": {
                 "type":"image",
-                "url":"http://oss.guozimi.cn/gzm-design/lixia2/"
+                "url":"https://ossc.guozimi.cn/gzm-design/lixia2/"
             }
         },
         {
@@ -61,7 +61,7 @@ const json = {
             "fill": [
                 {
                     "type":"image",
-                    "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 3"
+                    "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 3"
                 }
             ]
         },
@@ -80,7 +80,7 @@ const json = {
             "editable": true,
             "fill": {
                 "type":"image",
-                "url":"http://oss.guozimi.cn/gzm-design/lixia2/矢量智能对象 副本 2.png"
+                "url":"https://ossc.guozimi.cn/gzm-design/lixia2/矢量智能对象 副本 2.png"
             }
         },
         {
@@ -99,7 +99,7 @@ const json = {
             "fill": [
                 {
                     "type":"image",
-                    "url":"http://oss.guozimi.cn/gzm-design/lixia2/夏.png"
+                    "url":"https://ossc.guozimi.cn/gzm-design/lixia2/夏.png"
                 }
             ]
         },
@@ -118,7 +118,7 @@ const json = {
             "editable": true,
             "fill": {
                 "type":"image",
-                "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 4.png"
+                "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 4.png"
             }
         },
         {
@@ -136,7 +136,7 @@ const json = {
             "editable": true,
             "fill": {
                 "type":"image",
-                "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 5.png"
+                "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 5.png"
             }
         },
         {
@@ -154,7 +154,7 @@ const json = {
             "editable": true,
             "fill": {
                 "type":"image",
-                "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 6.png"
+                "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 6.png"
             }
         },
         {
@@ -172,7 +172,7 @@ const json = {
             "editable": true,
             "fill": {
                 "type":"image",
-                "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 60 拷贝 2.png"
+                "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 60 拷贝 2.png"
             }
         },
         {
@@ -190,7 +190,7 @@ const json = {
             "editable": true,
             "fill": {
                 "type":"image",
-                "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 60 拷贝 3.png"
+                "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 60 拷贝 3.png"
             }
         },
         {
@@ -208,7 +208,7 @@ const json = {
             "editable": true,
             "fill": {
                 "type":"image",
-                "url":"http://oss.guozimi.cn/gzm-design/lixia2/图层 12.png"
+                "url":"https://ossc.guozimi.cn/gzm-design/lixia2/图层 12.png"
             }
         }
     ]
@@ -221,8 +221,8 @@ const setChildUrl = (child) => {
     for (let i = 0; i < child.length; i++) {
         let item = child[i]
         if (item.tag==='Image'){
-            item.url = 'http://oss.guozimi.cn/gzm-design/lixia2/'  + item.name + '.png'
-            item.fill.url = 'http://oss.guozimi.cn/gzm-design/lixia/'  + item.name + '.png'
+            item.url = 'https://ossc.guozimi.cn/gzm-design/lixia2/'  + item.name + '.png'
+            item.fill.url = 'https://ossc.guozimi.cn/gzm-design/lixia/'  + item.name + '.png'
         }else{
             if (item.children && item.children.length>0){
                 setChildUrl(item.children)
