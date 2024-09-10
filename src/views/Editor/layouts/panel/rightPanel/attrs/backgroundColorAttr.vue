@@ -33,8 +33,11 @@ watchEffect(() => {
 })
 
 const refreshFill = () => {
+    canvas.selectObject(null)
     fill.value.onChange([])
     fill.value.onChange(fillArray.value.length <= 0 ? [] : fillArray.value)
+    canvas.contentFrame.proxyData.fill = []
+    canvas.contentFrame.proxyData.fill = fillArray.value.length <= 0 ? [] : fillArray.value  
 }
 const addFill = () => {
     fill.value.onChange([])
