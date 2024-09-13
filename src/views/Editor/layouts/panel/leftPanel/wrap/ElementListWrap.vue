@@ -20,6 +20,7 @@ import usePageMixin from "@/views/Editor/layouts/panel/leftPanel/wrap/mixins/pag
 import {queryElementList, queryElementCategory} from "@/api/editor/materials";
 import SearchHeader from "@/components/editorModules/searchHeader.vue";
 import {Ellipse, Star} from "@leafer-ui/core";
+import isString from "lodash/isString";
 import {Arrow} from "@leafer-in/arrow";
 const {editor} = useEditor()
 
@@ -45,6 +46,12 @@ const fetchData = () => {
 const handleClick = (item) => {
 
     item.json.name = getDefaultName(editor.contentFrame)
+    if (isString(item.json.fill)){
+        item.json.fill = [{
+            type:'solid',
+            color:item.json.fill
+        }]
+    }
     let group
     if (item.json.tag === 'Arrow'){
         group = new Arrow(item.json)
@@ -65,7 +72,6 @@ const selectCate = (cate) => {
     // loadList()
 }
 const loadList = () => {
-    console.log('1=currentCate',currentCate.value)
     page.query.categoryId = currentCate.value.id
     queryElementList(page).then(res =>{
         if (res.success) {
