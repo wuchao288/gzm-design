@@ -76,22 +76,22 @@ const openContextMenu = (e: MouseEvent, node: any) => {
             {
                 label: '复制',
                 onClick: async () => {
-                    if (!node.key) return
-                    const workspace = workspaces.get(node.key.toString())
+                    if (!node.id) return
+                    const workspace = workspaces.get(node.id.toString())
                     if (!workspace) return
                     const id = workspaces.add(`${(pages.value.size + 1)}`)
                     workspaces.setCurrentId(id)
                     // 循序不能变， getPageJSON必须在setCurrentId之后执行，否则要复制的页面数据可能还未保存
-                    const json = canvas.getPageJSON(node.key)
+                    const json = canvas.getPageJSON(node.id)
                     canvas.reLoadFromJSON(json)
                 },
             },
             {
                 label: '删除',
-                disabled: workspaces.size() <= 1 || node.key === workspaces.getCurrentId(),
+                disabled: workspaces.size() <= 1 || node.id === workspaces.getCurrentId(),
                 onClick: () => {
-                    if (!node.key) return
-                    workspaces.remove(node.key.toString())
+                    if (!node.id) return
+                    workspaces.remove(node.id.toString())
                 },
                 // divided: true,
             },
