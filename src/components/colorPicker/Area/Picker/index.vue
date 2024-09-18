@@ -6,9 +6,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, computed } from "vue"
+import {ref, reactive, onMounted, computed, watchEffect, watch} from "vue"
 import { clamp, isDefined, usePointerSwipe } from "@vueuse/core"
 import { Color } from "@/utils/color/color"
+import {ColorType} from "@/components/colorPicker/interface";
 
 const props = defineProps<{
   red: number;
@@ -19,6 +20,7 @@ const props = defineProps<{
   saturation: number;
   value: number;
   updateColor: Function;
+  type: ColorType;
 }>()
 
 const pickerAreaRef = ref<HTMLDivElement>()
@@ -27,7 +29,17 @@ const state = reactive({
   width: 0,
   height: 0
 })
-
+watch(
+    () => props.type,
+    () => resetPosition(),
+)
+const resetPosition = () => {
+  if (isDefined(pickerAreaRef)) {
+    state.width = pickerAreaRef.value.clientWidth
+    state.height = pickerAreaRef.value.clientHeight
+    rect = pickerAreaRef.value?.getBoundingClientRect()
+  }
+}
 const offsetLeft = computed(() => {
   return Math.round(props.saturation * state.width - 8)
 })

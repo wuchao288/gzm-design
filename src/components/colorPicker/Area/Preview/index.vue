@@ -7,6 +7,7 @@
 <script lang="ts" setup>
   import { computed } from 'vue'
   import { generateSolidStyle, generateGradientStyle } from '@/components/colorPicker/helper'
+  import {ColorType} from "@/components/colorPicker/interface";
 
   interface Iprops {
     isGradient: boolean
@@ -15,7 +16,7 @@
     blue: number
     alpha: number
     points: any
-    gradientType: string
+    gradientType: ColorType
   }
 
   const props = withDefaults(defineProps<Iprops>(), {

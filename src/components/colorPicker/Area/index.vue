@@ -3,7 +3,6 @@
     <div class="px10px py8px" v-if="['linear', 'radial'].includes(type)">
       <GradientPoints
         v-if="isGradient"
-        :type="type"
         :points="points"
         :active-point-index="activePointIndex"
         :change-active-point-index="changeActivePointIndex"
@@ -20,6 +19,7 @@
       :hue="hue"
       :alpha="alpha"
       :saturation="saturation"
+      :type="type"
       :value="value"
       :update-color="updateColor"
     />
@@ -49,7 +49,7 @@
   import Hue from './Hue/index.vue'
   import Alpha from './Alpha/index.vue'
   import GradientPoints from './GradientPoints/index.vue'
-  import { ColorPoint } from '@/components/colorPicker/interface'
+  import {ColorPoint, ColorType} from '@/components/colorPicker/interface'
 
   defineProps<{
     isGradient: boolean
@@ -62,7 +62,7 @@
     value: number
     updateColor: Function
     points: ColorPoint[]
-    type: string
+    type: ColorType
     activePointIndex: number
     changeGradientControl: Function
     changeActivePointIndex: Function
