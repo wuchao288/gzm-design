@@ -11,6 +11,10 @@
         :remove-point="removePoint"
       />
     </div>
+    
+    <template v-if="['linear', 'radial'].includes(type)">
+      <Degree :degree="degree" :update-color="updateColor" />
+    </template>
 
     <Picker
       :red="red"
@@ -49,6 +53,7 @@
   import Hue from './Hue/index.vue'
   import Alpha from './Alpha/index.vue'
   import GradientPoints from './GradientPoints/index.vue'
+  import Degree from './Degree/index.vue'
   import {ColorPoint, ColorType} from '@/components/colorPicker/interface'
 
   defineProps<{
@@ -68,6 +73,7 @@
     changeActivePointIndex: Function
     updateGradientLeft: Function
     addPoint: Function
-    removePoint: Function
+    removePoint: Function,
+    degree: number
   }>()
 </script>

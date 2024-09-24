@@ -11,7 +11,7 @@ import {IMLeaferCanvas} from '@/views/Editor/core/canvas/mLeaferCanvas'
 import {ServicesAccessor} from '@/views/Editor/core/instantiation/instantiation'
 import {ColorPickerOption, Props} from './interface'
 import Color from "@/utils/color/color";
-import {replaceElementToNewArr} from "@/utils/utils";
+import {replaceElementToNewArr, calculatePoints, calculateAngle} from "@/utils/utils";
 
 let dialog: DialogReturn | undefined
 
@@ -32,12 +32,16 @@ const openDialog = (
 
   let points: ColorPoint[]
   let type: ColorType = 'color'
+  let degree: number = 0
   const colorArr = <[]>(object && attr ? object.proxyData[attr] : [initialColor])
   const colorValue:any = colorArr[index]
   // 渐变
   if (colorValue.type === 'linear' || colorValue.type === 'radial') {
     points = fabricGradientToPoints(colorValue)
     type = colorValue.type
+    // 坐标转角度
+    const {from, to} = colorValue
+    degree = calculateAngle(from.x, from.y, to.x, to.y)
   }
   // 图案
   else if (colorValue.type === 'image') {
@@ -105,24 +109,27 @@ const openDialog = (
             })
           } else if (data.type === 'linear' || data.type === 'radial') {
             const colorStops = pointsToColorStops(data.points)
-            const angle = 180
+            const angle = data.degree // 渐变角度
+            const [to, from] = calculatePoints(angle) // 角度转换成坐标
 
-            // if (colorValue.type ==='linear' || colorValue.type ==='radial') {
-              let coords = colorValue.stops
-              // angle = getAngle(coords)
-              if (!coords) {
-                const angleCoords = gradAngleToCoords(angle)
-                coords = {
-                  x1: angleCoords.x1 * object.width,
-                  y1: angleCoords.y1 * object.height,
-                  x2: angleCoords.x2 * object.width,
-                  y2: angleCoords.y2 * object.height,
-                }
-              }
+            // // if (colorValue.type ==='linear' || colorValue.type ==='radial') {
+            //   let coords = colorValue.stops
+            //   // angle = getAngle(coords)
+            //   if (!coords) {
+            //     const angleCoords = gradAngleToCoords(angle)
+            //     coords = {
+            //       x1: angleCoords.x1 * object.width,
+            //       y1: angleCoords.y1 * object.height,
+            //       x2: angleCoords.x2 * object.width,
+            //       y2: angleCoords.y2 * object.height,
+            //     }
+            //   }
             // 这里使用新数组，因为leafer是浅监听的 修改数组值无法监听到并重新渲染
             object.proxyData[attr] = replaceElementToNewArr(colorArr,index,{
               type: data.type,
               stops:colorStops,
+              from: {x: from.x, y: from.y, type: 'percent'},
+              to: {x: to.x, y: to.y, type: 'percent'}
               // coords:coords,
             })
           }else if (data.type === 'pattern'){
@@ -141,6 +148,7 @@ const openDialog = (
         attr:attr,
         index:index,
         ...props,
+        degree,
         gradient: {
           type,
           points,
