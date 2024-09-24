@@ -10,7 +10,7 @@ import {IMLeaferCanvas} from '@/views/Editor/core/canvas/mLeaferCanvas'
 // import { IUndoRedoService } from '@/views/Editor/app/editor/undoRedo/undoRedoService'
 import {ServicesAccessor} from '@/views/Editor/core/instantiation/instantiation'
 import {ColorPickerOption, Props} from './interface'
-import Color from "@/utils/color/color";
+import GColor from "@/utils/color/g-color";
 import {replaceElementToNewArr} from "@/utils/utils";
 
 let dialog: DialogReturn | undefined
@@ -61,7 +61,7 @@ const openDialog = (
   }
   // 纯色
   else if (colorValue) {
-    const color = new Color(colorValue.color)
+    const color = new GColor(colorValue.color)
     const {r, g, b, a} = color.getRgba()
     points = [
       {

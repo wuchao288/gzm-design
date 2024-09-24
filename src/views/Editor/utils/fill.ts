@@ -1,7 +1,7 @@
 import type {ColorPoint} from '@/components/colorPicker/interface'
 import {PiBy180} from './constants'
 import {Point} from "leafer-ui";
-import Color from "@/utils/color/color";
+import GColor from "@/utils/color/g-color";
 // import type { GradientCoords } from 'fabric/src/gradient/typedefs'
 
 // 获取镜像的点 p1原点 p2手的位置
@@ -70,7 +70,7 @@ export const pointsToColorStops = (points: ColorPoint[]) => {
 
 export const fabricGradientToPoints = (val: any): ColorPoint[] => {
     return val.stops.map((item: any) => {
-        const _color = new Color(item.color)
+        const _color = new GColor(item.color)
         const {r, g, b, a} = _color.getRgba()
         return {
             left: item.offset * 100,

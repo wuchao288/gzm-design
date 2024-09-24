@@ -31,7 +31,7 @@ import upperCase from 'lodash/upperCase';
 import { TdColorPickerProps } from '../../type';
 import props from '../../props';
 import { FORMATS } from '../../const';
-import { Color } from '../../utils';
+import { GColor } from '../../utils';
 import FormatInputs from './inputs.vue';
 import { useBaseClassName } from '../../hooks';
 
@@ -41,7 +41,7 @@ export default defineComponent({
     props: {
         ...props,
         color: {
-            type: Object as PropType<Color>,
+            type: Object as PropType<GColor>,
         },
         onModeChange: {
             type: Function,

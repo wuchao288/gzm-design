@@ -60,7 +60,7 @@
 import { computed, defineComponent, PropType, reactive, watch } from 'vue';
 import throttle from 'lodash/throttle';
 import props from '../../props';
-import { Color } from '../../utils';
+import { GColor } from '../../utils';
 import { FORMAT_INPUT_CONFIG } from './config';
 
 export default defineComponent({
@@ -69,7 +69,7 @@ export default defineComponent({
     props: {
         ...props,
         color: {
-            type: Object as PropType<Color>,
+            type: Object as PropType<GColor>,
         },
         onInputChange: {
             type: Function,
@@ -123,10 +123,10 @@ export default defineComponent({
             }
             // decode
             return {
-                HSV: Color.object2color(modelValue, 'HSV'),
-                HSL: Color.object2color(modelValue, 'HSL'),
-                RGB: Color.object2color(modelValue, 'RGB'),
-                CMYK: Color.object2color(modelValue, 'CMYK'),
+                HSV: GColor.object2color(modelValue, 'HSV'),
+                HSL: GColor.object2color(modelValue, 'HSL'),
+                RGB: GColor.object2color(modelValue, 'RGB'),
+                CMYK: GColor.object2color(modelValue, 'CMYK'),
                 CSS: modelValue.css,
                 HEX: modelValue.hex,
             };

@@ -2,7 +2,7 @@
  * PSD文字属性解析
  */
 import { Justification, Layer } from "ag-psd";
-import { toRGBColorStr } from "@/utils/color";
+import { toRGBColorStr } from "@/utils/color/g-color";
 import { Group, Matrix, Text } from "leafer-ui";
 import { getCommonOptions, LayerInfo } from "./common";
 import { HTMLText } from "@leafer-in/html";

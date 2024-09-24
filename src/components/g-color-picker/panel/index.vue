@@ -93,7 +93,7 @@ import HueSlider from './hue.vue';
 import AlphaSlider from './alpha.vue';
 import FormatPanel from './format/index.vue';
 import SwatchesPanel from './swatches.vue';
-import {Color, getColorObject, GradientColorPoint} from '../utils';
+import {GColor, getColorObject, GradientColorPoint} from '../utils';
 import {TdColorPickerProps, ColorPickerChangeTrigger} from '../type';
 import {TdColorModes} from '../interfaces';
 import {useBaseClassName} from '../hooks';
@@ -135,7 +135,7 @@ export default defineComponent({
         const isGradientLinear = computed(() => mode.value === 'linear-gradient');
         const isGradientRadial = computed(() => mode.value === 'radial-gradient');
 
-        const color = ref(new Color(innerValue.value || defaultEmptyColor.value));
+        const color = ref(new GColor(innerValue.value || defaultEmptyColor.value));
         const updateColor = () => color.value.update(innerValue.value || defaultEmptyColor.value);
 
         const formatModel = ref<TdColorPickerProps['format']>(color.value.isGradient ? 'CSS' : 'RGB');
@@ -346,7 +346,7 @@ export default defineComponent({
          * @param value
          */
         const handleSetColor = (type: 'system' | 'used', value: string) => {
-            const isGradientValue = Color.isGradientColor(value);
+            const isGradientValue = GColor.isGradientColor(value);
             if (isGradientValue) {
                 if (props.colorModes.includes('linear-gradient')) {
                     mode.value = 'linear-gradient';

@@ -13,7 +13,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
 import ColorSlider from './slider.vue';
-import { Color } from '../utils';
+import { GColor } from '../utils';
 import { useBaseClassName } from '../hooks';
 
 export default defineComponent({
@@ -21,7 +21,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: {
         color: {
-            type: Object as PropType<Color>,
+            type: Object as PropType<GColor>,
         },
         disabled: {
             type: Boolean,

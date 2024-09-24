@@ -32,7 +32,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue';
-import { Color } from './utils';
+import { GColor } from './utils';
 import { TdColorPickerProps } from './type';
 import { useBaseClassName } from './hooks';
 import { useCommonClassName } from './hooks/useConfig';
@@ -99,7 +99,7 @@ export default defineComponent({
             if (input === props.color) {
                 return;
             }
-            if (input && !Color.isValid(input)) {
+            if (input && !GColor.isValid(input)) {
                 value.value = props.color;
             } else {
                 value.value = input;

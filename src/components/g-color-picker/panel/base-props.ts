@@ -1,12 +1,12 @@
 import { PropType } from 'vue';
-import { Color } from '../utils';
+import { GColor } from '../utils';
 
 export default {
   /** 是否禁用组件 */
   disabled: Boolean,
   /** Color Instance */
   color: {
-    type: Object as PropType<Color>,
+    type: Object as PropType<GColor>,
   },
   onChange: {
     type: Function,
