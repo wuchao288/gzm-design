@@ -76,6 +76,7 @@
                 :update-gradient-left="updateGradientLeft"
                 :add-point="addPoint"
                 :remove-point="removePoint"
+                :degree="state.colorDegree"
         />
         <Preview
                 :red="state.colorRed"
@@ -128,6 +129,7 @@ const state = reactive({
     colorSaturation: 1,
     colorValue: 1,
     gradientType: props.gradient.type,
+    colorDegree: props.degree
 })
 
 const object = useActiveObjectModel(state.attr)
@@ -200,6 +202,7 @@ const getChangeData = () => ({
             ? [state.gradientPoints[state.activePointIndex]]
             : state.gradientPoints,
     type: state.gradientType,
+    degree: state.colorDegree
     // style: generateGradientStyle(state.gradientPoints, state.gradientType),
 })
 
@@ -261,6 +264,7 @@ const updateColor = (
         hue,
         saturation,
         value,
+        degree
     }: {
         r?: number
         g?: number
@@ -268,7 +272,8 @@ const updateColor = (
         a?: number
         hue?: number
         saturation?: number
-        value?: number
+        value?: number,
+        degree?: number
     },
     actionName: 'onStartChange' | 'onChange' | 'onEndChange' = 'onChange',
 ) => {
@@ -279,6 +284,7 @@ const updateColor = (
     hue = hue ?? state.colorHue
     saturation = saturation ?? state.colorSaturation
     value = value ?? state.colorValue
+    degree = degree ?? state.colorDegree
 
     const localGradientPoints = state.gradientPoints.slice()
 
@@ -298,6 +304,7 @@ const updateColor = (
     state.colorSaturation = saturation
     state.colorValue = value
     state.gradientPoints = localGradientPoints
+    state.colorDegree = degree
 
     const action = props[actionName]
 

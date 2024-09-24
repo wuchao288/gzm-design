@@ -5,6 +5,7 @@ export type Props = {
   mode?: Mode
   attr?: string
   index?: number
+  degree?: number
   gradient: {
     type: ColorType
     points: ColorPoint[]
@@ -37,6 +38,7 @@ export type UpdateColor = (
     hue?: number
     saturation?: number
     value?: number
+    degree?: number
   },
   actionName?: ActionName,
 ) => void

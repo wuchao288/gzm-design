@@ -19,11 +19,9 @@ import {
     ResizeEvent,
     surfaceType,
     DragEvent, Box,
-    inviteCode,
     version,
 } from "leafer-ui";
 import leaferConfig from "@/config/leaferConfig";
-inviteCode[version] = leaferConfig.inviteCode
 import '@leafer-in/editor'
 import '@leafer-in/text-editor'
 import '@leafer-in/view'
