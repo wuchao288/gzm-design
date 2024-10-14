@@ -57,12 +57,12 @@ page.pageSize = 20
 const fetchData = () => {
     queryTemplateList(page).then(res =>{
         if (res.success) {
-            const newDataList = res.data.records
+            const newDataList = res.response.list
             if (newDataList.length > 0) {
                 page.dataList.push(...newDataList)
-                page.pageNum += 1
+                page.page += 1
             }
-            if (page.dataList.length >= res.data.total) {
+            if (page.dataList.length >= res.response.total) {
                 page.noMore = true
             } else {
                 page.noMore = false

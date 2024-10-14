@@ -191,6 +191,8 @@ onMounted(() => {
     tinymce.init({
 
     })
+
+    console.info(props.font_family_formats)
 })
 </script>
 <style lang="less">

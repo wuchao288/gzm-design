@@ -60,7 +60,7 @@ const changeFontFamily = (record) => {
 }
 const fontListStr = computed(() => {
     const list = fontList.value
-    let join = list.map(item => `${item.name}='${item.name}'`).join(';');
+    let join = list.map(item => `${item.value}='${item.value}'`).join(';');
     return join
 })
 const fontListStyle = computed(() => {

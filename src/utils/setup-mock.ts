@@ -8,22 +8,22 @@ export default ({ mock, setup }: { mock?: boolean; setup: () => void }) => {
   if (mock !== false) setup();
 };
 
-export const successResponseWrap = (data: unknown) => {
+export const successResponseWrap = (response: unknown) => {
   return {
     success: true,
     code: 200,
     msg: '操作成功',
-    data,
+    response,
     timestamp: new Date().getTime(),
   };
 };
 
-export const failResponseWrap = (data: unknown, msg: string, code = 500) => {
+export const failResponseWrap = (response: unknown, msg: string, code = 500) => {
   return {
     success: false,
     code,
     msg,
-    data,
+    response,
     timestamp: new Date().getTime(),
   };
 };

@@ -6,9 +6,11 @@ import Components from 'unplugin-vue-components/vite'
 import { ArcoResolver } from 'unplugin-vue-components/resolvers'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { resolve } from 'path'
+
+
 // https://vitejs.dev/config/
-const config=({mode})=>{
-    return{
+export default defineConfig({
+   
         plugins: [
             vue(),
             // 自动按需引入组件
@@ -39,13 +41,43 @@ const config=({mode})=>{
                 iconDirs: [resolve(process.cwd(), 'src/assets/icons')],
                 // 指定symbolId格式
                 symbolId: 'icon-[dir]-[name]',
-            }),
+            })
         ],
+        build: {
+            minify: 'terser',
+            terserOptions: {
+              compress: {
+                drop_console: true,
+                drop_debugger: true,
+              }
+            }
+        },
         resolve: {
             alias: {
                 '@': resolve(__dirname, './src'),
             },
         },
-    }
-}
-export default defineConfig(config)
+        server: {
+            hmr: { overlay: false },
+            host: 'localhost',
+            port: 5173,
+            proxy: {
+              '/api': {
+                target: 'http://localhost:9292',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(new RegExp('^'), '')
+              },
+              '/resources': {
+                target: 'http://localhost:9292',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(new RegExp('^'), ''),
+              },
+              '/file': {
+                target: 'http://localhost:9292',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(new RegExp('^'), ''),
+              }
+            },
+        }
+    
+})

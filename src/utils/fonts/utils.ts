@@ -8,8 +8,8 @@ export function addCustomFonts(fontList: any = []) {
     let styleTag = document.createElement('style');
     styleTag.setAttribute('data-fonts', 'true');
     let fontRules = fontList.map((font: any) => `@font-face {
-        font-family: "${font.name}";
-        src: local("${font.name}"), url("${font.download}")
+        font-family: "${font.value}";
+        src: local("${font.value}"), url("${font.woff}")
     }`).join('\n');
     styleTag.textContent = fontRules;
     document.head.appendChild(styleTag);
@@ -30,7 +30,7 @@ export function getCustomFontsStyle() {
  * @param font
  */
 export function addCustomFont(font:any) {
-    let styleTag = document.querySelector('style[data-fonts]');
+    let styleTag = document.querySelector('style[data-fonts]') ;
     // 如果不存在样式标签，则创建一个新的style标签
     if (!styleTag) {
         styleTag = document.createElement('style');
@@ -45,11 +45,11 @@ export function addCustomFont(font:any) {
     }).filter(font => font !== null);
 
     // 判断要添加的字体是否已经存在于样式表中
-    if (!existingFonts.includes(font.name)) {
+    if (!existingFonts.includes(font.value)) {
         // 创建新的 @font-face 规则
         const newFontRule = `@font-face {
-          font-family: "${font.name}";
-          src: url("${font.download}");
+          font-family: "${font.value}";
+          src: url("${font.woff}");
         }`;
 
         // 插入新的 @font-face 规则到样式表中

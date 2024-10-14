@@ -224,8 +224,8 @@ const changeFontFamily = (record) => {
                                 @change="changeFontFamily"
                                 allow-search
                                 :field-names="{
-                                    label: 'name',
-                                    value: 'name',
+                                    label: 'alias',
+                                    value: 'value',
                                 }"
                         >
                             <template #prefix>
@@ -235,7 +235,7 @@ const changeFontFamily = (record) => {
                                 <div class="font-preview-cls" v-if="data.preview"
                                      :style="{backgroundImage:`url(${data.preview})`}"></div>
                                 <div class="font-preview-cls" v-else>
-                                    <span>{{ (typeof data === 'object' ? data.name : data) }}</span>
+                                    <span>{{ (typeof data === 'object' ? data.alias : data) }}</span>
                                 </div>
                             </template>
                         </a-select>
@@ -462,15 +462,17 @@ const changeFontFamily = (record) => {
 <style scoped lang="less">
 .font-preview-cls {
   //background-color: #000;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center center;
   height: 40px;
   width: 200px;
   color: #fff;
   //font-size: 27px;
   text-align: center;
-  -webkit-filter: invert(100%);
-  filter: invert(100%);
+//   -webkit-filter: invert(100%);
+//   filter: invert(100%);
+  
 }
 
 </style>

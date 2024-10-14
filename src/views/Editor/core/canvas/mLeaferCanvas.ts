@@ -40,7 +40,7 @@ import {toFixed} from "@/utils/math";
 // 重写 proxyData，全局只需引入一次
 import './proxyData'
 import './initAttr'
-import {EditorEvent} from "@leafer-in/editor";
+import {EditorEvent,Editor} from "@leafer-in/editor";
 import {BOTTOM_CANVAS_NAME} from "@/views/Editor/utils/constants";
 import {v4 as uuidv4} from 'uuid'
 import {PenDraw, SignaturePluginOptions} from "@/views/Editor/core/canvas/penDraw";
@@ -157,13 +157,50 @@ export class MLeaferCanvas {
             width: 800,
             height: 800,
             editor: {
-                point: { cornerRadius: 0 },
-                middlePoint: {},
-                rotatePoint: { width: 16, height: 16 },
-                rect: { dashPattern: [3, 2] },
+                // point: { cornerRadius: 0 },
+                // middlePoint: {},
+                // rotatePoint: { width: 16, height: 16 },
+                // rect: { dashPattern: [3, 2] },
+                // buttonsDirection:'top',
+                buttonsFixed:true,
                 buttonsDirection:'top',
+                lockRatio: 'corner',
+                stroke: 'rgba(77, 124, 255, 1)',
+                strokeWidth:2,
+                skewable: false,
+                hover: true,
+                flipable:false,
+                resizeable:true,
+                mask:false,
+                rotateGap:15,
+                point:{ 
+                    
+                     stroke:'rgba(0, 0, 0, 0.5)',
+                     strokeWidth:1,
+                },
+                middlePoint: { 
+                     cornerRadius: 100,
+                     width: 20,
+                     height: 6,
+                     stroke:'rgba(0, 0, 0, 0.5)',
+                     strokeWidth:1,
+                },
+                rotatePoint: {
+                    width: 20,
+                    height: 20,
+                    stroke:'rgba(0, 0, 0, 0.5)',
+                    strokeWidth:1,
+                    fill: {
+                        type: 'image',
+                        url: "data:image/svg+xml;charset=utf-8,%3Csvg width='22' height='22' viewBox='0 0 22 22' fill='rgba(0, 0, 0, 0)' xmlns='http://www.w3.org/2000/svg'%3E %3Ccircle cx='11' cy='11' r='10' fill='white'/%3E %3Ccircle cx='11' cy='11' r='10.5' stroke='black' stroke-opacity='0.2'/%3E %3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9.66667 5.14868C6.99468 5.75499 5 8.14455 5 11C5 13.8555 6.99468 16.245 9.66667 16.8513V15.8203C7.55254 15.2368 6 13.2997 6 11C6 8.70032 7.55254 6.76325 9.66667 6.17975V5.14868ZM12.3333 15.8203C14.4475 15.2368 16 13.2997 16 11C16 8.70032 14.4475 6.76325 12.3333 6.17975V5.14868C15.0053 5.75499 17 8.14455 17 11C17 13.8555 15.0053 16.245 12.3333 16.8513V15.8203Z' fill='black'/%3E %3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9.16667 5.5H6.33333V4.5H10.1667V8.33333H9.16667V5.5Z' fill='black'/%3E %3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12.8333 16.5H15.6667V17.5H11.8333L11.8333 13.6667L12.8333 13.6667L12.8333 16.5Z' fill='black'/%3E %3C/svg%3E"//rotatePng,
+                    }
+                }
             },
         })
+
+
+
+
         // 启用滚动条
         // new ScrollBar(app)
         this.wrapperEl = app.canvas.view

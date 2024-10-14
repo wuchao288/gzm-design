@@ -34,9 +34,9 @@ axios.interceptors.request.use(
 
 export interface HttpResponse<T = unknown> {
     success: boolean; // 是否成功
-    code: number; // 状态码
+    status: number; // 状态码
     msg: string; // 状态信息
-    data: T; // 返回数据
+    response: T; // 返回数据
     timestamp: string; // 时间戳
 }
 
@@ -63,7 +63,7 @@ axios.interceptors.response.use(
             duration: 3000,
         });
         //
-        if (res.code === 401) {
+        if (res.status === 401) {
             // 重定向路由到登录页面
             router.replace('/login')
         }

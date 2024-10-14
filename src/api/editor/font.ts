@@ -6,5 +6,7 @@ import {PageParams} from "@/types/page";
  * @param params
  */
 export function getFonts(params:PageParams) {
-  return axios.get('/api/font/list',{data:params});
+  
+  return axios.get('/api/design/fonts',{data:params});
+  //return axios.get('/api/font/list',{data:params});
 }

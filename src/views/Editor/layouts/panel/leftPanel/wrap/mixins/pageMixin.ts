@@ -4,7 +4,7 @@ import imageData from "@/assets/data/imageData.json";
 interface PageConfig {
     url: string,
     pageSize: number,
-    pageNum: number,
+    page: number,
     params:object
 }
 export default function usePageMixin() {
@@ -12,13 +12,13 @@ export default function usePageMixin() {
     const page = reactive<{
         dataList?: any,
         pageSize: number,
-        pageNum: number,
+        page: number,
         noMore?: boolean,
         query:object,
     }>({
         dataList: [],
         pageSize: 10,
-        pageNum: 1,
+        page: 1,
         noMore:false,
         query:{},
     });

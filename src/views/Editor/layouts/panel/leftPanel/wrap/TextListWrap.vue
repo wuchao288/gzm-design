@@ -78,9 +78,10 @@ const basicTextList = ref<TextListType[]>([
         title: '+ 添加普通文字',
         json: {
             tag: 'Text',
-            text: '输入文本',
+            text: 'テキストを入力',
             fontSize: 40,
             fontWeight: 'normal',
+            fontFamily:'アプリ明朝'
         }
     },
     {
@@ -88,13 +89,16 @@ const basicTextList = ref<TextListType[]>([
         json: {
             tag: 'HTMLText',
             name: '富文本',
-            text: `<i style="font-size: 40px">输入文本</i>`,
-            fontWeight: 'normal',
+            text: `<i style="font-size: 40px;font-family:'アプリ明朝'">输入文本</i>`,
+            fontWeight: 'normal'
         }
     },
 ])
 const handleClick = (item: any) => {
     // editor.add(item.json)
+    if(!Object.hasOwn(item.json,'fontFamily')){
+        item.json.fontFamily='アプリ明朝'
+    }
     let text
     if (editor.objectIsTypes(item.json, 'Text')) {
         text = new Text({
@@ -131,12 +135,12 @@ page.pageSize = 30
 const fetchData = () => {
     queryTextMaterialList(page).then(res => {
         if (res.success) {
-            const newDataList = res.data.records
+            const newDataList = res.response.list
             if (newDataList.length > 0) {
                 page.dataList.push(...newDataList)
-                page.pageNum += 1
+                page.page += 1
             }
-            if (page.dataList.length >= res.data.total) {
+            if (page.dataList.length >= res.response.total) {
                 page.noMore = true
             } else {
                 page.noMore = false

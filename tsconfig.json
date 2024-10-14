@@ -14,7 +14,7 @@
     "noImplicitThis": true,
     "strictNullChecks": false,
     "removeComments": true,
-    "suppressImplicitAnyIndexErrors": true,
+    //"suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowJs": true,

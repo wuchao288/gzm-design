@@ -15,52 +15,53 @@ setupMock({
     setup() {
 
         Mock.mock(new RegExp('/api/template/templateList'), (params:MockParams) => {
-            const { pageNum, pageSize } = JSON.parse(params.body);
+            debugger
+            const { page:pageNum, pageSize } = JSON.parse(params.body);
             var newDataList = templateData.list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
-            return successResponseWrap({records:newDataList,total:templateData.list.length});
+            return successResponseWrap({list:newDataList,total:templateData.list.length});
         });
 
         Mock.mock(new RegExp('/api/text/materialList'), (params:MockParams) => {
-            const { pageNum, pageSize } = JSON.parse(params.body);
+            const { page:pageNum, pageSize } = JSON.parse(params.body);
             var newDataList = textData.list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
-            return successResponseWrap({records:newDataList,total:textData.list.length});
+            return successResponseWrap({list:newDataList,total:textData.list.length});
         });
 
         Mock.mock(new RegExp('/api/image/materialList'), (params:MockParams) => {
-            const { pageNum, pageSize } = JSON.parse(params.body);
+            const { page:pageNum, pageSize } = JSON.parse(params.body);
             var newDataList = imageData.list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
-            return successResponseWrap({records:newDataList,total:imageData.list.length});
+            return successResponseWrap({list:newDataList,total:imageData.list.length});
         });
 
 
         Mock.mock(new RegExp('/api/graph/category'), (params:MockParams) => {
-            return successResponseWrap({records:graphData.cate,total:graphData.cate.length});
+            return successResponseWrap({list:graphData.cate,total:graphData.cate.length});
         });
         Mock.mock(new RegExp('/api/graph/list'), (params:MockParams) => {
-            const { pageNum, pageSize, query } = JSON.parse(params.body);
+            const { page:pageNum, pageSize, query } = JSON.parse(params.body);
             const list = graphData.list.filter(v=>{
                 return v.category == query.categoryId
             })
             var newDataList = list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
-            return successResponseWrap({records:newDataList,total:list.length});
+            return successResponseWrap({list:newDataList,total:list.length});
         });
 
         Mock.mock(new RegExp('/api/background/imageList'), (params:MockParams) => {
-            const { pageNum, pageSize } = JSON.parse(params.body);
+            const { page:pageNum, pageSize } = JSON.parse(params.body);
             var newDataList = bgImgData.list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
-            return successResponseWrap({records:newDataList,total:bgImgData.list.length});
+            return successResponseWrap({list:newDataList,total:bgImgData.list.length});
         });
 
         Mock.mock(new RegExp('/api/element/category'), (params:MockParams) => {
-            return successResponseWrap({records:elementData.cate,total:elementData.cate.length});
+            return successResponseWrap({list:elementData.cate,total:elementData.cate.length});
         });
         Mock.mock(new RegExp('/api/element/list'), (params:MockParams) => {
-            const { pageNum, pageSize, query } = JSON.parse(params.body);
+            const { page:pageNum, pageSize, query } = JSON.parse(params.body);
             const list = elementData.list.filter(v=>{
                 return v.category == query.categoryId
             })
             var newDataList = list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
-            return successResponseWrap({records:newDataList,total:list.length});
+            return successResponseWrap({list:newDataList,total:list.length});
         });
     },
 });
