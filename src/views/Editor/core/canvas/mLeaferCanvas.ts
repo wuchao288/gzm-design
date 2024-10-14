@@ -612,15 +612,21 @@ export class MLeaferCanvas {
      * @param group
      */
     public bindDragDrop(group: IUI){
-        // TODO 2024年3月12日: 这个事件在结合editor插件使用时会不生效，已进行反馈 等待修复
-        console.log('绑定放置事件')
+        const that = this
         group.on(DragEvent.ENTER, function () {
             DragEvent.setData({ data: 'drop data' })
         })
         group.on(DropEvent.DROP, function (e: DropEvent) {
             e.list.forEach((leaf) => {
-                leaf.dropTo(group) // 放置元素到group中
+                if (leaf.innerId !== group.innerId) {
+                    leaf.dropTo(group) // 放置元素到group中
+                }
             })
+        })
+        group.on(DragEvent.OUT, function (e: DropEvent) {
+            if (that.objectIsTypes(e.current, 'Group')) {
+                e.target.dropTo(e.current.parent)
+            }
         })
     }
 }
