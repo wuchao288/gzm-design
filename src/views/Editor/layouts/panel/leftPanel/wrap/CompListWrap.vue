@@ -113,7 +113,6 @@ const config = computed(() => {
 const emits = defineEmits(['fetchData'])
 const fetchData = () => {
     emits('fetchData')
-    console.log('reach bottom!');
 }
 </script>
 

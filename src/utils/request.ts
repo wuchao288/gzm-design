@@ -23,7 +23,7 @@ axios.interceptors.request.use(
         //     }
         //     config.headers.Authorization = `Bearer ${token}`;
         // }
-
+        
         return config;
     },
     (error) => {
@@ -52,6 +52,7 @@ axios.interceptors.response.use(
             return response;
         }
 
+
         // 操作成功则直接返回
         const res = response.data;
         if (res.success) {
@@ -70,6 +71,7 @@ axios.interceptors.response.use(
         return Promise.reject(new Error(res.msg));
     },
     (error) => {
+
         console.error(`err: ${error}`);
         const res = error.response.data;
         Message.error({

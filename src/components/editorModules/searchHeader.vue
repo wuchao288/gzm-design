@@ -24,6 +24,7 @@
             <a-input-search v-model="searchValue" placeholder="输入关键词搜索" @search="onSearch"/>
         </a-input-group>
     </div>
+    <P>{{ currentCate}}</P>
 </template>
 <script lang="ts">
 import {defineComponent, reactive, toRefs, watch} from 'vue'
@@ -39,10 +40,12 @@ export default defineComponent({
             searchValue: '',
             materialCates: [],
             currentIndex: 0,
+            currentCate:''
         })
 
         if (props.cateList) {
             state.cateList = props.cateList
+            state.currentCate=state.cateList.length>0?state.cateList[0].label:""
             //   const { cate } = route.query
             //   cate && (state.currentIndex = cate)
             //   cate && action('change', state.materialCates[Number(cate)], Number(cate))
@@ -57,6 +60,7 @@ export default defineComponent({
 
         function action(fn: string, item: any, currentIndex: number | string) {
             state.currentIndex = currentIndex
+            state.currentCate=state.cateList.length>0?state.cateList[currentIndex].label:""
             context.emit(fn, item, currentIndex)
         }
 

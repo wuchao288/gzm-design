@@ -1,7 +1,9 @@
 <template>
     <div class="wrap">
         <search-header :cateList="cateList" v-model="keyword" @changeCate="changeCate" @search="onSearch"/>
+        
         <div class="temp-wrap">
+           
             <comp-list-wrap @fetchData="fetchData" :data="page.dataList" :config="config" :noMore="page.noMore" max-height="calc(100vh - 115px)">
                 <template #item="{ item, url, index }">
                     <a-card hoverable @click="handleClick(item)" class="cursor-pointer drop-shadow" :body-style="{ padding: '0px' }">
@@ -30,32 +32,63 @@ import searchHeader from "@/components/editorModules/searchHeader.vue";
 const config= {
     imgSelector:'cover',
 }
-
+import {
+    IUI
+} from "@leafer-ui/interface";
+import {IWorkspace, IWorkspacesService, WorkspacesService} from "@/views/Editor/core/workspaces/workspacesService";
 import {useEditor} from "@/views/Editor/app";
 import {Group,Image} from "leafer-ui";
 const {editor} = useEditor()
 import {getDefaultName} from "@/views/Editor/utils/utils";
 import CompListWrap from "@/views/Editor/layouts/panel/leftPanel/wrap/CompListWrap.vue";
 import usePageMixin from "@/views/Editor/layouts/panel/leftPanel/wrap/mixins/pageMixin";
-import {queryTemplateList} from "@/api/editor/materials";
-const keyword = ref();
-const cateList = reactive([
-    {label:'全部',value:'-1'},
-    {label:'风景图片',value:'1111'},
-    {label:'插画图片',value:'1111'},
-]);
-const changeCate = (e) => {
-    console.log('e=',e)
-}
-const onSearch = (value,ev) => {
-    console.log('value=',value)
-    console.log('keyword=',keyword.value)
-    console.log('ev=',ev)
-}
+import {queryTemplateList,queryTemplateTextCateList,queryTemplateTextOne} from "@/api/editor/materials";
+import { title } from 'process';
+const keyword = ref("");
+
+const currentCate=ref({value:"10001",lable:'手机海报'})
+
+const cateList = reactive([]);
+
 const { page } = usePageMixin()
+
 page.pageSize = 20
+page.cate=currentCate.value.value
+page.search=keyword.value
+page.type="0"
+
+queryTemplateTextCateList({type:1}).then((res)=>{
+    res.response.map(m=>cateList.push({value:m.id,label:m.name}))
+});
+
+
+const changeCate = (e:any) => {
+
+    currentCate.value=e
+    page.cate=currentCate.value.value
+    page.search=keyword.value
+    page.page=1
+    page.dataList=[]
+    fetchData()
+}
+const onSearch = (value:any,ev:any) => {
+    keyword.value=value
+    page.cate=currentCate.value.value
+    page.search=keyword.value
+    page.page=1
+    page.dataList=[]
+    fetchData()
+}
+
+
+onMounted(()=>{
+    console.info("onMounted")
+})
+
 const fetchData = () => {
-    queryTemplateList(page).then(res =>{
+   
+    queryTemplateList(page).then((res:any) =>{
+
         if (res.success) {
             const newDataList = res.response.list
             if (newDataList.length > 0) {
@@ -70,8 +103,38 @@ const fetchData = () => {
         }
     })
 }
-const handleClick = (item) => {
-    editor.importJsonToCurrentPage(item.json,true)
+const handleClick =async (item:any) => {
+
+    const resjson= await queryTemplateTextOne({type:0,id:item.id})
+
+    const jsonData = typeof resjson.response.data === 'string' ? JSON.parse(resjson.response.data) : resjson.response.data
+
+    if(Array.isArray(jsonData)){
+
+        let json:{
+            workspaces: IWorkspace[]
+            pages: {
+                id: string
+                children: IUI[]
+            }[]
+        }={
+            workspaces:[],
+            pages: []
+        }
+        
+        for (let index = 0; index < jsonData.length; index++) {
+            const pageItem = jsonData[index];
+            json.workspaces.push({id:pageItem.id,name:item.title,cover:item.cover})
+            json.pages.push({ id:pageItem.id,children:pageItem})
+        }
+         await   editor.importPages(json,true)
+
+    }else{
+
+        editor.importJsonToCurrentPage(jsonData,true)
+
+    }
+    
 }
 </script>
 

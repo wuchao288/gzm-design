@@ -487,8 +487,9 @@ export class MLeaferCanvas {
      * @param json
      */
     public reLoadFromJSON(json: Partial<Page | IUIInputData | any>) {
+        console.info(json.scale)
         this.importJsonToCurrentPage(json, true)
-        this.setZoom(json.scale)
+        //this.setZoom(json.scale?json.scale:1)
     }
 
     /**
@@ -496,16 +497,21 @@ export class MLeaferCanvas {
      * @param json json
      * @param clearHistory 是否清除历史画布数据
      */
-    public importJsonToCurrentPage(json: any, clearHistory?: boolean) {
+    public  importJsonToCurrentPage(json: any, clearHistory?: boolean) {
         if (clearHistory) {
             this.contentFrame.clear()
         }
-        console.log('json', json)
+
         if (json) {
+
             this.contentFrame.set(json)
+
             this.discardActiveObject()
+
             useAppStore().activeTool = 'select'
+
             this.childrenEffect()
+
         }
         this.zoomToFit()
     }
@@ -531,6 +537,7 @@ export class MLeaferCanvas {
      * @param clearHistory 是否清除历史画布数据
      */
     public async importPages(json: any, clearHistory?: boolean) {
+        
         if (!json) {
             return Promise.reject(new Error('`json` is undefined'))
         }
@@ -549,6 +556,8 @@ export class MLeaferCanvas {
                 children: IUI[]
             }[]
         } = serialized
+
+       
 
         if (!workspaces || !pages || workspaces.length === 0 || pages.length === 0) {
             return Promise.reject(new Error('`json` is not valid'))

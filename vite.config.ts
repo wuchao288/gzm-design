@@ -60,7 +60,7 @@ export default defineConfig({
         server: {
             hmr: { overlay: false },
             host: 'localhost',
-            port: 5173,
+            port: 5174,
             proxy: {
               '/api': {
                 target: 'http://localhost:9292',

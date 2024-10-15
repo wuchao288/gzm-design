@@ -12,13 +12,16 @@ import {MockParams} from "@/types/mock";
  * TODO 优化图库，抓取unsplash图片
  */
 setupMock({
+    mock:false,
     setup() {
 
-        Mock.mock(new RegExp('/api/template/templateList'), (params:MockParams) => {
-            debugger
+        Mock.mock(new RegExp('/api/design/list'), (params:MockParams) => {
+            
             const { page:pageNum, pageSize } = JSON.parse(params.body);
             var newDataList = templateData.list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
-            return successResponseWrap({list:newDataList,total:templateData.list.length});
+            var lreturn=  successResponseWrap({list:newDataList,total:templateData.list.length});
+            console.info(lreturn)
+            return lreturn
         });
 
         Mock.mock(new RegExp('/api/text/materialList'), (params:MockParams) => {

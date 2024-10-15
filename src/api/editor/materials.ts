@@ -7,7 +7,27 @@ import {PageParams} from "@/types/page";
  * @param params
  */
 export function queryTemplateList(params:PageParams) {
-  return axios.get('/api/template/templateList',{data:params});
+  let {pageSize,page,cate,search,type}=params
+  let resut= axios.get('/api/design/list',{params:{pageSize,page,cate,search,type}});
+  return resut
+}
+/**
+ * 模板（文字）分类
+ * @param params type=类别（1模板2素材3文字4图片）
+ * @returns 
+ */
+export function queryTemplateTextCateList(params:PageParams) {
+  let resut= axios.get('/api/design/cate',{params});
+  return resut
+}
+/**
+ * 获取模板（文字）一个
+ * @param params type=模板类型（0模板，1文字组件）id=数据id</param>
+ * @returns 
+ */
+export function queryTemplateTextOne(params:any) {
+  let resut= axios.get('/api/design/temp',{params});
+  return resut
 }
 
 /**
