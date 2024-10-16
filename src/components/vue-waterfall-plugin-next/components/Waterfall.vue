@@ -143,9 +143,11 @@ export default defineComponent({
 
         // 1s内最多执行一次排版，减少性能开销
         const renderer = useDebounceFn(() => {
+            wrapperHeight.value=100
             layoutHandle().then(() => {
                 ctx.emit('afterRender')
             })
+            console.info("afterRender")
         }, props.delay)
 
         // 列表发生变化直接触发排版

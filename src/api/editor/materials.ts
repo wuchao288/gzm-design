@@ -8,7 +8,8 @@ import {PageParams} from "@/types/page";
  */
 export function queryTemplateList(params:PageParams) {
   let {pageSize,page,cate,search,type}=params
-  let resut= axios.get('/api/design/list',{params:{pageSize,page,cate,search,type}});
+  let resut= axios.get('/api/design/list',{params:{pageSize,page,cate,search,type}})
+  
   return resut
 }
 /**

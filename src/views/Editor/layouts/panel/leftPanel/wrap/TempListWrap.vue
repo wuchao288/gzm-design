@@ -4,9 +4,9 @@
         
         <div class="temp-wrap">
            
-            <comp-list-wrap @fetchData="fetchData" :data="page.dataList" :config="config" :noMore="page.noMore" max-height="calc(100vh - 115px)">
+            <comp-list-wrap @fetchData="fetchData" :data="page.dataList" :config="config" :noMore="page.noMore" max-height="calc(100vh - 145px)">
                 <template #item="{ item, url, index }">
-                    <a-card hoverable @click="handleClick(item)" class="cursor-pointer drop-shadow" :body-style="{ padding: '0px' }">
+                    <a-card hoverable @click="handleClick(item)" :bordered="false" :body-style="{ padding: '0px',cursor:'pointer' }">
                         <div class="">
                             <div class="tags">
                                 <div class="tag">VIP</div>
@@ -46,7 +46,7 @@ import {queryTemplateList,queryTemplateTextCateList,queryTemplateTextOne} from "
 import { title } from 'process';
 const keyword = ref("");
 
-const currentCate=ref({value:"10001",lable:'手机海报'})
+const currentCate=ref({value:"order-desc",lable:'最新上线'})
 
 const cateList = reactive([]);
 
@@ -72,6 +72,7 @@ const changeCate = (e:any) => {
     fetchData()
 }
 const onSearch = (value:any,ev:any) => {
+    debugger
     keyword.value=value
     page.cate=currentCate.value.value
     page.search=keyword.value
@@ -139,8 +140,9 @@ const handleClick =async (item:any) => {
 </script>
 
 <style lang="less" scoped>
-.search__wrap {
-    padding: 1.4rem 1rem 0.8rem 0rem;
+.temp-wrap{
+    padding: 0px;
+    padding-top: 8px;
 }
 .temp-wrap .tags{
   .tag{

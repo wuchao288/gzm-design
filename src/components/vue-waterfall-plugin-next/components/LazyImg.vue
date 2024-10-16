@@ -85,6 +85,7 @@ export default defineComponent({
     padding-bottom: 100%;
     overflow: hidden;
     position: relative;
+    border-radius: 6px;
 }
 
 .lazy__resource {
