@@ -45,12 +45,11 @@ const scrollbar = ref(true);
 
 const props = withDefaults(
     defineProps<{
-        //option?:Record<string,any>,
+        option?:Record<string,any>,
         data: any,
         config?: object
         maxHeight?: string | number,
-        noMore?: boolean,
-        coverKey:string
+        noMore?: boolean
     }>(),
     {
         option:()=>{
@@ -80,7 +79,7 @@ const fetchData = () => {
 }
 
 onActivated(()=>{
-  console.info("onUpdated")
+  console.info("onActivated")
 })
 </script>
 

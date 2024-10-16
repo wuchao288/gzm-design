@@ -18,7 +18,9 @@
                 </help>
             </div>
             <div ref="widgetWrap" v-show="active" class="s-widget-wrap">
-                <component v-for="(item, index) in widgetClassifyList" :key="'com_'+index" :is="item.component" v-show="+activeWidgetClassify === index" :active="+activeWidgetClassify === index"/>
+                <component v-for="(item, index) in widgetClassifyList" 
+                :key="'com_'+index" :is="item.component" v-show="+activeWidgetClassify === index" 
+                :active="+activeWidgetClassify === index"/>
             </div>
             <div v-show="active" class="s-side-wrap">
                 <a-tooltip effect="dark" content="收起侧边栏" placement="right">

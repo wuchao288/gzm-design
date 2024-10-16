@@ -1,0 +1,24 @@
+{
+    "cate": [
+      {
+        "name": "箭头",
+        "id": 7,
+        "list":[
+           {
+            "id": 1,
+            "title": "标准",
+            "category": 7,
+            "json":{
+              "tag": "Arrow",
+              "x": 100,
+              "y": 100,
+              "stroke": "rgb(50,205,121)",
+              "endArrow": "arrow",
+              "strokeWidth": 5,
+              "draggable": true,
+              "editable": true
+            }
+           }
+        ]
+      }]
+}

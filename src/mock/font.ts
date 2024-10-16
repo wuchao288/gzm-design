@@ -5,10 +5,10 @@ import {MockParams} from "@/types/mock";
 
 setupMock({
     setup() {
-        Mock.mock(new RegExp('/api/font/list'), (params:MockParams) => {
+        Mock.mock(new RegExp('/api/design/fonts'), (params:MockParams) => {
             const { page:pageNum, pageSize } = JSON.parse(params.body);
             var newDataList = fontData.list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
-            return successResponseWrap({records:newDataList,total:fontData.list.length});
+            return successResponseWrap({list:newDataList,total:fontData.list.length});
         });
     },
 });

@@ -58,6 +58,7 @@ page.search=keyword.value
 page.type="0"
 
 queryTemplateTextCateList({type:1}).then((res)=>{
+    debugger
     res.response.map(m=>cateList.push({value:m.id,label:m.name}))
 });
 

@@ -7,7 +7,7 @@ import {PageParams} from "@/types/page";
  * @param params
  */
 export function queryTemplateList(params:PageParams) {
-  let {pageSize,page,cate,search,type}=params
+  let {pageSize,page,cate,search,type}=params//0=图片，1=文字
   let resut= axios.get('/api/design/list',{params:{pageSize,page,cate,search,type}})
   
   return resut
@@ -18,7 +18,7 @@ export function queryTemplateList(params:PageParams) {
  * @returns 
  */
 export function queryTemplateTextCateList(params:PageParams) {
-  let resut= axios.get('/api/design/cate',{params});
+  let resut= axios.get('/api/design/cate',{params:params});
   return resut
 }
 /**

@@ -1,5 +1,5 @@
 <template>
-
+<div class="wrap">
 <div class="search__wrap" v-show="!currentCate">
            <a-input class="arco-radius" size="large" placeholder="搜索文字" :button-text="''"
            @change="onSearch"
@@ -34,20 +34,20 @@
                 {{ item.title }}
             </div>
         </div>
-        <comp-list2-wrap :data="page.dataList" class="alltext" v-if="keyword!=''" :no-more="page.noMore"
-     
+        <comp-list2-wrap :data="page.dataList" :no-more="page.noMore"
+                         :option="{coverKey:'cover'}"
                          @fetch-data="fetchData"
                          @item-click="handleClick"
         >
         </comp-list2-wrap>
 
-        <comp-cate-list-wrap  v-if="keyword==''" :data="page.dataList" :cate-list="cateList"
+        <!-- <comp-cate-list-wrap  v-if="keyword==''" :data="page.dataList" :cate-list="cateList"
                  :current-cate="currentCate" max-height="calc(100vh - 300px)"  :no-more="page.noMore"
                              @fetch-data="fetchData"
                              @back-cate="backCate"
                              @item-click="handleClick"
                              @select-cate="selectCate"
-        ></comp-cate-list-wrap>
+        ></comp-cate-list-wrap> -->
 
         <!--        <div class="other-text-wrap">-->
         <!--            -->
@@ -66,7 +66,7 @@
         <!--                </template>-->
         <!--            </comp-list-wrap>-->
         <!--        </div>-->
-    </div>
+    </div></div>
 </template>
 
 <script setup lang="ts">
@@ -180,6 +180,7 @@ const fetchData = () => {
     page.search=keyword.value
 
     queryTextMaterialList(page).then(res => {
+        console.info(res)
         if (res.success) {
             const newDataList = res.response.list
             if (newDataList.length > 0) {
