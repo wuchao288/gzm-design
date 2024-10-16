@@ -13,12 +13,20 @@ export function queryTemplateList(params:PageParams) {
   return resut
 }
 /**
- * 模板（文字）分类
+ * 模板类别
  * @param params type=类别（1模板2素材3文字4图片）
  * @returns 
  */
 export function queryTemplateTextCateList(params:PageParams) {
   let resut= axios.get('/api/design/cate',{params});
+  return resut
+}
+/**
+ * 文字类别
+ * @returns 
+ */
+export function queryTextCateList() {
+  let resut= axios.get('/api/design/textcate');
   return resut
 }
 /**
@@ -36,7 +44,8 @@ export function queryTemplateTextOne(params:any) {
  * @param params
  */
 export function queryTextMaterialList(params:PageParams) {
-  return axios.get('/api/text/materialList',{data:params});
+  let {pageSize,page,cate,search,type}=params
+  return axios.get('/api/design/list',{params:{pageSize,page,cate,search,type}});
 }
 
 /**

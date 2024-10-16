@@ -1,8 +1,9 @@
 <template>
     <div class="wrap">
         <div class="other-text-wrap">
+          <P>2424</P>
             <ul class="list">
-                <a-list :gridProps="{ gutter: [5, 10], span: 8 }"
+                <a-list :gridProps="{ gutter: [6, 10], span: 8 }"
                         :bordered="false"
                         :data="props.data"
                         @reach-bottom="fetchData"

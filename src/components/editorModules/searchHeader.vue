@@ -8,11 +8,16 @@
 <template>
     <div class="search__wrap">
       <a-space  direction="vertical">
-           <a-input-search class="arco-radius" size="large" 
+           <a-input class="arco-radius" size="large" :button-text="''"
            v-model="state.searchValue" :placeholder="state.searchPlaceholder" 
-           @search="onSearch"
            @change="onSearch"
-           />
+           >
+          
+           <template #prefix>
+            <icon-search />
+          </template>
+
+          </a-input>
            
       <a-space direction="horizontal">
            <a-button class="arco-radius" @click="toggleNew" :type="state.isNewList?'primary':'secondary'" style="margin-right: 10px;">
@@ -115,7 +120,7 @@ import {reactive, toRefs, watch} from 'vue'
       emit(fn, item, currentIndex)
   }
 
-  function onSearch(value: string, ev: MouseEvent) {
+  function onSearch(value: string, ev: Event) {
       emit('search', value, ev)
   }
 

@@ -135,6 +135,7 @@ declare module 'vue' {
     IconRedo: typeof import('@arco-design/web-vue/es/icon')['IconRedo']
     IconRight: typeof import('@arco-design/web-vue/es/icon')['IconRight']
     IconSave: typeof import('@arco-design/web-vue/es/icon')['IconSave']
+    IconSearch: typeof import('@arco-design/web-vue/es/icon')['IconSearch']
     IconSettings: typeof import('@arco-design/web-vue/es/icon')['IconSettings']
     IconStop: typeof import('@arco-design/web-vue/es/icon')['IconStop']
     IconStrikethrough: typeof import('@arco-design/web-vue/es/icon')['IconStrikethrough']

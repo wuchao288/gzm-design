@@ -2,37 +2,38 @@
     <div class="wrap">
         <div class="other-text-wrap">
             <div v-show="!currentCate" class="content__wrap">
-                <a-scrollbar style="height:calc(100vh - 2.5rem);overflow: auto;">
+                <a-scrollbar style="height:calc(100vh - 200px);overflow: auto;padding: 10px;">
                     <div v-for="(cate, index) in props.cateList" :key="index + 't'">
                         <div v-if="cate.list.length > 0" class="types__header" @click="selectCate(cate)">
                             <span style="flex: 1">{{ cate.name }}</span>
-                            <span class="types__header-more">全部<icon-right /></span>
+                            <span class="types__header-more">查看更多<icon-right /></span>
                         </div>
 <!--                        <div v-else class="loading">暂无更多</div>-->
                         <div class="list-wrap" v-if="cate.list.length > 0">
-                            <div v-for="(item, i) in cate.list" :key="i + 'sl'" draggable="false" @click="handleClick(item)" >
+                            <div v-for="(item, i) in cate.list" :title="item.id" :key="i + 'sl'" draggable="false" @click="handleClick(item)" >
                                 <a-image v-if="i<3"
                                          class="list__img-thumb"
                                          height="95"
                                          width="95"
                                          :preview="false"
                                          fit="contain"
-                                         :src="item.url"
+                                         :src="item.cover"
                                 />
                             </div>
                         </div>
                     </div>
                 </a-scrollbar>
             </div>
-            <ul v-if="currentCate" class="list">
-                <a-list :gridProps="{ gutter: [5, 10], span: 8 }"
+            <ul v-if="currentCate" class="list current-cate-list">
+              <li >
+                        <span class="header-back" @click="back"><icon-left />{{ currentCate.name }}</span>
+              </li>
+                <a-list :gridProps="{ gutter: [6, 10], span: 8 }"
                         :bordered="false"
                         :data="props.data"
                         @reach-bottom="fetchData"
-                        max-height="calc(100vh - 40px)">
-                    <template #header>
-                        <span class="header-back" @click="back"><icon-left />{{ currentCate.name }}</span>
-                    </template>
+                        max-height="calc(100vh - 80px)">
+                    
                     <template #item="{ item,index }" >
                         <a-list-item style="padding: 0" @click="handleClick(item)" :key="index">
                             <div class="list__img-thumb">
@@ -42,7 +43,7 @@
                                         :height="95"
                                         width="100%"
                                         fit="contain"
-                                        :src="item.url"
+                                        :src="item.cover"
                                 />
                             </div>
                         </a-list-item>
@@ -80,7 +81,7 @@ const props = withDefaults(
         data: [],
         currentCate:null,
         config: ()=>{ return {} },
-        maxHeight: 'calc(100vh - 140px)',
+        maxHeight: 'calc(100vh - 200px)',
         noMore: false
     }
 )
@@ -157,8 +158,9 @@ const fetchData = () => {
     &-more {
       display: flex;
       align-items: center;
-      color: #a0a0a0;
-      font-size: 13px;
+      color: #4c535c;
+      font-size: 12px;
+      font-weight: normal;
     }
     &-back {
       cursor: pointer;
@@ -180,6 +182,9 @@ const fetchData = () => {
 }
 .header-back{
   cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  padding-left: 12px;
 }
 .list {
   width: 100%;
@@ -211,5 +216,18 @@ const fetchData = () => {
     overflow: auto;
   }
 }
+
+:deep(.current-cate-list .arco-list-header){
+   padding: 12px;
+}
+
+:deep(.content__wrap){
+   padding: 0px;
+}
+
+:deep(.other-text-wrap){
+   padding: 0px;
+}
+
 </style>
 

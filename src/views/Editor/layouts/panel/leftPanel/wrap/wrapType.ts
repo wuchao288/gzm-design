@@ -5,5 +5,6 @@ export type TextListType = {
         text: string,
         fontSize?: number,
         fontWeight: string,
+        fontFamily:string
     }
 }

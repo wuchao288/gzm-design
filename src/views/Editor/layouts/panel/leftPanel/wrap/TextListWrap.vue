@@ -1,6 +1,25 @@
 <template>
-    <div id="text-list-wrap" style="margin-top: 0.5rem">
-        <div class="basic-text-wrap">
+
+<div class="search__wrap" v-show="!currentCate">
+           <a-input class="arco-radius" size="large" placeholder="搜索文字" :button-text="''"
+           @change="onSearch"
+           >
+           <template #prefix>
+            <icon-search />
+          </template>
+
+          </a-input>
+</div>
+<a-divider style="margin-bottom: 0px;" v-show="!currentCate"/>
+    <div id="text-list-wrap" style="margin-top: 0.5rem"  v-if="keyword==''" >
+        <div class="basic-text-wrap"  v-show="!currentCate">
+            <div class="types__header">
+                <span style="flex: 1">添加文字</span>
+            </div>
+        </div>
+
+
+        <div class="basic-text-wrap"  v-show="!currentCate">
             <div
                     v-for="(item, index) in basicTextList"
                     :key="index"
@@ -15,12 +34,21 @@
                 {{ item.title }}
             </div>
         </div>
-        <comp-list2-wrap :data="page.dataList" :no-more="page.noMore"
-                         :option="{coverKey:'cover'}"
+        <comp-list2-wrap :data="page.dataList" class="alltext" v-if="keyword!=''" :no-more="page.noMore"
+     
                          @fetch-data="fetchData"
                          @item-click="handleClick"
         >
         </comp-list2-wrap>
+
+        <comp-cate-list-wrap  v-if="keyword==''" :data="page.dataList" :cate-list="cateList"
+                 :current-cate="currentCate" max-height="calc(100vh - 300px)"  :no-more="page.noMore"
+                             @fetch-data="fetchData"
+                             @back-cate="backCate"
+                             @item-click="handleClick"
+                             @select-cate="selectCate"
+        ></comp-cate-list-wrap>
+
         <!--        <div class="other-text-wrap">-->
         <!--            -->
         <!--            <comp-list-wrap @fetchData="fetchData"-->
@@ -47,13 +75,18 @@ import {useEditor} from "@/views/Editor/app";
 import {getDefaultName} from "@/views/Editor/utils/utils";
 import CompList2Wrap from "@/views/Editor/layouts/panel/leftPanel/wrap/CompList2Wrap.vue";
 import {LazyImg} from "@/components/vue-waterfall-plugin-next";
-import {queryTextMaterialList} from "@/api/editor/materials";
+import {queryTextMaterialList,queryTextCateList} from "@/api/editor/materials";
 import usePageMixin from "@/views/Editor/layouts/panel/leftPanel/wrap/mixins/pageMixin";
 import {HTMLText} from "@leafer-in/html";
 import CompCateListWrap from "@/views/Editor/layouts/panel/leftPanel/wrap/CompCateListWrap.vue";
 import {TextListType} from "@/views/Editor/layouts/panel/leftPanel/wrap/wrapType";
 
 const {editor} = useEditor()
+
+const keyword = ref('');
+const currentCate = ref(null);
+const cateList = ref([])
+
 const NAME = 'text-list-wrap'
 const config = {
     imgSelector: 'cover',
@@ -96,6 +129,9 @@ const basicTextList = ref<TextListType[]>([
 ])
 const handleClick = (item: any) => {
     // editor.add(item.json)
+
+     item.json = typeof item.json === 'string' ? JSON.parse(item.json) : item.json
+
     if(!Object.hasOwn(item.json,'fontFamily')){
         item.json.fontFamily='アプリ明朝'
     }
@@ -124,6 +160,8 @@ const handleClick = (item: any) => {
             ...item.json,
         })
     } else {
+        
+        debugger
         text = new Group(item.json)
     }
 
@@ -132,7 +170,15 @@ const handleClick = (item: any) => {
 }
 const {page} = usePageMixin()
 page.pageSize = 30
+page.type="1"
+
+
 const fetchData = () => {
+
+    page.type="1"
+    page.cate=currentCate.value?currentCate.value.id:""
+    page.search=keyword.value
+
     queryTextMaterialList(page).then(res => {
         if (res.success) {
             const newDataList = res.response.list
@@ -155,6 +201,39 @@ const fetchData = () => {
     //     bottom.value = true
     // }
 }
+
+const onSearch = (value:any,ev:any) => {
+    debugger
+    keyword.value=value
+    currentCate.value=null
+    page.page=1
+    page.dataList=[]
+    fetchData()
+}
+
+
+
+const backCate = () => {
+    currentCate.value = null
+    page.dataList = []
+}
+const selectCate = (cate:any) => {
+    currentCate.value = cate
+    page.page = 1
+    page.noMore = false
+    page.cate=cate.id
+    page.search=keyword.value
+    // loadList()
+}
+
+const fetchCateData = () => {
+
+    queryTextCateList().then((res)=>{
+        cateList.value=res.response
+     });
+}
+
+fetchCateData()
 </script>
 
 <style lang="less" scoped>
@@ -184,5 +263,18 @@ const fetchData = () => {
       }
     }
   }
+}
+
+.search__wrap {
+    padding: 16px 16px 0rem 16px;
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+}
+.search__wrap {
+    padding: 16px 16px 0rem 16px;
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
 }
 </style>
