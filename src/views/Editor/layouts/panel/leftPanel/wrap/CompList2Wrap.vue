@@ -1,7 +1,7 @@
 <template>
     <div class="wrap">
         <div class="other-text-wrap">
-          <P>2424</P>
+          
             <ul class="list">
                 <a-list :gridProps="{ gutter: [6, 10], span: 8 }"
                         :bordered="false"
@@ -45,7 +45,7 @@ const scrollbar = ref(true);
 
 const props = withDefaults(
     defineProps<{
-        option?:Record<string,any>,
+        //option?:Record<string,any>,
         data: any,
         config?: object
         maxHeight?: string | number,
@@ -78,6 +78,10 @@ const fetchData = () => {
     emits('fetchData')
     console.log('reach bottom!');
 }
+
+onActivated(()=>{
+  console.info("onUpdated")
+})
 </script>
 
 <style lang="less" scoped>
