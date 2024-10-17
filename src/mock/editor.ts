@@ -15,10 +15,8 @@ import textCateData from '@/assets/data/textCateData.json'
  * TODO 优化图库，抓取unsplash图片
  */
 setupMock({
-    mock:true,
+    mock:false,
     setup() {
-
-       
         
         Mock.mock(new RegExp('/api/design/textcate'), (params:MockParams) => {
 

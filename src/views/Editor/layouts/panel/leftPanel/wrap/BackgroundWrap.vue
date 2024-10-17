@@ -1,5 +1,5 @@
 <template>
-    <div id="text-list-wrap" style="margin-top: 0.5rem">
+    <div  style="margin-top: 0.5rem">
         <div class="basic-text-wrap">
             <div class="color__box">
                 <div v-for="c in colors" :key="c" :style="{ background: c }" class="color__item" @click="setBGcolor(c)"></div>

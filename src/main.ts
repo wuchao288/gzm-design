@@ -12,6 +12,7 @@ import 'virtual:svg-icons-register'
 import './style.less'
 import './mock';
 import '@/utils/request';
+import '@/assets/iconfont/iconfont.css'
 // 额外引入图标库
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import IconFontPlugin from './plugins/iconFontPlugin';

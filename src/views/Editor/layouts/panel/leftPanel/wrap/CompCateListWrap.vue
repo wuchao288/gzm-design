@@ -2,15 +2,16 @@
     <div class="wrap">
         <div class="other-text-wrap">
             <div v-show="!currentCate" class="content__wrap">
-                <a-scrollbar style="height:calc(100vh - 200px);overflow: auto;padding: 10px;">
+                <a-scrollbar style="height:calc(100vh - 115px);overflow: auto;padding: 10px;">
+                    <slot></slot>
                     <div v-for="(cate, index) in props.cateList" :key="index + 't'">
                         <div v-if="cate.list.length > 0" class="types__header" @click="selectCate(cate)">
                             <span style="flex: 1">{{ cate.name }}</span>
                             <span class="types__header-more">查看更多<icon-right /></span>
                         </div>
 <!--                        <div v-else class="loading">暂无更多</div>-->
-                        <div class="list-wrap" v-if="cate.list.length > 0">
-                            <div v-for="(item, i) in cate.list" :title="item.id" :key="i + 'sl'" draggable="false" @click="handleClick(item)" >
+                        <div class="list-wrap list-wrap-item" v-if="cate.list.length > 0">
+                            <div  v-for="(item, i) in cate.list" :title="item.id" :key="i + 'sl'" draggable="false" @click="handleClick(item)" >
                                 <a-image v-if="i<3"
                                          class="list__img-thumb"
                                          height="95"
@@ -81,7 +82,7 @@ const props = withDefaults(
         data: [],
         currentCate:null,
         config: ()=>{ return {} },
-        maxHeight: 'calc(100vh - 200px)',
+        maxHeight: 'calc(100vh - 300px)',
         noMore: false
     }
 )
@@ -117,6 +118,7 @@ const fetchData = () => {
 </style>
 
 <style lang="less" scoped>
+@color1: #f1f2f4;
 .wrap {
   width: 100%;
   height: 100%;
@@ -195,9 +197,10 @@ const fetchData = () => {
     border-radius: 4px;
   }
   &__img-thumb{
-    background: #f8fafc;
+    // background: #f8fafc;
     cursor: pointer;
     border-radius: 4px;
+    padding: 2px;
   }
   &__img-thumb:hover {
     background: rgba(0, 0, 0, 0.05);
@@ -207,6 +210,14 @@ const fetchData = () => {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1.8rem;
+
+}
+
+.list-wrap-item{
+   background-color: @color1;
+   padding: 6px;
+   border-radius: 6px;
+   overflow: hidden;
 }
 
 .content {
@@ -215,6 +226,9 @@ const fetchData = () => {
     height: 100%;
     overflow: auto;
   }
+}
+.current-cate-list{
+  padding-top: 6px;
 }
 
 :deep(.current-cate-list .arco-list-header){
