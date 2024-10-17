@@ -4,7 +4,7 @@
             <div class="s-widget-classify">
                 <ul class="s-classify-wrap">
                     <li v-for="(item, index) in widgetClassifyList" :key="index" :class="['s-classify-item', { 's-active-classify-item': activeWidgetClassify === index }]" @click="clickClassify(index)">
-                        <component :is="item.icon" class="icon" :size="24"/>
+                        <div class="icon-wrap"><component :is="item.icon" class="icon" :size="24"/></div>
                         <span class="title">{{ item.name }}</span>
                     </li>
                 </ul>
@@ -117,8 +117,9 @@ const getStyle = (index: number) => {
 // Color variables (appears count calculates by raw css)
 @import "../../../styles/layouts";
 @color1: #3e4651; // Appears 2 times
-@menuWidth: 67px; // 默认菜单宽度
+@menuWidth: 72px; // 默认菜单宽度
 @active-text-color: #2254f4; // #1195db;
+@titlecolor:#4c535c;
 .sider-box{
   width:@menuWidth !important;
   :deep(.arco-layout-sider-children){
@@ -134,7 +135,7 @@ const getStyle = (index: number) => {
   display: flex;
   flex-direction: row;
   font-weight: 600;
-  height: calc(100vh - 20px);
+  height: calc(100vh - 40px);
   position: relative;
   .s-widget-classify {
     border-right: 1px solid rgba(0, 0, 0, 0.07);
@@ -165,23 +166,52 @@ const getStyle = (index: number) => {
         flex-direction: column;
         font-size: 12px;
         font-weight: 500;
-        height: 68px;
+        height: 72px;
         justify-content: center;
         width: 100%;
+        // margin-bottom: 8px;
         .title {
-          color: var(--color-text-2);;
-          margin-top: 5px;
+          color: var(--color-text-2);
+          // margin-top: 5px;
+          margin-top: 2px;
         }
         .icon {
+          stroke-width:3;
+        }
+        .icon-wrap{
+          width: 54px;
+          height: 36px;
+          border-radius: 10px;
+          font-weight: bold;
+          display: flex;
+          align-content: space-around;
+          align-items: center;
+          justify-content: center;
         }
       }
-      .s-classify-item:hover > .icon {
+      .s-classify-item:hover > .icon-wrap {
+        background-color: #e8eaec;
+      }
+      // .s-active-classify-item {
+      //   position: relative;
+      //   .icon,
+      //   .title {
+      //     color:rgb(var(--primary-6));
+      //   }
+      // }
+
+      .s-active-classify-item {
+        position: relative;
+        .title {
+         // color:rgb(var(--primary-6));
+          font-weight: bold;
+          color: #000000;
+        }
       }
       .s-active-classify-item {
         position: relative;
-        .icon,
-        .title {
-          color:rgb(var(--primary-6));
+        .icon-wrap{
+          background-color: #e8eaec;
         }
       }
       .s-active-classify-item::after,
@@ -192,7 +222,7 @@ const getStyle = (index: number) => {
         top: 13px;
         width: 4px;
         height: 65%;
-        background:rgb(var(--primary-6));;
+        //background:rgb(var(--primary-6));;
       }
     }
     .b-classify-wrap {
@@ -218,6 +248,7 @@ const getStyle = (index: number) => {
           color: var(--color-text-2);;
           margin-top: 5px;
         }
+        
         .icon {
         }
       }
@@ -229,9 +260,18 @@ const getStyle = (index: number) => {
       }
       .b-active-classify-item {
         position: relative;
-        .icon,
         .title {
-          color:rgb(var(--primary-6));
+         // color:rgb(var(--primary-6));
+          font-weight: bold;
+          color: #000000;
+        }
+      }
+      .b-active-classify-item {
+        position: relative;
+        .icon {
+         // color:rgb(var(--primary-6));
+          font-weight: bold;
+          background-color: #e8eaec;
         }
       }
     }

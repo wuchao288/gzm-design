@@ -50,7 +50,7 @@
                                 @click="handleClick(item)"
                         >
                                 <span style="font-size: 24px;" :class="'iconfont '+ item.icon"></span>
-                                <p>{{ item.title }}</p>
+                                <p style="font-size: 14px;font-weight: normal;">{{ item.title }}</p>
                             </a-col>
                        
                         </a-row>
@@ -298,12 +298,7 @@ fetchCateData()
   }
 
 
-.search__wrap {
-    padding: 16px 16px 0rem 16px;
-    display: flex;
-    cursor: pointer;
-    justify-content: center;
-}
+
 .search__wrap {
     padding: 16px 16px 0rem 16px;
     display: flex;

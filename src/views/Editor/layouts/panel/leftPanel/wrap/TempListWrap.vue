@@ -1,7 +1,7 @@
 <template>
     <div class="wrap">
         <search-header :cateList="cateList" v-model="keyword" @changeCate="changeCate" @search="onSearch"/>
-        
+        <a-divider style="margin-bottom: 0px;margin-top: 16px;" />
         <div class="temp-wrap">
            
             <comp-list-wrap @fetchData="fetchData" :data="page.dataList" :config="config" :noMore="page.noMore" max-height="calc(100vh - 145px)">

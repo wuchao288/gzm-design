@@ -16,7 +16,7 @@
             </a-space>
         </div>
     </a-layout-footer>
-    <div style="background: #f1f2f4">
+    <div style="background: #f1f2f4;display: none;"  >
         <div class="flex justify-center flex-items-center p-b-5px" style="color: var(--color-text-2)">
             <span>本网站由</span>
             <a-link :hoverable="false" target="_blank"
@@ -111,7 +111,7 @@ const openContextMenu = (e: MouseEvent, node: any) => {
 
 .dea-footer-page {
   background-color: #f1f2f4;
-  padding: 10px 20px 10px 20px;
+  padding: 10px @contentLayoutPadding 10px @contentLayoutPadding;
   height: @footerBoxHeight;
   overflow: auto;
 

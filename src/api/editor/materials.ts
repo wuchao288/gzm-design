@@ -55,13 +55,19 @@ export function queryTextMaterialList(params:PageParams) {
 export function queryImageMaterialList(params:PageParams) {
   return axios.get('/api/image/materialList',{data:params});
 }
-
 /**
- * 素材分类
+ * 素材顶部分类
+ * @param params
+ */
+export function queryGraphTopCategory() {
+  return axios.get('/api/design/matetopcate');
+}
+/**
+ * 素材首页分类
  * @param params
  */
 export function queryGraphCategory(params?:PageParams) {
-  return axios.get('/api/graph/category',{data:params});
+  return axios.get('/api/design/matecate',{data:params});
 }
 /**
  * 素材分类列表
