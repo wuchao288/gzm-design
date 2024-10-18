@@ -67,14 +67,16 @@ export function queryGraphTopCategory() {
  * @param params
  */
 export function queryGraphCategory(params?:PageParams) {
-  return axios.get('/api/design/matecate',{data:params});
+  let {pcate,isIndex}=params
+  return axios.get('/api/design/matecategroup',{params:{pcate,isIndex}});
 }
 /**
- * 素材分类列表
+ * 素材列表
  * @param params
  */
 export function queryGraphList(params:PageParams) {
-  return axios.get('/api/graph/list',{data:params});
+  let {pageSize,page,cate,search}=params
+  return axios.get('/api/design/material',{params:{pageSize,page,cate,search}});
 }
 
 /**

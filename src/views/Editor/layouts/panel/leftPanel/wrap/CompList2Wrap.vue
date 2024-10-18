@@ -7,7 +7,7 @@
                         :bordered="false"
                         :data="props.data"
                         @reach-bottom="fetchData"
-                        max-height="calc(100vh - 40px)">
+                        max-height="calc(100vh - 145px)">
                     <template #item="{ item,index }" >
                         <a-list-item style="padding: 0" @click="handleClick(item)" :key="index">
                             <slot v-bind:item="item">

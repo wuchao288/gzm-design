@@ -58,7 +58,7 @@ page.search=keyword.value
 page.type="0"
 
 queryTemplateTextCateList({type:1}).then((res)=>{
-    debugger
+
     res.response.map(m=>cateList.push({value:m.id,label:m.name}))
 });
 
@@ -73,7 +73,7 @@ const changeCate = (e:any) => {
     fetchData()
 }
 const onSearch = (value:any,ev:any) => {
-    debugger
+    
     keyword.value=value
     page.cate=currentCate.value.value
     page.search=keyword.value
@@ -83,9 +83,7 @@ const onSearch = (value:any,ev:any) => {
 }
 
 
-onMounted(()=>{
-    console.info("onMounted")
-})
+
 
 const fetchData = () => {
    

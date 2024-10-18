@@ -11,6 +11,7 @@
                 </a-input>
         </div>
         <a-divider style="margin-bottom: 0px;" v-show="!currentCate"/>
+        <!--有查询词的时候-->
         <div v-if="keyword!=''">
             <comp-list2-wrap :data="page.dataList"  :no-more="page.noMore"
                             :option="{coverKey:'cover'}"
@@ -19,10 +20,10 @@
             >
             </comp-list2-wrap>
         </div>
-        <div    v-else="keyword==''" >
+        <div   v-else >
            
         
-            <comp-cate-list-wrap  v-show="keyword==''" :data="page.dataList" :cate-list="cateList"
+            <comp-cate-list-wrap   :data="page.dataList" :cate-list="cateList"
                     :current-cate="currentCate" max-height="calc(100vh - 115px)"  :no-more="page.noMore"
                                 @fetch-data="fetchData"
                                 @back-cate="backCate"
@@ -194,7 +195,7 @@ const handleClick = (item: any) => {
         })
     } else {
         
-        debugger
+        
         text = new Group(item.json)
     }
 
@@ -212,8 +213,8 @@ const fetchData = () => {
     page.cate=currentCate.value?currentCate.value.id:""
     page.search=keyword.value
 
-    queryTextMaterialList(page).then(res => {
-        console.info(res)
+    queryTextMaterialList(page).then((res:any) => {
+       
         if (res.success) {
             const newDataList = res.response.list
             if (newDataList.length > 0) {
@@ -237,7 +238,6 @@ const fetchData = () => {
 }
 
 const onSearch = (value:any,ev:any) => {
-    debugger
     keyword.value=value
     currentCate.value=null
     page.page=1
@@ -257,12 +257,11 @@ const selectCate = (cate:any) => {
     page.noMore = false
     page.cate=cate.id
     page.search=keyword.value
-    // loadList()
 }
 
 const fetchCateData = () => {
 
-    queryTextCateList().then((res)=>{
+    queryTextCateList().then((res:any)=>{
         cateList.value=res.response
      });
 }

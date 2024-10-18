@@ -1,8 +1,17 @@
 <template>
     <div class="wrap">
-        <div class="other-text-wrap">
-            <div v-show="!currentCate" class="content__wrap">
-                <a-scrollbar style="height:calc(100vh - 115px);overflow: auto;padding: 10px;">
+        
+            <!--没有分类，或者分类为的下级为空-->
+            <div v-show="(!currentCate||currentCate&&currentCate.hasChild)&&props.cateList.length>0" class="content__wrap">
+
+              <ul v-if="currentCate&&currentCate.hasChild" class="list">
+                <li style="padding: 8px;padding-left: 0px;">
+                    <span class="header-back" @click="back(currentCate.pid)"><icon-left />{{ currentCate.name }} 3</span>
+                </li>
+              </ul> 
+             
+                <a-scrollbar ref="scrollbar"  style="overflow: auto;padding: 0px 10px 10px 10px;" 
+                 :style="{height:`calc(100vh - ${config.topHeight}px)`}">
                     <slot></slot>
                     <div v-for="(cate, index) in props.cateList" :key="index + 't'">
                         <div v-if="cate.list.length > 0" class="types__header" @click="selectCate(cate)">
@@ -11,40 +20,46 @@
                         </div>
 <!--                        <div v-else class="loading">暂无更多</div>-->
                         <div class="list-wrap list-wrap-item" v-if="cate.list.length > 0">
-                            <div  v-for="(item, i) in cate.list" :title="item.id" :key="i + 'sl'" draggable="false" @click="handleClick(item)" >
-                                <a-image v-if="i<3"
+                            
+                          <a-row :gutter="[6, 10]">
+                            <a-col :span="config.span"  v-for="(item, i) in cate.list" :title="item.id" :key="i + 'sl'" draggable="false" @click="handleClick(item)" >
+                                <a-image v-if="i<config.itemCount"
                                          class="list__img-thumb"
-                                         height="95"
-                                         width="95"
+                                         :height="config.imgHeight"
+                                         width="100%"
                                          :preview="false"
                                          fit="contain"
-                                         :src="item.cover"
+                                         :src="item[props.option.coverKey]"
                                 />
-                            </div>
+                            </a-col>
+                          </a-row>
                         </div>
                     </div>
                 </a-scrollbar>
             </div>
-            <ul v-if="currentCate" class="list current-cate-list">
-              <li >
-                        <span class="header-back" @click="back"><icon-left />{{ currentCate.name }}</span>
+
+            <ul v-if="currentCate&&!currentCate.hasChild" class="list">
+              <li style="padding: 8px;padding-left: 0px;">
+                   <span class="header-back" @click="back(currentCate.pid)"><icon-left />{{ currentCate.name }} 3</span>
               </li>
-                <a-list :gridProps="{ gutter: [6, 10], span: 8 }"
+            </ul> 
+            <div v-if="currentCate&&!currentCate.hasChild" class="current-cate-list" >
+                <a-list  :gridProps="{ gutter: [6, 10], span: config.span }"
                         :bordered="false"
                         :data="props.data"
                         @reach-bottom="fetchData"
-                        max-height="calc(100vh - 80px)">
-                    
-                    <template #item="{ item,index }" >
+                        :max-height="`calc(100vh - ${config.topHeight}px)`"  >
+                        
+                    <template   #item="{ item,index }" >
                         <a-list-item style="padding: 0" @click="handleClick(item)" :key="index">
                             <div class="list__img-thumb">
                                 <a-image
                                         class="list__img"
                                         :preview="false"
-                                        :height="95"
+                                        :height="config.imgHeight"
                                         width="100%"
                                         fit="contain"
-                                        :src="item.cover"
+                                        :src="item[props.option.coverKey]"
                                 />
                             </div>
                         </a-list-item>
@@ -54,8 +69,8 @@
                         <a-spin v-else/>
                     </template>
                 </a-list>
-            </ul>
-        </div>
+            </div>
+       
     </div>
 </template>
 
@@ -66,22 +81,33 @@ import {computed} from "vue";
 const current = ref(1);
 const bottom = ref(false);
 const data = reactive([]);
-const scrollbar = ref(true);
+const scrollbar = ref<HTMLDivElement>();
 
 const props = withDefaults(
     defineProps<{
+        option?:Record<string,any>,
         cateList: any,
         data: any,
         currentCate: any,
         config?: Record<string, any>
         maxHeight?: string | number,
-        noMore?: boolean,
+        noMore?: boolean
     }>(),
     {
+        option:()=>{
+          return {
+            coverKey:'cover'
+          }
+        },
         cateList: [],
         data: [],
         currentCate:null,
-        config: ()=>{ return {} },
+        config: ()=>{ return {
+          span:8,
+          imgHeight:95,
+          itemCount:3,
+          topHeight:115
+        } },
         maxHeight: 'calc(100vh - 300px)',
         noMore: false
     }
@@ -92,18 +118,18 @@ const config = computed(() => {
 const emits = defineEmits(['fetchData','selectCate','backCate','itemClick'])
 const selectCate = (cate:string) => {
     emits('selectCate',cate)
-    // loadList()
 }
-const back = () => {
-    emits('backCate')
+const back = (currentCate:any) => {
+    emits('backCate',currentCate)
 }
 const handleClick = (item:any) => {
     emits('itemClick',item)
 }
 const fetchData = () => {
     emits('fetchData')
-    console.log('reach bottom!');
 }
+
+
 </script>
 
 <style lang="less" scoped>
@@ -241,6 +267,10 @@ const fetchData = () => {
 
 :deep(.other-text-wrap){
    padding: 0px;
+}
+
+:deep(.arco-list-content){
+  padding: 10px;
 }
 
 </style>
