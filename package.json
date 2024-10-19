@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dns": "ipconfig /flushdns"
   },
   "dependencies": {
     "@leafer-in/arrow": "^1.0.5",

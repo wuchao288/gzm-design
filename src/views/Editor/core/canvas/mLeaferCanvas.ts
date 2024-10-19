@@ -460,7 +460,7 @@ export class MLeaferCanvas {
      * @param _index 层级
      */
     public add(_child: IUI, _index?: number) {
-        debugger
+        
         if (this.objectIsTypes(_child,'Group','Box')){
             this.bindDragDrop(_child)
         }

@@ -44,7 +44,7 @@ import {useEditor} from "@/views/Editor/app";
 
 import useCenter from "@/hooks/useCenter";
 
-import {Image} from "leafer-ui";
+import {Image,Platform} from "leafer-ui";
 import {getDefaultName} from "@/views/Editor/utils/utils";
 import CompCateListWrap from "@/views/Editor/layouts/panel/leftPanel/wrap/CompCateListWrap.vue";
 import CompList2Wrap from "@/views/Editor/layouts/panel/leftPanel/wrap/CompList2Wrap.vue";
@@ -57,6 +57,7 @@ const {editor} = useEditor()
 
 
 import {v4 as uuidv4} from 'uuid'
+import { json } from "stream/consumers";
 const keyword = ref('')
 
 let searchPlaceholder=ref('搜索')
@@ -117,17 +118,36 @@ const handleClick = (item:any) => {
     console.info(useCenter)
 
     let {width,height,url}=item
-    const image = new Image({
-        name:getDefaultName(editor.contentFrame),
-        editable: true,
-        x:0,
-        y:0,
-        width,
-        height,
-        id:uuidv4(),
-        url
-    })
-    editor.add(image)
+    
+    
+    if(item.type=="svg"&&item.model){
+        loadSvg(item.url,JSON.parse(item.model).colors).then((m)=>{
+           
+            const image = new Image({
+                name:getDefaultName(editor.contentFrame),
+                editable: true,
+                x:0,
+                y:0,
+                width,
+                height,
+                id:uuidv4(),
+                url:Platform.toURL(m.svg.outerHTML, 'svg')
+             })
+             editor.add(image)
+        })
+    }else{
+        const image = new Image({
+            name:getDefaultName(editor.contentFrame),
+            editable: true,
+            x:0,
+            y:0,
+            width,
+            height,
+            id:uuidv4(),
+            url
+       })
+       editor.add(image)
+    }
 }
 
 //返回
@@ -211,6 +231,95 @@ const fetchData = () => {
     })
 }
 fetchCateData()
+
+const color2obj=(colors:any)=> {
+  const obj: Record<string, any> = {}
+  for (let i = 0; i < colors.length; i++) {
+    obj[`{{colors[${i}]}}`] = colors[i]
+  }
+  return obj
+}
+let svgElements: Record<string, any>[] | null = null
+const loadSvg=(svgUrl:any,colors:any)=> {
+  const Snap = (window as any).Snap
+  return new Promise<any>((resolve) => {
+    Snap.load(
+      svgUrl,
+      function (svg: Record<string, any>) {
+        
+        let svg2 = Snap(svg.node)
+
+        let items = svg2.node.childNodes
+        svg2.node.removeAttribute('width')
+        svg2.node.removeAttribute('height')
+        svg2.node.setAttribute('style', 'height: inherit;width: inherit;')
+        // svg2.node.setAttribute('height', 'inherit')
+       svgElements = []
+        const colorsObj = color2obj(colors)
+
+        deepElement(items)
+
+        function deepElement(els: Record<string, any>) {
+          // 判断是NodeList对象则继续递归，否则进入元素处理工厂
+          if (els.item) {
+            
+          
+            els.forEach((element: Record<string, any>) => {
+              elementFactory(element)
+              
+              if (element.childNodes.length > 0) {
+                element.childNodes.forEach((element: Record<string, any>) => {
+                  deepElement(element)
+                })
+              }
+            })
+          } else {
+            
+
+            elementFactory(els)
+          }
+        }
+        // 元素工厂: 遍历元素中是否存在可自定义的颜色属性
+        function elementFactory(element: Record<string, any>) {
+          const attrsColor: Record<string, any> = {}
+          try {
+            
+            var attributes = element.attributes as NamedNodeMap;
+
+            if(!attributes)
+            return
+            for (let index = 0; index < attributes.length; index++) {
+                const attr = attributes[index];
+                
+                if (colorsObj[attr.value]) {
+                    
+                 attr.value = colorsObj[attr.value]
+                 attrsColor[attr.name] = colors.findIndex((x:any) => x == attr.value)
+              }
+            }
+
+          } catch (e) {
+            console.info("els.item",e)
+          }
+
+        
+
+
+          if (JSON.stringify(attrsColor) !== '{}' && svgElements) {
+            svgElements.push({
+              item: element,
+              attrsColor,
+            })
+          }
+          // console.log(element.attributes, element.getAttribute('fill'), _this.params.colors)
+        }
+        
+        resolve({svg:svg.node,svgElements})
+      }
+    )
+  })
+}
+
 </script>
 <style lang="less" scoped>
 .search__wrap {

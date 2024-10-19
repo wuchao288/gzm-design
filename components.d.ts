@@ -86,7 +86,6 @@ declare module 'vue' {
     ContextMenuContextMenuSeparator: typeof import('./src/components/contextMenu/ContextMenuSeparator.vue')['default']
     ContextMenuContextSubMenu: typeof import('./src/components/contextMenu/ContextSubMenu.vue')['default']
     ContextMenuContextSubMenuWrapper: typeof import('./src/components/contextMenu/ContextSubMenuWrapper.vue')['default']
-    copy: typeof import('./src/components/editorModules/searchHeader copy.vue')['default']
     DialogDialog: typeof import('./src/components/dialog/dialog.vue')['default']
     DropdownDropdownButton: typeof import('./src/components/dropdown/dropdownButton.vue')['default']
     EditorModulesSearch2Header: typeof import('./src/components/editorModules/search2Header.vue')['default']

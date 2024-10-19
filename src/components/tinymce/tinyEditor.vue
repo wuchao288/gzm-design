@@ -27,8 +27,7 @@ import "tinymce/plugins/codesample" // 源码
 // import "tinymce/plugins/fullscreen" //全屏
 
 //接下来定义编辑器所需要的插件数据
-import { reactive, ref } from "vue"
-import { onMounted, defineEmits, watch } from "vue"
+import { onMounted, watch, reactive, ref } from "vue"
 import axios from 'axios'
 // import { updateImg } from '@/api/order/order'
 const emits = defineEmits(["getContent",'changeFontFamily'])

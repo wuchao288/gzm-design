@@ -1,7 +1,7 @@
 <template>
-    <div class="wrap">
+    <div class="wrap" >
         <!--        <search-header :cateList="cateList" v-model="keyword" @changeCate="changeCate" @search="onSearch"/>-->
-        <comp-cate-list-wrap :data="page.dataList" :cate-list="cateList" :current-cate="currentCate" :no-more="page.noMore"
+        <comp-cate-list-wrap style="padding-top: 16px;" :data="page.dataList" :cate-list="cateList" :current-cate="currentCate" :no-more="page.noMore"
                              @fetch-data="loadList"
                              @back-cate="backCate"
                              @item-click="handleClick"
