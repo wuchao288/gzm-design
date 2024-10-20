@@ -119,7 +119,6 @@ const handleClick = (item:any) => {
 
     let {width,height,url}=item
     
-    
     if(item.type=="svg"&&item.model){
         loadSvg(item.url,JSON.parse(item.model).colors).then((m)=>{
            
