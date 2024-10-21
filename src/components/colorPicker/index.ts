@@ -12,6 +12,7 @@ import {ServicesAccessor} from '@/views/Editor/core/instantiation/instantiation'
 import {ColorPickerOption, Props} from './interface'
 import GColor from "@/utils/color/g-color";
 import {replaceElementToNewArr, calculatePoints, calculateAngle} from "@/utils/utils";
+import {ref,shallowReactive} from 'vue'
 
 let dialog: DialogReturn | undefined
 
@@ -96,17 +97,34 @@ const openDialog = (
         onChange(data:any) {
           if (!isDefined(object) || !isDefined(attr)) return
           const colorArr = object.proxyData[attr]
-          const colorValue = colorArr[index]
+         
+          console.info(colorArr)
+        
           if (data.type === 'color') {
+
+            debugger
+
             if (data.points.length < 1) return
             const [{ red, green, blue, alpha }] = data.points
             // object.set(attr, `rgba(${red}, ${green}, ${blue}, ${alpha})`)
             colorValue.color = `rgba(${red}, ${green}, ${blue}, ${alpha})`
             // 这里使用新数组，因为leafer是浅监听的 修改数组值无法监听到并重新渲染
-            object.proxyData[attr] = replaceElementToNewArr(colorArr,index,{
+
+            var rest=  (replaceElementToNewArr(colorArr,index,{
               type: 'solid',
               color:colorValue.color,
-            })
+            }))
+
+
+            //console.info(shallowReactive(rest))
+
+           
+           
+            console.info(object.proxyData[attr])
+             setTimeout(function(){
+                 object[attr]=rest
+             },50)
+
           } else if (data.type === 'linear' || data.type === 'radial') {
             const colorStops = pointsToColorStops(data.points)
             const angle = data.degree // 渐变角度

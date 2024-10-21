@@ -31,7 +31,6 @@ import {reactive, toRefs, watch} from 'vue'
   const  emit=defineEmits(['search'])
 
   function onSearch(value: string, ev: Event) {
-       console.info("onSearch");
       emit('search', value)
   }
 

@@ -15,6 +15,7 @@ const fill = useActiveObjectModel('fill')
 const fillArray = ref([])
 watchEffect(() => {
     if (fill.value.modelValue) {
+    debugger
         fillArray.value = parseStrokeOrFill(fill.value.modelValue)
     } else {
         fillArray.value = []

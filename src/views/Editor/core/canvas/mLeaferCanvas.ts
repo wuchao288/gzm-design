@@ -43,7 +43,9 @@ import './initAttr'
 import {EditorEvent,Editor} from "@leafer-in/editor";
 import {BOTTOM_CANVAS_NAME} from "@/views/Editor/utils/constants";
 import {v4 as uuidv4} from 'uuid'
+import { nanoid } from 'nanoid'
 import {PenDraw, SignaturePluginOptions} from "@/views/Editor/core/canvas/penDraw";
+import { forEach } from 'lodash';
 
 
 type ExtendedOption = {
@@ -304,6 +306,7 @@ export class MLeaferCanvas {
         this.setActiveObjectValue(this.contentFrame)
 
         this.app.editor.on(EditorEvent.SELECT, (arg: EditorEvent) => {
+            debugger
             this.setActiveObjectValue(arg.editor.element)
             // this.ruler.forceRender()
         })
@@ -468,8 +471,10 @@ export class MLeaferCanvas {
             const topLevel = this.hierarchyService.getTopLevel().zIndex;
             _child.zIndex = topLevel + 1;
         }
-        this.contentFrame.add(_child, _index)
 
+        _child.id=nanoid()
+
+        this.contentFrame.add(_child, _index)
         // 选中提添加的元素
         this.selectObject(_child)
         this.childrenEffect()
@@ -479,6 +484,10 @@ export class MLeaferCanvas {
      * 添加元素
      */
     public addMany(..._children: IUI[]) {
+
+        _children.forEach((_child)=>{
+            _child.id=nanoid()
+        })
         this.contentFrame.addMany(..._children)
         this.childrenEffect()
     }
@@ -488,7 +497,7 @@ export class MLeaferCanvas {
      * @param json
      */
     public reLoadFromJSON(json: Partial<Page | IUIInputData | any>) {
-        console.info(json.scale)
+      
         this.importJsonToCurrentPage(json, true)
         //this.setZoom(json.scale?json.scale:1)
     }

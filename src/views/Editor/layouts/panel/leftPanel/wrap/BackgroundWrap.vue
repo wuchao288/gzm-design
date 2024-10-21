@@ -95,6 +95,7 @@ const setBgImage = (item: any) => {
 }
 const { page } = usePageMixin()
 page.pageSize = 30
+page.cate=40016
 const fetchData = () => {
     queryBgImgMaterialList(page).then(res => {
         if (res.success) {

@@ -1,6 +1,12 @@
 <template>
     <div class="wrap">
-        <search-header :cateList="cateList" v-model="keyword" @changeCate="changeCate" @search="onSearch"/>
+        <search-header
+         :cateList="cateList"
+         :currentCate="currentCate"
+          
+           @changeCate="changeCate"
+           :search-placeholder="searchPlaceholder"
+            @search="onSearch"/>
         <a-divider style="margin-bottom: 0px;margin-top: 16px;" />
         <div class="temp-wrap">
            
@@ -46,7 +52,9 @@ import {queryTemplateList,queryTemplateTextCateList,queryTemplateTextOne} from "
 import { title } from 'process';
 const keyword = ref("");
 
-const currentCate=ref({value:"order-desc",lable:'最新上线'})
+let searchPlaceholder=ref('搜索')
+
+const currentCate=ref({value:"order-desc",label:'最新上线'})
 
 const cateList = reactive([]);
 
@@ -64,7 +72,8 @@ queryTemplateTextCateList({type:1}).then((res)=>{
 
 
 const changeCate = (e:any) => {
-
+   
+    
     currentCate.value=e
     page.cate=currentCate.value.value
     page.search=keyword.value
@@ -72,6 +81,11 @@ const changeCate = (e:any) => {
     page.dataList=[]
     fetchData()
 }
+
+watch(()=>currentCate.value,()=>{
+    searchPlaceholder.value=currentCate.value?`在${currentCate.value.label}中搜索`:'搜索'
+},{deep:true})
+
 const onSearch = (value:any,ev:any) => {
     
     keyword.value=value
@@ -86,7 +100,7 @@ const onSearch = (value:any,ev:any) => {
 
 
 const fetchData = () => {
-   
+  debugger
     queryTemplateList(page).then((res:any) =>{
 
         if (res.success) {
@@ -136,6 +150,8 @@ const handleClick =async (item:any) => {
     }
     
 }
+
+fetchData()
 </script>
 
 <style lang="less" scoped>

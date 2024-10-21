@@ -17,6 +17,7 @@ defineKey(UI.prototype, 'proxyData', {
  * @param newValue
  */
 UI.prototype.setProxyAttr = function (name: string, newValue: unknown): void {
+    
     const data = this.__proxyData as any
     if (data[name] !== newValue) data[name] = newValue
 }

@@ -6,7 +6,7 @@
 
               <ul v-if="currentCate&&currentCate.hasChild" class="list">
                 <li style="padding: 8px;padding-left: 0px;">
-                    <span class="header-back" @click="back(currentCate.pid)"><icon-left />{{ currentCate.name }} 3</span>
+                    <span class="header-back" @click="back(currentCate.pid)"><icon-left />{{ currentCate.name }}</span>
                 </li>
               </ul> 
              
@@ -40,7 +40,7 @@
 
             <ul v-if="currentCate&&!currentCate.hasChild" class="list">
               <li style="padding: 8px;padding-left: 0px;">
-                   <span class="header-back" @click="back(currentCate.pid)"><icon-left />{{ currentCate.name }} 3</span>
+                   <span class="header-back" @click="back(currentCate.pid)"><icon-left />{{ currentCate.name }}</span>
               </li>
             </ul> 
             <div v-if="currentCate&&!currentCate.hasChild" class="current-cate-list" >

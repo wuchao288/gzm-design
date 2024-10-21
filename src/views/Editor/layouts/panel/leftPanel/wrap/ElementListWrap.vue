@@ -1,7 +1,12 @@
 <template>
     <div class="wrap" >
         <!--        <search-header :cateList="cateList" v-model="keyword" @changeCate="changeCate" @search="onSearch"/>-->
-        <comp-cate-list-wrap style="padding-top: 16px;" :data="page.dataList" :cate-list="cateList" :current-cate="currentCate" :no-more="page.noMore"
+        <comp-cate-list-wrap style="padding-top: 16px;"
+         :data="page.dataList" 
+         :cate-list="cateList" 
+         :current-cate="currentCate" 
+         :no-more="page.noMore"
+         :option="{coverKey:'url'}"
                              @fetch-data="loadList"
                              @back-cate="backCate"
                              @item-click="handleClick"
@@ -22,28 +27,31 @@ import SearchHeader from "@/components/editorModules/searchHeader.vue";
 import {Ellipse, Star} from "@leafer-ui/core";
 import isString from "lodash/isString";
 import {Arrow} from "@leafer-in/arrow";
+
+import elementData from '@/assets/data/elementData.json'
+
 const {editor} = useEditor()
 
 const keyword = ref();
 const currentCate = ref(null);
 const cateList = ref([])
 
-const onSearch = (value,ev) => {
-    console.log('value=',value)
-    console.log('keyword=',keyword.value)
-    console.log('ev=',ev)
-}
+
 const { page } = usePageMixin()
 page.pageSize = 30
 const fetchData = () => {
-    queryElementCategory().then(res =>{
+    queryElementCategory().then((res:any) =>{
         if (res.success) {
-            const list = res.response.list
+            const list = res.response
             cateList.value = list
         }
     })
 }
-const handleClick = (item) => {
+const handleClick = (item:any) => {
+
+    if(typeof item.json=="string"){
+        item.json=JSON.parse(item.json)
+    }
 
     item.json.name = getDefaultName(editor.contentFrame)
     if (isString(item.json.fill)){
@@ -66,13 +74,15 @@ const backCate = () => {
 }
 const selectCate = (cate) => {
     currentCate.value = cate
-    page.query.categoryId = cate.id
     page.page = 1
     page.noMore = false
-    // loadList()
+    page.cate=cate.id
+    page.dataList = []
+    //loadList()
 }
 const loadList = () => {
-    page.query.categoryId = currentCate.value.id
+   
+    page.cate = currentCate.value.id
     queryElementList(page).then(res =>{
         if (res.success) {
             const newDataList = res.response.list
@@ -89,4 +99,5 @@ const loadList = () => {
     })
 }
 fetchData()
+
 </script>

@@ -147,6 +147,7 @@ export function useColor(
     },
     /** 更改颜色 */
     changeColor(value: string) {
+      debugger
       value = value.replace(/^#/, '')
       if (value.length < 6) {
         value = padHexColor(value)

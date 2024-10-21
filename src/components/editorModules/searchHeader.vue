@@ -9,7 +9,7 @@
     <div class="search__wrap">
       <a-space  direction="vertical">
            <a-input class="arco-radius" size="large" :button-text="''"
-           v-model="state.searchValue" :placeholder="state.searchPlaceholder" 
+           :placeholder="props.searchPlaceholder" 
            @change="onSearch"
            >
           
@@ -20,7 +20,10 @@
           </a-input>
            
       <a-space direction="horizontal">
-           <a-button class="arco-radius" @click="toggleNew" :type="state.isNewList?'primary':'secondary'" style="margin-right: 10px;">
+           <a-button class="arco-radius" 
+           @click="toggleNew" 
+           :type="state.isNewList?'primary':'secondary'"
+            style="margin-right: 10px;">
               最新上线
            </a-button>
       
@@ -32,7 +35,7 @@
               </a-button>
               
               <template #content>
-                  <a-doption v-for="(item,index) in state.cateList" :key="index"
+                  <a-doption style="min-width: 80px;;" v-for="(item,index) in state.cateList" :key="index"
                               @click.stop="state.isNewList=false;action('changeCate', item, index)">
                               <span :class="['cate__text', { 'cate--select': + state.currentIndex === index }]">{{
                               item.label
@@ -49,26 +52,20 @@ import {reactive, toRefs, watch} from 'vue'
 
 
 
-  const  props=defineProps(['cateList', 'modelValue'])
+  const  props=defineProps(['cateList', 'modelValue','searchPlaceholder','currentCate'])
   const  emit=defineEmits(['update:modelValue', 'search', 'changeCate'])
 
   const state: any = reactive({
       searchValue: '',
-      materialCates: [],
       currentIndex: -1,
-      currentCate:'分类',
+      currentCate:props.currentCate,
       isNewList:true,
-      popupVisible:false,
-      searchPlaceholder:'搜索模板'
+      popupVisible:false
   })
 
   if (props.cateList) {
       state.cateList = props.cateList
       state.currentCate=state.cateList.length>0?state.cateList[0].label:"分类"
-      state.searchPlaceholder=state.currentCate&&state.isNewList==false?`在${state.currentCate}中搜索模板`:'搜索模板'
-      //   const { cate } = route.query
-      //   cate && (state.currentIndex = cate)
-      //   cate && action('change', state.materialCates[Number(cate)], Number(cate))
   }
 
   watch(
@@ -79,12 +76,12 @@ import {reactive, toRefs, watch} from 'vue'
   )
 
 
-  watch(
-      () =>[state.currentCate,state.isNewList],
-      () => {
-        state.searchPlaceholder=state.currentCate&&state.isNewList==false?`在${state.currentCate}中搜索模板`:'搜索模板'
-      },
-  )
+  // watch(
+  //     () =>[state.currentCate,state.isNewList],
+  //     () => {
+  //       state.searchPlaceholder=state.currentCate&&state.isNewList==false?`在${state.currentCate}中搜索模板`:'搜索模板'
+  //     },
+  // )
 
   const  clickCate=(event:MouseEvent)=>{
     //debugger

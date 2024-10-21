@@ -15,7 +15,7 @@ import textCateData from '@/assets/data/textCateData.json'
  * TODO 优化图库，抓取unsplash图片
  */
 setupMock({
-    mock:true,
+    mock:false,
     setup() {
         
         Mock.mock(new RegExp('/api/design/textcate'), (params:MockParams) => {
@@ -69,17 +69,21 @@ setupMock({
             return successResponseWrap({list:newDataList,total:list.length});
         });
 
-        Mock.mock(new RegExp('/api/background/imageList'), (params:MockParams) => {
+        Mock.mock(new RegExp('/api/design/imgs'), (params:MockParams) => {
             const { page:pageNum, pageSize } = qs.parse(params.url.split("?")[1])
             var newDataList = bgImgData.list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
             return successResponseWrap({list:newDataList,total:bgImgData.list.length});
         });
 
-        Mock.mock(new RegExp('/api/element/category'), (params:MockParams) => {
+        Mock.mock(new RegExp('/api/design/imagecate'), (params:MockParams) => {
+            return successResponseWrap(imageData.cate);
+        });
+
+        Mock.mock(new RegExp('/api/design/elementcate'), () => {
             return successResponseWrap({list:elementData.cate,total:elementData.cate.length});
         });
-        Mock.mock(new RegExp('/api/element/list'), (params:MockParams) => {
-            const { page:pageNum, pageSize, query } = JSON.parse(params.body);
+        Mock.mock(new RegExp('/api/design/elements'), (params:MockParams) => {
+            const { page:pageNum, pageSize, query } =  qs.parse(params.url.split("?")[1]);
             const list = elementData.list.filter(v=>{
                 return v.category == query.cate
             })
