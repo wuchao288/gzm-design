@@ -3,12 +3,14 @@ import type {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {Message} from '@arco-design/web-vue';
 import {useRoute, useRouter, RouteRecordRaw} from 'vue-router';
 
+import app_config, { LocalStorageKey } from '@/config/index'
+
 const router = useRouter();
 // default config
-if (import.meta.env.VITE_API_BASE_URL) {
-    axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
-    axios.defaults.timeout = 60000; // 1 分钟
-}
+
+axios.defaults.baseURL = app_config.API_URL;
+axios.defaults.timeout = 60000; // 1 分钟
+
 
 // request interceptors
 axios.interceptors.request.use(
@@ -23,7 +25,7 @@ axios.interceptors.request.use(
         //     }
         //     config.headers.Authorization = `Bearer ${token}`;
         // }
-
+        
         return config;
     },
     (error) => {
@@ -34,9 +36,9 @@ axios.interceptors.request.use(
 
 export interface HttpResponse<T = unknown> {
     success: boolean; // 是否成功
-    code: number; // 状态码
+    status: number; // 状态码
     msg: string; // 状态信息
-    data: T; // 返回数据
+    response: T; // 返回数据
     timestamp: string; // 时间戳
 }
 
@@ -52,6 +54,7 @@ axios.interceptors.response.use(
             return response;
         }
 
+
         // 操作成功则直接返回
         const res = response.data;
         if (res.success) {
@@ -63,13 +66,14 @@ axios.interceptors.response.use(
             duration: 3000,
         });
         //
-        if (res.code === 401) {
+        if (res.status === 401) {
             // 重定向路由到登录页面
             router.replace('/login')
         }
         return Promise.reject(new Error(res.msg));
     },
     (error) => {
+
         console.error(`err: ${error}`);
         const res = error.response.data;
         Message.error({

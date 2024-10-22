@@ -12,14 +12,23 @@
         >
             进入编辑器
         </a-button>
+<!--        <a-button-->
+<!--                @click="-->
+<!--                  $router.push({-->
+<!--                    name: 'PsParser',-->
+<!--                  })-->
+<!--                "-->
+<!--        >-->
+<!--            PSD解析器-->
+<!--        </a-button>-->
         <a-button
                 @click="
                   $router.push({
-                    name: 'PsParser',
+                    name: 'CusComponents',
                   })
                 "
         >
-            PSD解析器
+            自定义组件演示
         </a-button>
     </a-space>
 </template>

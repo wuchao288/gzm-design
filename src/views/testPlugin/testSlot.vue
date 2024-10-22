@@ -15,7 +15,7 @@
     }
   }
   const printJson = () => {
-    console.log(canvas.activeObject)
+    console.log(canvas.activeObject.value.toString())
   }
 </script>
 

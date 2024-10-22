@@ -4,15 +4,23 @@ import {isDefined, useResizeObserver} from "@vueuse/core";
 import BaseAttr from "./attrs/baseAttr.vue";
 import LayerAttr from "./attrs/layerAttr.vue";
 import TextAttr from "./attrs/textAttr.vue";
+import HtmlTextAttr from "./attrs/htmlTextAttr.vue";
 import CanvasAttr from './attrs/canvasAttr.vue'
 import BoxAttr from './attrs/boxAttr.vue'
 import FillAttr from "./attrs/fillAttr.vue";
 import StrokeAttr from "./attrs/strokeAttr.vue";
-import VirtualElementAttr from "./attrs/VirtualElementAttr.vue";
+import ShadowAttr from "./attrs/shadowAttr.vue";
+import VirtualElementAttr from "./attrs/virtualElementAttr.vue";
+import QrcodeAttr from "./attrs/qrcodeAttr.vue";
+import BarcodeAttr from "./attrs/barcodeAttr.vue";
+import GroupAttr from "./attrs/groupAttr.vue";
+import PenAttr from "./attrs/penAttr.vue";
 import {appInstance, useEditor} from "@/views/Editor/app";
 import {typeUtil} from "@/views/Editor/utils/utils";
+import {useAppStore} from "@/store";
 
 const {editor} = useEditor()
+const {activeTool} = storeToRefs(useAppStore())
 const splitRef = ref()
 const treeHeight = ref(0)
 
@@ -59,12 +67,33 @@ const componentList = computed(() => {
             visual: isDefined(activeObject) && editor.activeObjectIsType('Text'),
         },
         {
+            name: 'HtmlTextAttr',
+            component: HtmlTextAttr,
+            visual: isDefined(activeObject) && editor.activeObjectIsType('HTMLText'),
+        },
+        {
+            name: 'QrcodeAttr',
+            component: QrcodeAttr,
+            visual:
+                isDefined(activeObject)
+                &&!typeUtil.isVirtualOrBottom(activeObject)
+                && editor.activeObjectIsType('QrCode')
+        },
+        {
+            name: 'BarcodeAttr',
+            component: BarcodeAttr,
+            visual:
+                isDefined(activeObject)
+                &&!typeUtil.isVirtualOrBottom(activeObject)
+                && editor.activeObjectIsType('BarCode')
+        },
+        {
             name: 'FillAttr',
             component: FillAttr,
             visual:
                 isDefined(activeObject)
                 &&!typeUtil.isVirtualOrBottom(activeObject)
-                && !editor.activeObjectIsType('Image','Pen')
+                && !editor.activeObjectIsType('Image','Pen','HTMLText','QrCode','BarCode','Group')
                 ,
         },
         {
@@ -73,13 +102,30 @@ const componentList = computed(() => {
             visual:
                 isDefined(activeObject)
                 &&!typeUtil.isVirtualOrBottom(activeObject)
+                && !editor.activeObjectIsType('Pen','Group')
+        },
+        {
+            name: 'ShadowAttr',
+            component: ShadowAttr,
+            visual:
+                isDefined(activeObject)
+                &&!typeUtil.isVirtualOrBottom(activeObject)
+                && !editor.activeObjectIsType('Pen','Group')
+        },
+        {
+            name: 'GroupAttr',
+            component: GroupAttr,
+            visual:
+                isDefined(activeObject)
+                &&!typeUtil.isVirtualOrBottom(activeObject)
+                &&typeUtil.isCollection(activeObject)
                 && !editor.activeObjectIsType('Pen')
         },
-        // {
-        //     name: 'StrokeAttr',
-        //     component: StrokeAttr,
-        //     visual: isDefined(activeObject) && !util.isCollection(activeObject),
-        // },
+        {
+            name: 'PenAttr',
+            component: PenAttr,
+            visual: activeTool.value === 'pen',
+        },
         // 阴影
         // 模糊
     ]

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Tree, {DropEvent, DropPosition, TreeInstance, TreeNodeData, TreeNodeKey,} from '@/components/tree'
-import {RenderEvent} from 'leafer-ui'
+import {EditorEvent} from "@leafer-in/editor";
 import {useEditor} from '@/views/Editor/app'
 import {Fn, isDefined, useMagicKeys, useResizeObserver} from '@vueuse/core'
 import type {SplitInstance} from '@arco-design/web-vue'
@@ -12,10 +12,13 @@ import IBoard from '@/assets/images/board.svg?raw'
 import IText from '@/assets/images/text.svg?raw'
 import IImage from '@/assets/images/image.svg?raw'
 import IPenSvg from '@/assets/images/pen.svg?raw'
+import IHtmlTextSvg from '@/assets/images/htmlText.svg?raw'
 import {typeUtil} from "@/views/Editor/utils/utils";
 import {IUI} from "@leafer-ui/interface";
+import {watch} from "vue";
 
 interface ITreeNodeData extends TreeNodeData {
+    proxyData:any
     isCollection: boolean
     visible: boolean
     evented: boolean
@@ -45,10 +48,12 @@ const getSvg = (object) => {
         return IFolder
     } else if (canvas.objectIsTypes(object,'Rect')) {
         return IBoard
-    } else if (canvas.objectIsTypes(object,'Image')) {
+    } else if (canvas.objectIsTypes(object,'Image','Image2')) {
         return IImage
     } else if (canvas.objectIsTypes(object,'Pen')) {
         return IPenSvg
+    } else if (canvas.objectIsTypes(object,'HTMLText')) {
+        return IHtmlTextSvg
     }else{
 
     }
@@ -70,7 +75,8 @@ const getTreeData = (
         const children = isCollection
             ? getTreeData(object.children, searchKey, parentVisible && proxyData.visible)
             : []
-        const nodeData = Object.assign(proxyData,{
+        const nodeData = Object.assign({
+            proxyData:proxyData,
             key: object.innerId,
             draggable: renameNodeKey.value !== object.id,
             getSvg: getSvg.bind(this, object),
@@ -100,7 +106,7 @@ const canAddToResult = (nodeData: ITreeNodeData, searchKey: string): boolean => 
     let isMatched = false
     while (!queue.isEmpty()) {
         const currentNode = queue.shift()!
-        const currentTitle = currentNode.name?.toLowerCase()
+        const currentTitle = currentNode.proxyData?.name?.toLowerCase()
         if (currentTitle?.includes(lowerSearchKey)) {
             isMatched = true
         }
@@ -154,8 +160,6 @@ const moveNode = (data: {
     // 获取对象的组
     const dragGroup = dragObject.parent
     let dropGroup = dropObject.parent
-    console.log('dragGroup=',dragGroup)
-    console.log('dropGroup=',dropGroup)
     let dropIndex = dropGroup?.children.indexOf(dropObject)
 
     // 画板不能进组
@@ -244,7 +248,10 @@ const onDrop = (data: DropEvent) => {
  */
 const lockClick = (e: Event, node: any) => {
     e.stopPropagation()
-    node.locked = !node.locked
+    node.proxyData.locked = !node.proxyData.locked
+    if(node.proxyData.locked){
+        canvas.app.editor.removeItem(node.proxyData)
+    }
 }
 
 /**
@@ -252,7 +259,7 @@ const lockClick = (e: Event, node: any) => {
  */
 const visibleClick = (e: Event, node: any) => {
     e.stopPropagation()
-    node.visible = !node.visible
+    node.proxyData.visible = !node.proxyData.visible
     // node.setDirty()
 }
 
@@ -263,7 +270,6 @@ const selectedkeys = ref<(string | number)[]>([])
  */
 const onSelect = (_selectedkeys: (string | number)[] = selectedkeys.value) => {
     const objects = canvas.findObjectsByIds(_selectedkeys)
-    console.log('objects=',objects)
     if (objects.length) {
         canvas.setActiveObjects(objects)
     } else {
@@ -278,14 +284,14 @@ const updateSelectedkeys = async () => {
     const activeObject = canvas.activeObject.value
     const editor = canvas?.app?.editor
 
-    if (!editor || !editor.hasTarget) {
+    if (!editor || !editor.target) {
         selectedkeys.value = []
         return
     }
 
     let needExpandedKeys: Set<string> = new Set()
 
-    if (editor.hasTarget) {
+    if (editor.target) {
         const tempKeys: any[] = []
         editor.list.forEach(obj => {
             tempKeys.push(obj.innerId)
@@ -300,25 +306,26 @@ const updateSelectedkeys = async () => {
         // 等待展开
         await nextTick()
     }
-
-    const containerRect = treeRef.value?.virtualListRef.containerRef.getBoundingClientRect()
-    const nodeRect = document
-        .querySelector(`.arco-tree-node[data-key='${selectedkeys.value[0]}']`)
-        ?.getBoundingClientRect()
-    // TODO 数据太多时经常白屏不展示、无法混动？
-    // 判断是否在可视区域外
-    if (
-        !nodeRect ||
-        containerRect.top - nodeRect.top > nodeRect.height ||
-        nodeRect.top - containerRect.top > treeHeight.value
-    ) {
-        treeRef.value?.scrollIntoView({
-            key: selectedkeys.value[0],
-            align: 'auto',
-        })
+    if (treeRef.value && treeRef.value.virtualListRef){
+        const containerRect = treeRef.value?.virtualListRef.containerRef.getBoundingClientRect()
+        const nodeRect = document
+            .querySelector(`.arco-tree-node[data-key='${selectedkeys.value[0]}']`)
+            ?.getBoundingClientRect()
+        // TODO 数据太多时经常白屏不展示、无法混动？
+        // 判断是否在可视区域外
+        if (
+            !nodeRect ||
+            containerRect.top - nodeRect.top > nodeRect.height ||
+            nodeRect.top - containerRect.top > treeHeight.value
+        ) {
+            treeRef.value?.scrollIntoView({
+                key: selectedkeys.value[0],
+                align: 'auto',
+            })
+        }
     }
 }
-canvas.app.on(RenderEvent.AFTER,arg => {
+canvas.app.editor.on(EditorEvent.SELECT,(arg)=>{
     updateSelectedkeys()
 })
 
@@ -342,7 +349,7 @@ onMounted(() => {
 })
 
 // 多选
-// todo: shift键选择范围
+// shift键选择范围
 const multiple = ref(false)
 const {meta, ctrl,shift} = useMagicKeys()
 watchEffect(() => {
@@ -406,90 +413,91 @@ const onInputChange = (value: string, e: Event) => {
 
 <template>
     <div
-        ref="splitRef"
-        class="h-[calc(100vh-90px)]">
+            ref="splitRef"
+            class="h-[calc(100vh-90px)]">
         <div style="padding:0 10px">
             <a-input-search
-                placeholder="Search..."
-                style="margin-bottom: 8px;"
-                v-model="searchKey"
+                    placeholder="Search..."
+                    style="margin-bottom: 8px;"
+                    v-model="searchKey"
             />
         </div>
         <Tree
-            ref="treeRef"
-            size="small"
-            blockNode
-            draggable
-            :selected-keys="selectedkeys"
-            v-model:expanded-keys="expandedKeys"
-            :animation="false"
-            :multiple="multiple"
-            :data="treeData"
-            :allowDrop="allowDrop"
-            :virtualListProps="{
+                ref="treeRef"
+                size="small"
+                blockNode
+                draggable
+                :selected-keys="selectedkeys"
+                v-model:expanded-keys="expandedKeys"
+                :animation="false"
+                :multiple="multiple"
+                :data="treeData"
+                :allowDrop="allowDrop"
+                :virtualListProps="{
           height: treeHeight,
           fixedSize: true,
+          buffer: 30
         }"
-            @drop="onDrop"
-            @select="onSelect"
-            @node-contextmenu="showContextMenu"
-            @node-dbclick="onNodeDbclick"
+                @drop="onDrop"
+                @select="onSelect"
+                @node-contextmenu="showContextMenu"
+                @node-dbclick="onNodeDbclick"
         >
             <template #title="nodeData">
                 <div class="flex items-center">
                     <div v-html="nodeData.getSvg()" class="mr2 mt3px"></div>
                     <a-input
-                        v-if="isDefined(nodeData.key) && renameNodeKey === nodeData.key"
-                        class="bg-transparent! border-none! px0!"
-                        size="mini"
-                        v-model="nodeData.name"
-                        :default-value="nodeData.name"
-                        @blur="renameNodeKey = undefined"
-                        @vue:mounted="onInputMounted"
-                        @press-enter="renameNodeKey = undefined"
+                            v-if="isDefined(nodeData.key) && renameNodeKey === nodeData.key"
+                            class="bg-transparent! border-none! px0!"
+                            size="mini"
+                            v-model="nodeData.proxyData.name"
+                            :default-value="nodeData.proxyData.name"
+                            @blur="renameNodeKey = undefined"
+                            @vue:mounted="onInputMounted"
+                            @press-enter="renameNodeKey = undefined"
                     />
                     <span
-                        v-else
-                        class="text-truncate"
-                        :class="{
-                'op-50': !nodeData.visible,
+                            v-else
+                            class="text-truncate"
+                            :class="{
+                'op-50': !nodeData.proxyData.visible,
               }"
                     >
-              {{ nodeData.name }}
+              {{ nodeData.proxyData.name }}
             </span>
                 </div>
             </template>
             <template #extra="nodeData">
                 <div
-                    v-if="renameNodeKey !== nodeData.key"
-                    class="extra pr4px"
-                    :class="{
-              show:  !nodeData.visible || nodeData.locked
+                        v-if="renameNodeKey !== nodeData.key"
+                        class="extra pr4px"
+                        :class="{
+              show:  !nodeData.proxyData.visible || nodeData.locked
             }"
                 >
                     <a-button
-                        :class="{
-                show: !nodeData.locked,
+                            :class="{
+                show: !nodeData.proxyData.locked,
               }"
-                        size="mini"
-                        class="icon-btn"
-                        @click="lockClick($event, nodeData)"
+                            size="mini"
+                            class="icon-btn"
+                            @click="lockClick($event, nodeData)"
                     >
                         <template #icon>
-                            <icon-unlock v-if="!nodeData.locked"/>
+                            <icon-unlock v-if="!nodeData.proxyData.locked"/>
                             <icon-lock v-else/>
                         </template>
                     </a-button>
                     <a-button
-                        :class="{
-                show: nodeData.visible,
+                            :class="{
+                show: nodeData.proxyData.visible,
               }"
-                        size="mini"
-                        class="icon-btn"
-                        @click="visibleClick($event, nodeData)"
+                            size="mini"
+                            class="icon-btn"
+                            @click="visibleClick($event, nodeData)"
                     >
                         <template #icon>
-                            <icon-eye v-if="nodeData.visible"/>
+                            <icon-eye v-if="nodeData.proxyData.visible"/>
                             <icon-eye-invisible v-else/>
                         </template>
                     </a-button>

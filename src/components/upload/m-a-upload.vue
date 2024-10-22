@@ -161,7 +161,6 @@ export default {
             }
         },
         success(fileItem) {
-            console.log('res==',fileItem)
             var os = this.onSuccess(fileItem.response, fileItem.file)
             if (os !== undefined && os === false) {
                 return false

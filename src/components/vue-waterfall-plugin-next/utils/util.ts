@@ -11,15 +11,15 @@ const getSymbols = Object.getOwnPropertySymbols
  * @returns
  */
 export function getValue(form: any, ...selectors: string[]) {
-  const res = selectors.map((s) => {
-    return s
-      .replace(/\[(\w+)\]/g, '.$1')
-      .split('.')
-      .reduce((prev, cur) => {
-        return prev && prev[cur]
-      }, form)
-  })
-  return res
+    const res = selectors.map((s) => {
+        return s
+            .replace(/\[(\w+)\]/g, '.$1')
+            .split('.')
+            .reduce((prev, cur) => {
+                return prev && prev[cur]
+            }, form)
+    })
+    return res
 }
 
 /**
@@ -29,14 +29,14 @@ export function getValue(form: any, ...selectors: string[]) {
  * @returns
  */
 export function debounce(fn: (args?: any) => void, delay: number) {
-  let timer: NodeJS.Timeout | null
-  return function(this: any, ...args: any) {
-    timer && clearTimeout(timer)
-    timer = null
-    timer = setTimeout(() => {
-      fn.apply(this, args)
-    }, delay)
-  }
+    let timer: NodeJS.Timeout | null
+    return function(this: any, ...args: any) {
+        timer && clearTimeout(timer)
+        timer = null
+        timer = setTimeout(() => {
+            fn.apply(this, args)
+        }, delay)
+    }
 }
 
 /**
@@ -44,24 +44,24 @@ export function debounce(fn: (args?: any) => void, delay: number) {
  * @returns {boolean}
  */
 export function checkIntersectionObserver(): boolean {
-  if (
-    inBrowser
-    && 'IntersectionObserver' in window
-    && 'IntersectionObserverEntry' in window
-    && 'intersectionRatio' in window.IntersectionObserverEntry.prototype
-  ) {
-    // Minimal polyfill for Edge 15's lack of `isIntersecting`
-    // See: https://github.com/w3c/IntersectionObserver/issues/211
-    if (!('isIntersecting' in window.IntersectionObserverEntry.prototype)) {
-      Object.defineProperty(window.IntersectionObserverEntry.prototype, 'isIntersecting', {
-        get() {
-          return this.intersectionRatio > 0
-        },
-      })
+    if (
+        inBrowser
+        && 'IntersectionObserver' in window
+        && 'IntersectionObserverEntry' in window
+        && 'intersectionRatio' in window.IntersectionObserverEntry.prototype
+    ) {
+        // Minimal polyfill for Edge 15's lack of `isIntersecting`
+        // See: https://github.com/w3c/IntersectionObserver/issues/211
+        if (!('isIntersecting' in window.IntersectionObserverEntry.prototype)) {
+            Object.defineProperty(window.IntersectionObserverEntry.prototype, 'isIntersecting', {
+                get() {
+                    return this.intersectionRatio > 0
+                },
+            })
+        }
+        return true
     }
-    return true
-  }
-  return false
+    return false
 }
 
 /**
@@ -71,7 +71,7 @@ export function checkIntersectionObserver(): boolean {
  * @returns {boolean}
  */
 export function isObject(val: any): boolean {
-  return typeof val === 'function' || toString.call(val) === '[object Object]'
+    return typeof val === 'function' || toString.call(val) === '[object Object]'
 }
 
 /**
@@ -81,7 +81,7 @@ export function isObject(val: any): boolean {
  * @returns {boolean}
  */
 export function isPrimitive(val: any): boolean {
-  return typeof val === 'object' ? val === null : typeof val !== 'function'
+    return typeof val === 'object' ? val === null : typeof val !== 'function'
 }
 
 /**
@@ -92,7 +92,7 @@ export function isPrimitive(val: any): boolean {
  * @returns {boolean}
  */
 export function isValidKey(key: any): boolean {
-  return key !== '__proto__' && key !== 'constructor' && key !== 'prototype'
+    return key !== '__proto__' && key !== 'constructor' && key !== 'prototype'
 }
 
 /**
@@ -108,21 +108,21 @@ export function isValidKey(key: any): boolean {
  * @returns
  */
 function assignSymbols(target: any, ...args: any[]) {
-  if (!isObject(target))
-    throw new TypeError('expected the first argument to be an object')
+    if (!isObject(target))
+        throw new TypeError('expected the first argument to be an object')
 
-  if (args.length === 0 || typeof Symbol !== 'function' || typeof getSymbols !== 'function')
-    return target
+    if (args.length === 0 || typeof Symbol !== 'function' || typeof getSymbols !== 'function')
+        return target
 
-  for (const arg of args) {
-    const names = getSymbols(arg)
+    for (const arg of args) {
+        const names = getSymbols(arg)
 
-    for (const key of names) {
-      if (isEnumerable.call(arg, key))
-        target[key] = arg[key]
+        for (const key of names) {
+            if (isEnumerable.call(arg, key))
+                target[key] = arg[key]
+        }
     }
-  }
-  return target
+    return target
 }
 
 /**
@@ -135,22 +135,22 @@ function assignSymbols(target: any, ...args: any[]) {
  * @returns
  */
 export function assign(target: any, ...args: any[]): void {
-  let i = 0
-  if (isPrimitive(target)) target = args[i++]
-  if (!target) target = {}
-  for (; i < args.length; i++) {
-    if (isObject(args[i])) {
-      for (const key of Object.keys(args[i])) {
-        if (isValidKey(key)) {
-          if (isObject(target[key]) && isObject(args[i][key]))
-            assign(target[key], args[i][key])
+    let i = 0
+    if (isPrimitive(target)) target = args[i++]
+    if (!target) target = {}
+    for (; i < args.length; i++) {
+        if (isObject(args[i])) {
+            for (const key of Object.keys(args[i])) {
+                if (isValidKey(key)) {
+                    if (isObject(target[key]) && isObject(args[i][key]))
+                        assign(target[key], args[i][key])
 
-          else
-            target[key] = args[i][key]
+                    else
+                        target[key] = args[i][key]
+                }
+            }
+            assignSymbols(target, args[i])
         }
-      }
-      assignSymbols(target, args[i])
     }
-  }
-  return target
+    return target
 }

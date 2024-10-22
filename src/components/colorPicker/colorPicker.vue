@@ -13,6 +13,7 @@
     solidColor: false,
     mode: 'hex',
     attr: 'stroke',
+    degree: 0,
     gradient: () => ({
       type: 'color',
       points: [

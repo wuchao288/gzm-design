@@ -1,18 +1,52 @@
 import {createDecorator} from '@/views/Editor/core/instantiation/instantiation'
-import {ILeafer, IPointData, IUI, IUIInputData} from "@leafer-ui/interface";
-import {App, ChildEvent, Frame, Leafer, PropertyEvent, ResizeEvent} from "leafer-ui";
+import {
+    ICanvasContext2D,
+    IGroup,
+    ILeafer, ILeaferCanvas,
+    IPointData,
+    IRenderOptions,
+    IUI,
+    IUIInputData,
+    IZoomType
+} from "@leafer-ui/interface";
+import {
+    App,
+    ChildEvent,
+    DropEvent,
+    Frame,
+    Leafer,
+    PropertyEvent,
+    ResizeEvent,
+    surfaceType,
+    DragEvent, Box,
+    version,
+} from "leafer-ui";
+import leaferConfig from "@/config/leaferConfig";
 import '@leafer-in/editor'
-import {IWorkspacesService, WorkspacesService} from "@/views/Editor/core/workspaces/workspacesService";
+import '@leafer-in/text-editor'
+import '@leafer-in/view'
+import '@leafer-in/state'
+import { ScrollBar } from '@leafer-in/scroll'
+import {Ruler} from 'leafer-x-ruler'
+import {IWorkspace, IWorkspacesService, WorkspacesService} from "@/views/Editor/core/workspaces/workspacesService";
 import {EventbusService, IEventbusService} from "@/views/Editor/core/eventbus/eventbusService";
+import {HierarchyService, IHierarchyService} from "@/views/Editor/core/layer/hierarchyService";
 import {typeUtil} from "@/views/Editor/utils/utils";
-import {useAppStore} from "@/store";
+import {addCustomFonts} from "@/utils/fonts/utils";
+import {useAppStore, useFontStore} from "@/store";
 import {EditTool} from "app";
 import {toFixed} from "@/utils/math";
+
 // 重写 proxyData，全局只需引入一次
 import './proxyData'
-import {EditorEvent} from "@leafer-in/editor";
+import './initAttr'
+import {EditorEvent,Editor} from "@leafer-in/editor";
 import {BOTTOM_CANVAS_NAME} from "@/views/Editor/utils/constants";
 import {v4 as uuidv4} from 'uuid'
+import { nanoid } from 'nanoid'
+import {PenDraw, SignaturePluginOptions} from "@/views/Editor/core/canvas/penDraw";
+import { forEach } from 'lodash';
+
 
 type ExtendedOption = {
     width: number
@@ -21,6 +55,7 @@ type ExtendedOption = {
 }
 
 type ObjectType =
+// 官方元素tag
     'UI'
     | 'App'
     | 'Leafer'
@@ -33,6 +68,11 @@ type ObjectType =
     | 'Canvas'
     | 'Text'
     | 'Pen'
+    | 'HTMLText'
+    // 自定义元素tag
+    | 'Image2'
+    | 'QrCode'
+    | 'BarCode'
 
 interface Page {
     children: any
@@ -78,6 +118,10 @@ export class MLeaferCanvas {
     private _app?: App
     // 内容层
     private _contentLayer?: ILeafer
+
+    // 标尺
+    public ruler: Ruler
+
     // 内容画板
     private _contentFrame: Frame
     // 操作选项
@@ -91,25 +135,81 @@ export class MLeaferCanvas {
      */
     public readonly ref = {
         zoom: ref(toFixed(this.getZoom(), 2)),
-        _children: computed(() => this.contentFrame.children),
+        _children: shallowRef<IUI[]>([]),
+        // 是否启用辅助线
+        enabledRuler: ref(true),
+        // 画笔配置
+        penDrawConfig: reactive<SignaturePluginOptions>({
+            type:'pen',
+            config:{
+                stroke:'red',
+                strokeWidth:2,
+            }
+        })
     }
 
     public backgroundColor?: string
 
-    // 是否启用辅助线
-    public enabledRuler: boolean = true
-
     constructor(
         @IWorkspacesService private readonly workspacesService: WorkspacesService,
         @IEventbusService private readonly eventbus: EventbusService,
+        @IHierarchyService private readonly hierarchyService: HierarchyService,
     ) {
         const app = new App({
             width: 800,
             height: 800,
-            editor: {},
+            editor: {
+                // point: { cornerRadius: 0 },
+                // middlePoint: {},
+                // rotatePoint: { width: 16, height: 16 },
+                // rect: { dashPattern: [3, 2] },
+                // buttonsDirection:'top',
+                buttonsFixed:true,
+                buttonsDirection:'top',
+                lockRatio: 'corner',
+                stroke: 'rgba(77, 124, 255, 1)',
+                strokeWidth:2,
+                skewable: false,
+                hover: true,
+                flipable:false,
+                resizeable:true,
+                mask:false,
+                rotateGap:15,
+                point:{ 
+                    
+                     stroke:'rgba(0, 0, 0, 0.5)',
+                     strokeWidth:1,
+                },
+                middlePoint: { 
+                     cornerRadius: 100,
+                     width: 20,
+                     height: 6,
+                     stroke:'rgba(0, 0, 0, 0.5)',
+                     strokeWidth:1,
+                },
+                rotatePoint: {
+                    width: 20,
+                    height: 20,
+                    stroke:'rgba(0, 0, 0, 0.5)',
+                    strokeWidth:1,
+                    fill: {
+                        type: 'image',
+                        url: "data:image/svg+xml;charset=utf-8,%3Csvg width='22' height='22' viewBox='0 0 22 22' fill='rgba(0, 0, 0, 0)' xmlns='http://www.w3.org/2000/svg'%3E %3Ccircle cx='11' cy='11' r='10' fill='white'/%3E %3Ccircle cx='11' cy='11' r='10.5' stroke='black' stroke-opacity='0.2'/%3E %3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9.66667 5.14868C6.99468 5.75499 5 8.14455 5 11C5 13.8555 6.99468 16.245 9.66667 16.8513V15.8203C7.55254 15.2368 6 13.2997 6 11C6 8.70032 7.55254 6.76325 9.66667 6.17975V5.14868ZM12.3333 15.8203C14.4475 15.2368 16 13.2997 16 11C16 8.70032 14.4475 6.76325 12.3333 6.17975V5.14868C15.0053 5.75499 17 8.14455 17 11C17 13.8555 15.0053 16.245 12.3333 16.8513V15.8203Z' fill='black'/%3E %3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9.16667 5.5H6.33333V4.5H10.1667V8.33333H9.16667V5.5Z' fill='black'/%3E %3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12.8333 16.5H15.6667V17.5H11.8333L11.8333 13.6667L12.8333 13.6667L12.8333 16.5Z' fill='black'/%3E %3C/svg%3E"//rotatePng,
+                    }
+                }
+            },
         })
-        this.wrapperEl = app.canvas.view
 
+
+
+
+        // 启用滚动条
+        // new ScrollBar(app)
+        this.wrapperEl = app.canvas.view
+        this.ruler = new Ruler(app,{
+            enabled: this.ref.enabledRuler.value,
+            theme:'light',
+        })
         const contentLayer = app.tree
         contentLayer.fill = 'transparent'
         // TODO 2023-11-10 等待修复Leafer的fill的功能后放开下面注释启用背景填充
@@ -117,13 +217,15 @@ export class MLeaferCanvas {
         //     type:'image',
         //     url:'https://www.toptal.com/designers/subtlepatterns/uploads/white_carbon.png'
         // }
-
         this._contentLayer = contentLayer
         this._app = app
         this.pageId = this.workspacesService.getCurrentId()
         this.initWorkspace()
         this.initPageEditor()
         this.initWatch()
+        useFontStore().initFonts().then(value => {
+            addCustomFonts(value)
+        })
     }
 
     private initWatch() {
@@ -136,6 +238,7 @@ export class MLeaferCanvas {
                 this.discardActiveObject()
             }
         })
+
     }
 
     // 工作区 | 页面管理
@@ -160,7 +263,7 @@ export class MLeaferCanvas {
             // 切换前保存当前工作区
             this.setPageJSON(oldId, this.contentFrame.toJSON())
             // page.scale = this.contentLayer.scale
-            this.contentFrame.removeAll(false)
+            this.contentFrame.clear()
         })
         this.eventbus.on('workspaceChangeAfter', ({newId}) => {
             // 切换后恢复当前工作区
@@ -168,17 +271,10 @@ export class MLeaferCanvas {
                 useAppStore().activeTool = 'select'
                 this.discardActiveObject()
                 const page = this.pages.get(newId)
-                this.setZoom(page?.scale)
-                // this.setZoom(1) // reset zoom so pan actions work as expected
-
                 this.pageId = newId
                 if (page) {
-                    // this.contentLayer.set(page)
                     this.importJsonToCurrentPage(page, true)
                 }
-                // this.zoomToInnerPoint(1)
-                // 由于_children数组改变了，需要执行调度器
-                this.childrenEffect()
             }
         })
         this.eventbus.on('workspaceChangeRefresh', ({newId}) => {
@@ -200,19 +296,24 @@ export class MLeaferCanvas {
             name: BOTTOM_CANVAS_NAME,
             width: this.contentLayer.width,
             height: this.contentLayer.height,
+            fill:[{
+                type:'solid',
+                color:'#ffffff'
+            }]
         })
         this.contentLayer.add(frame)
         this.contentFrame = frame
         this.setActiveObjectValue(this.contentFrame)
 
         this.app.editor.on(EditorEvent.SELECT, (arg: EditorEvent) => {
+            debugger
             this.setActiveObjectValue(arg.editor.element)
-
+            // this.ruler.forceRender()
         })
         // 子元素添加事件
         this.contentLayer.on(ChildEvent.ADD, (arg: ChildEvent) => {
             // this.selectObject(arg.target)
-            // this.childrenEffect()
+            this.childrenEffect()
         })
 
         // 子元素移除事件
@@ -232,10 +333,11 @@ export class MLeaferCanvas {
         let initFrameWH = true
         // resize事件
         this.contentLayer.on(ResizeEvent.RESIZE, (e2: ResizeEvent) => {
-            if (initFrameWH){
+            if (initFrameWH) {
                 // 第一次初始化画布时设置画布宽高为可视区域大小
-                this.contentFrame.width  = e2.width
-                this.contentFrame.height  = e2.height
+                this.contentFrame.width = e2.width
+                this.contentFrame.height = e2.height
+                this.app.tree.zoom('fit')
             }
             this.eventbus.emit('layoutResizeEvent', e2)
             initFrameWH = false
@@ -246,17 +348,11 @@ export class MLeaferCanvas {
     private setPageJSON(id: string, json: Partial<Page | IUIInputData | any>) {
         if (id === '') return
         this.pages.set(id, {
-            scale: <number>this.ref.zoom.value,
-            // viewportTransform: this.viewportTransform,
-            // backgroundColor: this.backgroundColor,
-            // name: this.get('name'),
             children: [],
             name: BOTTOM_CANVAS_NAME,
             id: id,
-            // ...this.pages.get(id),
             ...json,
         })
-        console.log('this.pages=', this.pages.get(id))
     }
 
     /**
@@ -276,11 +372,12 @@ export class MLeaferCanvas {
 
 
     public getCurrentPage(): Page {
-        // @ts-ignore
+        this.setPageJSON(this.workspacesService.getCurrentId(),this.contentFrame.toJSON())
         return this.pages.get(<string>this.pageId)
     }
 
     public getPages() {
+        this.setPageJSON(this.pageId,this.contentFrame.toJSON())
         return this.pages
     }
 
@@ -288,19 +385,17 @@ export class MLeaferCanvas {
         if (!object) {
             object = this.contentFrame
         }
+        if (this.objectIsTypes(object, 'QrCode')) {
+            this.app.editor.config.lockRatio = true
+        } else {
+            this.app.editor.config.lockRatio = false
+        }
         // setTimeout(()=>{
         this.activeObject.value = object
         // },200)
     }
 
     public setActiveObjects(objects: IUI[] | undefined) {
-        // if (objects){
-        //     this.selectObject(objects[0])
-        //     // TODO 处理元素多选（等待官方支持）
-        //     // for (let i = 0; i < objects.length; i++) {
-        //     //     this.selectObject(objects[i])
-        //     // }
-        // }
         this.app.editor.target = objects
     }
 
@@ -368,10 +463,32 @@ export class MLeaferCanvas {
      * @param _index 层级
      */
     public add(_child: IUI, _index?: number) {
-        this.contentFrame.add(_child, _index)
+        
+        if (this.objectIsTypes(_child,'Group','Box')){
+            this.bindDragDrop(_child)
+        }
+        if (!_child.zIndex){
+            const topLevel = this.hierarchyService.getTopLevel().zIndex;
+            _child.zIndex = topLevel + 1;
+        }
 
+        _child.id=nanoid()
+
+        this.contentFrame.add(_child, _index)
         // 选中提添加的元素
         this.selectObject(_child)
+        this.childrenEffect()
+    }
+
+    /**
+     * 添加元素
+     */
+    public addMany(..._children: IUI[]) {
+
+        _children.forEach((_child)=>{
+            _child.id=nanoid()
+        })
+        this.contentFrame.addMany(..._children)
         this.childrenEffect()
     }
 
@@ -380,8 +497,9 @@ export class MLeaferCanvas {
      * @param json
      */
     public reLoadFromJSON(json: Partial<Page | IUIInputData | any>) {
+      
         this.importJsonToCurrentPage(json, true)
-        this.setZoom(json.scale)
+        //this.setZoom(json.scale?json.scale:1)
     }
 
     /**
@@ -389,39 +507,86 @@ export class MLeaferCanvas {
      * @param json json
      * @param clearHistory 是否清除历史画布数据
      */
-    public importJsonToCurrentPage(json: any, clearHistory?: boolean) {
+    public  importJsonToCurrentPage(json: any, clearHistory?: boolean) {
         if (clearHistory) {
-            this.contentFrame.removeAll()
+            this.contentFrame.clear()
         }
-        console.log('json', json)
+
         if (json) {
+
             this.contentFrame.set(json)
+
             this.discardActiveObject()
-            this.childrenEffect()
+
             useAppStore().activeTool = 'select'
+
+            this.childrenEffect()
+
         }
+        this.zoomToFit()
     }
+
+    // /**
+    //  * 导入JSON（多页）
+    //  * @param pages 多页面json
+    //  * @param clearHistory 是否清除历史画布数据
+    //  */
+    // public importPages(pages: any, clearHistory?: boolean) {
+    //     if (clearHistory) {
+    //         this.contentFrame.clear()
+    //     }
+    //     console.log('pages', pages)
+    //     // TODO 多页面数据导入
+    // }
+
 
     /**
      * 导入JSON（多页）
+     * importPages
      * @param pages 多页面json
      * @param clearHistory 是否清除历史画布数据
      */
-    public importPages(pages: any, clearHistory?: boolean) {
-        if (clearHistory) {
-            this.contentFrame.removeAll()
+    public async importPages(json: any, clearHistory?: boolean) {
+        
+        if (!json) {
+            return Promise.reject(new Error('`json` is undefined'))
         }
-        console.log('pages', pages)
-        // TODO 多页面数据导入
+        if (clearHistory) {
+            this.contentFrame.clear()
+        }
+        const serialized = typeof json === 'string' ? JSON.parse(json) : json
+
+        const {
+            workspaces,
+            pages,
+        }: {
+            workspaces: IWorkspace[]
+            pages: {
+                id: string
+                children: IUI[]
+            }[]
+        } = serialized
+
+       
+
+        if (!workspaces || !pages || workspaces.length === 0 || pages.length === 0) {
+            return Promise.reject(new Error('`json` is not valid'))
+        }
+
+        this.workspacesService.clear()
+        this.pages.clear()
+
+        for (const { name, id } of workspaces) {
+            this.workspacesService.add(name, id)
+        }
+
+        for (const page of pages.reverse()) {
+            this.workspacesService.setCurrentId(page.id)
+            await this.reLoadFromJSON(page.children)
+        }
     }
 
     public getActiveObjects(): IUI[] {
-        // TODO 返回选中的多个元素（暂未实现多选功能）
-        // if (this.activeObject.value){
-        //     return [this.activeObject.value]
-        // }else {
-        //     return []
-        // }
         return this.app.editor.list
     }
 
@@ -429,19 +594,13 @@ export class MLeaferCanvas {
         return this.activeObject.value
     }
 
-    public zoomToInnerPoint(zoom: number) {
-        console.log('zoom=', zoom)
-        // const center = {x: this.contentLayer.x, y: this.contentLayer.y}
-        // // LeafHelper.zoomOfWorld(this.contentLayer, center, zoom)
-        // const innerPoint = this.contentLayer.getInnerPoint(center)
-        // this.contentLayer.scaleOf(innerPoint, zoom / this.contentLayer.scaleX)
+    public zoomToInnerPoint(zoom?: number) {
         this.ref.zoom.value = zoom
-
-        this.contentLayer?.interaction?.zoom({
-            x: this.contentLayer.x,
-            y: this.contentLayer.y,
-            scale: zoom / this.contentLayer.scaleX
-        })
+        this.app.tree.zoom(zoom)
+    }
+    public zoomToFit() {
+        this.app.tree.zoom('fit')
+        this.ref.zoom.value = <number>this.contentLayer.scale
     }
 
     public get children() {
@@ -465,15 +624,12 @@ export class MLeaferCanvas {
      * 执行调度器 更新_children值
      */
     public childrenEffect() {
-        if (this.ref._children.effect.scheduler) {
-            this.ref._children.effect.scheduler()
-        } else {
-            this.ref._children.effect.run()
-        }
+        this.ref._children.value = []
+        this.ref._children.value = this.contentFrame.children
     }
 
+
     public setZoom(scale: number | undefined) {
-        // TODO 处理初次切换页面时页面展示的缩放值不匹配的问题
         this.zoomToInnerPoint(<number>scale)
     }
 
@@ -505,5 +661,28 @@ export class MLeaferCanvas {
             return idsToFind.includes(item.innerId) ? 1 : 0
         })
         return objects
+    }
+
+    /**
+     * 绑定组的元素拖动放置事件
+     * @param group
+     */
+    public bindDragDrop(group: IUI){
+        const that = this
+        group.on(DragEvent.ENTER, function () {
+            DragEvent.setData({ data: 'drop data' })
+        })
+        group.on(DropEvent.DROP, function (e: DropEvent) {
+            e.list.forEach((leaf) => {
+                if (leaf.innerId !== group.innerId) {
+                    leaf.dropTo(group) // 放置元素到group中
+                }
+            })
+        })
+        group.on(DragEvent.OUT, function (e: DropEvent) {
+            if (that.objectIsTypes(e.current, 'Group')) {
+                e.target.dropTo(e.current.parent)
+            }
+        })
     }
 }

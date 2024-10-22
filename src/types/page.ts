@@ -1,4 +1,6 @@
 export interface PageParams {
   pageSize: number,
-  pageNum: number,
+  page: number,
+  cate: string,
+  search: string
 }

@@ -1,23 +1,28 @@
 <div align="center"> 
-<h2>Leafer Design</h2>
-<a href="./LICENSE"><img allt="MIT License" src="https://badgen.net/badge/license/MIT/blue"/></a>
-<a href="https://arco.design/vue" target="_blank"><img allt="MIT License" src="https://badgen.net/badge/arco-design/^2.53.3/green"/></a>
-<a href="https://vuejs.org" target="_blank"><img allt="MIT License" src="https://badgen.net/badge/vue/^3.3.9/green"/></a>
-<a href="https://vitejs.dev" target="_blank"><img allt="MIT License" src="https://badgen.net/badge/vite/^4.5.0/green"/></a>
+<h2>Gzm Design</h2>
+
+[![MIT License](https://img.shields.io/badge/license-MIT-brightgreen)](./LICENSE)
+[![Arco Design](https://img.shields.io/badge/arco--design-^2.53.3-brightgreen)](https://arco.design/vue)
+[![Vue](https://img.shields.io/badge/vue-^3.3.10-brightgreen)](https://vuejs.org)
+[![Vite](https://img.shields.io/badge/vite-^4.5.1-brightgreen)](https://vitejs.dev)
+
+[![GitHub Repo stars](https://img.shields.io/github/stars/LvHuaiSheng/gzm-design?logo=github)](https://github.com/LvHuaiSheng/gzm-design)
+[![Gitee Repo stars](https://gitee.com/sourcenet/gzm-design/badge/star.svg?theme=dark)](https://gitee.com/sourcenet/gzm-design)
 </div>
 
 ## 简介
 
-Leafer Design 是一个免费开源的海报设计器。使用了最新的`vue3`,`vite4`,`TypeScript`等主流技术开发，开箱即用。
-
-## 预览
-
-- 地址1：<a href="http://gzm-design.guozimi.cn/" target="_blank">gzm-design</a>
-- 备用地址：<a href="http://gzm-design.sourcenet.cc/" target="_blank">gzm-design</a>
+Gzm Design是一个免费开源的海报设计器。使用了最新的`vue3`,`vite4`,`TypeScript`等主流技术开发，开箱即用。
 
 ## 文档
+- 预览地址：<a href="http://gzm-design-doc.guozimi.cn/" target="_blank">文档预览</a>
 
-编写中
+## 预览
+- 地址1：<a href="http://gzm-design.guozimi.cn/#/editor" target="_blank">gzm-design</a>
+- 备用地址：<a href="http://gzm-design.sourcenet.cc/#/editor" target="_blank">gzm-design</a>
+
+![image](http://ossc.guozimi.cn/gzm-design/bg-min.png)
+
 
 ## 功能/计划
 
@@ -30,13 +35,13 @@ Tips: 🕙筹划中 🔲筹备中 🚧进行中 ✅已完成
     - ✅ 层级处理
     - ✅ 图片解析
     - ✅ 剪切蒙版
-      - ✅ 单层蒙版
-      - 🔲 连续多层蒙版
+        - ✅ 单层蒙版
+        - ✅ 连续多层蒙版
     - ✅ 文字解析
-      - ✅ 普通文本
-      - 🚧 富文本
-      - 🚧 效果/特效处理
-    - 🚧 字体加载
+        - ✅ 普通文本
+        - ✅ 富文本
+        - 🕙 效果/特效处理
+    - ✅ 字体加载
     - 🕙 智能对象
 - ✅ JSON导入
 - ✅ 多页面支持
@@ -46,12 +51,12 @@ Tips: 🕙筹划中 🔲筹备中 🚧进行中 ✅已完成
 - ✅ 标尺工具
 - ✅ 钢笔工具
     - ✅ 默认画笔样式
-    - 🚧 自定义画笔样式
+    - ✅ 自定义画笔样式
 - ✅ 元素编辑
 - ✅ 预览
 - ✅ 文件下载（JSON / PNG / JPG / WEBP）
-  - ✅ 整个画布导出
-  - 🔲 指定元素导出
+    - ✅ 整个画布导出
+    - ✅ 指定元素导出
 - ✅ 画布缩放、拖动模式
 - ✅ 边框描边（纯色、线性渐变、径向渐变、图片）
 - ✅ 填充（纯色、线性渐变、径向渐变、图片）
@@ -61,26 +66,33 @@ Tips: 🕙筹划中 🔲筹备中 🚧进行中 ✅已完成
 - ✅ 多元素打组、拆分组
 - ✅ 画布尺寸修改、多背景填充
 - ✅ 元素超出组裁剪/显示
-- 🚧 跨组拖拽（拖入、拖出）
-- 🔲 遮罩功能
-- 🔲 组内蒙版
-- 🔲 组内擦除功能
-- 🔲 外阴影、内阴影
-- 🚧 撤销、恢复功能
+- ✅ 富文本支持
+- ✅ 组内放置（拖入）
+- ✅ 遮罩功能
+- ✅ 组内蒙版
+- ✅ 组内擦除功能
+- ✅ 外阴影、内阴影
+- ✅ 撤销、恢复功能
 - 🔲 图片裁剪
 - 🔲 图片滤镜
 - 🕙 SDK封装
-- 🚧 PSD导入插件化封装
+- 🕙 PSD导入插件化封装
 - 🕙 针对标尺线、元素的自动吸附功能
-- 🕙 二维码工具
+- ✅ 二维码工具
+- ✅ 条形码码工具
 - 🕙 AI抠图
 - 🕙 AI图生图、自动补全
+- ✅ 标尺线npm包封装
 
 ## 安装使用
 
 - 获取项目代码
 
 ```bash
+# GitHub
+git clone https://github.com/LvHuaiSheng/gzm-design.git
+
+# Gitee
 git clone https://gitee.com/sourcenet/gzm-design.git
 ```
 
@@ -108,12 +120,16 @@ pnpm build
 
 [CHANGELOG](./CHANGELOG.md)
 
-
 ## 捐赠
 
 如果觉得还不错，请作者喝杯咖啡吧 ☺
 
-<img src="https://n-oss.guozimi.cn/sfk.png" width="500">
+<img src="https://ossc.guozimi.cn/sfk.png" width="450px">
+
+## 微信交流群
+
+<img src="http://ossc.guozimi.cn/gzm-design/wx-group2-min.jpg" width="150px">
+<img src="https://ossc.guozimi.cn/wxhy.png" width="150px">
 
 ## 如何贡献
 
@@ -148,10 +164,28 @@ Request。
 
 ## 致谢
 
+特别感谢以下项目和贡献者：
+
 - <a href="https://github.com/liumingye/fabric" target="_blank">liumingye/fabric</a> 一款基于fabirc的高性能编辑器。
 - <a href="https://github.com/palxiao/poster-design" target="_blank">poster-design</a> 一款基于dom的在线海报图片设计器。
 - <a href="https://github.com/nihaojob/vue-fabric-editor" target="_blank">vue-fabric-editor</a> 一款基于fabric.js和Vue的图片编辑器。
 - <a href="https://github.com/wordshub/free-font" target="_blank">free-font</a> 可商用免费字体收录汇总
+
+
+<a href="https://github.com/LvHuaiSheng/gzm-design/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=LvHuaiSheng/gzm-design" />
+</a>
+
+
+### 友情赞助商
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 150px)); gap: 25px;padding: 20px 20px 0 20px">
+  <div>
+    <a href="https://pro.kuaitu.cc/" target="_blank">
+      <img src="http://gzm-design-doc.guozimi.cn/sponsors/kt.png" alt="Sponsor 1 Logo" width="150" height="auto">
+    </a>
+  </div>
+</div>
 
 ## 开源协议
 

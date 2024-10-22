@@ -1,6 +1,6 @@
 <template>
   <div ref="pickerAreaRef" class="spectrum-map" :style="pickerStyle">
-    <div class="spectrum"></div>
+    <div class="spectrum" @click="spectrumClick"></div>
     <div class="picker-cursor" :style="pointerStyle"></div>
   </div>
 </template>
@@ -8,7 +8,7 @@
 <script lang="ts" setup>
   import { ref, reactive, onMounted, computed } from 'vue'
   import { clamp, isDefined, usePointerSwipe } from '@vueuse/core'
-  import {Color} from '@/utils/color/color'
+  import { Color, HSVA } from '@/utils/color/color'
 
   const props = defineProps<{
     red: number
@@ -45,11 +45,10 @@
   })
 
   const pickerStyle = computed(() => {
-      const color = new Color(`hsva(${props.hue},1,1,1)`)
-    // const color = new Color(new HSVA(props.hue, 1, 1, 1))
-    // const { r, g, b } = color.rgba
+    const color = new Color(new HSVA(props.hue, 1, 1, 1))
+    const { r, g, b } = color.rgba
     return {
-      backgroundColor: color.rgb,
+      backgroundColor: `rgb(${r}, ${g}, ${b})`,
     }
   })
 
@@ -68,15 +67,16 @@
     let y = clamp(posEnd.y - rect.y, 0, state.height)
     const saturation = x / state.width
     const value = 1 - y / state.height
-      const color = new Color(`hsva(${props.hue},${saturation},${value},${props.alpha})`)
-    // const color = new Color(new HSVA(props.hue, saturation, value, props.alpha))
+    const color = new Color(new HSVA(props.hue, saturation, value, props.alpha))
     return {
-      ...color.getRgba(),
+      ...color.rgba,
       saturation,
       value,
     }
   }
-
+  const spectrumClick = (obj: any) => {
+      props.updateColor(getColor(), "onChange")
+  }
   const { posEnd } = usePointerSwipe(pickerAreaRef, {
     threshold: 0,
     onSwipeStart() {

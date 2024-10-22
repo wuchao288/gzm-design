@@ -75,6 +75,15 @@ export const layerItems = (): MenuItem[] => {
         keybinding.trigger('mod+shift+l')
       },
       shortcut: `${mod} ⇧ L`,
+      divided: true,
+    },
+    {
+      label: `另存为PNG${canvas.getActiveObjects().length !== 1?'(需先合并为组)':''}`,
+      disabled: canvas.getActiveObjects().length !== 1,
+      onClick: () => {
+        keybinding.trigger('mod+shift+k')
+      },
+      shortcut: `${mod} ⇧ K`,
     },
   ]
 }

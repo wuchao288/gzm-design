@@ -1,5 +1,5 @@
 <template>
-    <div id="text-list-wrap" style="margin-top: 0.5rem">
+    <div  style="margin-top: 0.5rem">
         <div class="basic-text-wrap">
             <div class="color__box">
                 <div v-for="c in colors" :key="c" :style="{ background: c }" class="color__item" @click="setBGcolor(c)"></div>
@@ -79,7 +79,7 @@ const config= {
 const colors =  ['#000000ff', '#999999ff', '#CCCCCCff', '#FFFFFFff', '#E65353ff', '#FFD835ff', '#70BC59ff', '#607AF4ff', '#976BEEff']
 
 
-const setBGcolor = (color) => {
+const setBGcolor = (color:string) => {
     fillArray.value.push({
         type: 'solid',
         color: color,
@@ -95,15 +95,16 @@ const setBgImage = (item: any) => {
 }
 const { page } = usePageMixin()
 page.pageSize = 30
+page.cate=40016
 const fetchData = () => {
     queryBgImgMaterialList(page).then(res => {
         if (res.success) {
-            const newDataList = res.data.records
+            const newDataList = res.response.list
             if (newDataList.length > 0) {
                 page.dataList.push(...newDataList)
-                page.pageNum += 1
+                page.page += 1
             }
-            if (page.dataList.length >= res.data.total) {
+            if (page.dataList.length >= res.response.total) {
                 page.noMore = true
             } else {
                 page.noMore = false

@@ -12,8 +12,11 @@ import 'virtual:svg-icons-register'
 import './style.less'
 import './mock';
 import '@/utils/request';
+import '@/assets/iconfont/iconfont.css'
 // 额外引入图标库
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
+import IconFontPlugin from './plugins/iconFontPlugin';
+
 import {createCore} from '@/views/Editor/core'
 const core = createCore()
 import { myPlugin } from '@/views/testPlugin'
@@ -24,4 +27,5 @@ app.use(router)
 app.use(ArcoVue);
 app.use(core)
 app.use(ArcoVueIcon);
+app.use(IconFontPlugin);
 app.mount('#app')

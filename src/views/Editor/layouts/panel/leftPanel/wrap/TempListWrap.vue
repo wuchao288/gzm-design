@@ -1,13 +1,21 @@
 <template>
     <div class="wrap">
-        <search-header :cateList="cateList" v-model="keyword" @changeCate="changeCate" @search="onSearch"/>
+        <search-header
+         :cateList="cateList"
+         :currentCate="currentCate"
+          
+           @changeCate="changeCate"
+           :search-placeholder="searchPlaceholder"
+            @search="onSearch"/>
+        <a-divider style="margin-bottom: 0px;margin-top: 16px;" />
         <div class="temp-wrap">
-            <comp-list-wrap @fetchData="fetchData" :data="page.dataList" :config="config" :noMore="page.noMore" max-height="calc(100vh - 115px)">
+           
+            <comp-list-wrap @fetchData="fetchData" :data="page.dataList" :config="config" :noMore="page.noMore" max-height="calc(100vh - 145px)">
                 <template #item="{ item, url, index }">
-                    <a-card hoverable @click="handleClick(item)" class="cursor-pointer drop-shadow" :body-style="{ padding: '0px' }">
+                    <a-card hoverable @click="handleClick(item)" :bordered="false" :body-style="{ padding: '0px',cursor:'pointer' }">
                         <div class="">
                             <div class="tags">
-                                <div class="tag">免费</div>
+                                <div class="tag">VIP</div>
 <!--                                <div>ag</div>-->
                             </div>
                             <LazyImg :url="url" class="img" />
@@ -30,39 +38,78 @@ import searchHeader from "@/components/editorModules/searchHeader.vue";
 const config= {
     imgSelector:'cover',
 }
-
+import {
+    IUI
+} from "@leafer-ui/interface";
+import {IWorkspace, IWorkspacesService, WorkspacesService} from "@/views/Editor/core/workspaces/workspacesService";
 import {useEditor} from "@/views/Editor/app";
 import {Group,Image} from "leafer-ui";
 const {editor} = useEditor()
 import {getDefaultName} from "@/views/Editor/utils/utils";
 import CompListWrap from "@/views/Editor/layouts/panel/leftPanel/wrap/CompListWrap.vue";
 import usePageMixin from "@/views/Editor/layouts/panel/leftPanel/wrap/mixins/pageMixin";
-import {queryTemplateList} from "@/api/editor/materials";
-const keyword = ref();
-const cateList = reactive([
-    {label:'全部',value:'-1'},
-    {label:'风景图片',value:'1111'},
-    {label:'插画图片',value:'1111'},
-]);
-const changeCate = (e) => {
-    console.log('e=',e)
-}
-const onSearch = (value,ev) => {
-    console.log('value=',value)
-    console.log('keyword=',keyword.value)
-    console.log('ev=',ev)
-}
+import {queryTemplateList,queryTemplateTextCateList,queryTemplateTextOne} from "@/api/editor/materials";
+import { title } from 'process';
+const keyword = ref("");
+
+let searchPlaceholder=ref('搜索')
+
+const currentCate=ref({value:"order-desc",label:'最新上线'})
+
+const cateList = reactive([]);
+
 const { page } = usePageMixin()
+
 page.pageSize = 20
+page.cate=currentCate.value.value
+page.search=keyword.value
+page.type="0"
+
+queryTemplateTextCateList({type:1}).then((res)=>{
+
+    res.response.map(m=>cateList.push({value:m.id,label:m.name}))
+});
+
+
+const changeCate = (e:any) => {
+   
+    
+    currentCate.value=e
+    page.cate=currentCate.value.value
+    page.search=keyword.value
+    page.page=1
+    page.dataList=[]
+    fetchData()
+}
+
+watch(()=>currentCate.value,()=>{
+    searchPlaceholder.value=currentCate.value?`在${currentCate.value.label}中搜索`:'搜索'
+},{deep:true})
+
+const onSearch = (value:any,ev:any) => {
+    
+    keyword.value=value
+    page.cate=currentCate.value.value
+    page.search=keyword.value
+    page.page=1
+    page.dataList=[]
+    fetchData()
+}
+
+
+
+
 const fetchData = () => {
-    queryTemplateList(page).then(res =>{
+  debugger
+    queryTemplateList(page).then((res:any) =>{
+
         if (res.success) {
-            const newDataList = res.data.records
+            const newDataList = res.response.list
             if (newDataList.length > 0) {
                 page.dataList.push(...newDataList)
-                page.pageNum += 1
+                page.page += 1
             }
-            if (page.dataList.length >= res.data.total) {
+            if (page.dataList.length >= res.response.total) {
                 page.noMore = true
             } else {
                 page.noMore = false
@@ -70,14 +117,47 @@ const fetchData = () => {
         }
     })
 }
-const handleClick = (item) => {
-    editor.importJsonToCurrentPage(item.json,true)
+const handleClick =async (item:any) => {
+
+    const resjson= await queryTemplateTextOne({type:0,id:item.id})
+
+    const jsonData = typeof resjson.response.data === 'string' ? JSON.parse(resjson.response.data) : resjson.response.data
+
+    if(Array.isArray(jsonData)){
+
+        let json:{
+            workspaces: IWorkspace[]
+            pages: {
+                id: string
+                children: IUI[]
+            }[]
+        }={
+            workspaces:[],
+            pages: []
+        }
+        
+        for (let index = 0; index < jsonData.length; index++) {
+            const pageItem = jsonData[index];
+            json.workspaces.push({id:pageItem.id,name:item.title,cover:item.cover})
+            json.pages.push({ id:pageItem.id,children:pageItem})
+        }
+         await   editor.importPages(json,true)
+
+    }else{
+
+        editor.importJsonToCurrentPage(jsonData,true)
+
+    }
+    
 }
+
+fetchData()
 </script>
 
 <style lang="less" scoped>
-.search__wrap {
-    padding: 1.4rem 1rem 0.8rem 0rem;
+.temp-wrap{
+    padding: 0px;
+    padding-top: 8px;
 }
 .temp-wrap .tags{
   .tag{

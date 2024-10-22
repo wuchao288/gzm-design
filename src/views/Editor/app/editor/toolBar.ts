@@ -99,9 +99,6 @@ export class ToolBar extends Disposable {
      */
     private setSelect() {
         this.penDraw.stop()
-        // this.canvas.app.config.move!.dragEmpty = false
-        // this.canvas.contentLayer.hitChildren = true
-        // this.canvas.contentFrame.hitChildren = true
         this.canvas.app.config.move.drag = false
         this.canvas.app.tree.hittable = true
         this.canvas.app.editor.hittable = true
@@ -167,6 +164,9 @@ export class ToolBar extends Disposable {
                     // this.canvas.requestRenderAll()
                 }
             },
+        })
+        this.keybinding.bind('shift+r', () => {
+            this.canvas.ruler.enabled = this.canvas.ref.enabledRuler.value = !this.canvas.ref.enabledRuler.value
         })
     }
 }

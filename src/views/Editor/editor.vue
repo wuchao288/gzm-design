@@ -58,7 +58,7 @@ onBeforeUnmount(() => {
 <style lang="less" scoped>
 @import "./styles/layouts";
 .editor-box{
-  height: calc(100vh - @contentLayoutPadding*2);
+  height: calc(100vh - 60px);
 }
 .dea-main-container {
     background-color: #f1f2f4;

@@ -89,19 +89,3 @@ export function findChildrenMinXY(array: any[]): { minX: number, minY: number } 
     return { minX, minY };
 }
 
-
-/**
- * 水平翻转
- * @param obj
- */
-export function flipHorizontally(obj:any){
-    obj.scaleX = -obj.scaleX;
-}
-
-/**
- * 垂直翻转
- * @param obj
- */
-export function flipVertically(obj: any){
-    obj.scaleY = -obj.scaleY;
-}

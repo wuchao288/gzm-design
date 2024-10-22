@@ -7,70 +7,126 @@
 -->
 <template>
     <div class="search__wrap">
-        <a-input-group>
-            <a-dropdown v-if="cateList && cateList.length>0" placement="bottom-start">
-                <div class="search__type">
-                    <icon-menu/>
-                </div>
-                <template #content>
-                    <a-doption v-for="(item,index) in cateList" :key="index"
-                               @click.stop="action('changeCate', item, index)">
-                        <span :class="['cate__text', { 'cate--select': + currentIndex === index }]">{{
-                            item.label
-                            }}</span>
-                    </a-doption>
-                </template>
-            </a-dropdown>
-            <a-input-search v-model="searchValue" placeholder="输入关键词搜索" @search="onSearch"/>
-        </a-input-group>
+      <a-space  direction="vertical">
+           <a-input class="arco-radius" size="large" :button-text="''"
+           :placeholder="props.searchPlaceholder" 
+           @change="onSearch"
+           >
+          
+           <template #prefix>
+            <icon-search />
+          </template>
+
+          </a-input>
+           
+      <a-space direction="horizontal">
+           <a-button class="arco-radius" 
+           @click="toggleNew" 
+           :type="state.isNewList?'primary':'secondary'"
+            style="margin-right: 10px;">
+              最新上线
+           </a-button>
+      
+           <a-dropdown :disabled="state.popupVisible"  :popup-max-height="false">
+              
+              <a-button class="arco-radius" @click.stop="clickCate" :type="state.isNewList==false?'primary':'secondary'">
+                <span class="current-cate">{{state.currentCate}}</span>
+                <icon-down/>
+              </a-button>
+              
+              <template #content>
+                  <a-doption style="min-width: 80px;;" v-for="(item,index) in state.cateList" :key="index"
+                              @click.stop="state.isNewList=false;action('changeCate', item, index)">
+                              <span :class="['cate__text', { 'cate--select': + state.currentIndex === index }]">{{
+                              item.label
+                          }}</span>
+                  </a-doption>
+              </template>
+          </a-dropdown>
+        </a-space>
+      </a-space>
     </div>
 </template>
-<script lang="ts">
-import {defineComponent, reactive, toRefs, watch} from 'vue'
-import {useRoute} from 'vue-router'
+<script lang="ts" setup >
+import {reactive, toRefs, watch} from 'vue'
 
-export default defineComponent({
-    props: ['cateList', 'modelValue'],
-    emits: ['update:modelValue', 'search', 'changeCate'],
-    setup(props, context) {
 
-        const route = useRoute()
-        const state: any = reactive({
-            searchValue: '',
-            materialCates: [],
-            currentIndex: 0,
-        })
 
-        if (props.cateList) {
-            state.cateList = props.cateList
-            //   const { cate } = route.query
-            //   cate && (state.currentIndex = cate)
-            //   cate && action('change', state.materialCates[Number(cate)], Number(cate))
-        }
+  const  props=defineProps(['cateList', 'modelValue','searchPlaceholder','currentCate'])
+  const  emit=defineEmits(['update:modelValue', 'search', 'changeCate'])
 
-        watch(
-            () => state.searchValue,
-            () => {
-                context.emit('update:modelValue', state.searchValue)
-            },
-        )
+  const state: any = reactive({
+      searchValue: '',
+      currentIndex: -1,
+      currentCate:props.currentCate,
+      isNewList:true,
+      popupVisible:false
+  })
 
-        function action(fn: string, item: any, currentIndex: number | string) {
-            state.currentIndex = currentIndex
-            context.emit(fn, item, currentIndex)
-        }
+  if (props.cateList) {
+      state.cateList = props.cateList
+      state.currentCate=state.cateList.length>0?state.cateList[0].label:"分类"
+  }
 
-        function onSearch(value: string, ev: MouseEvent) {
-            context.emit('search', value, ev)
-        }
+  watch(
+      () => state.searchValue,
+      () => {
+        emit('update:modelValue', state.searchValue)
+      },
+  )
 
-        return {
-            ...toRefs(state),
-            action,
-            onSearch,
-        }
-    },
-})
+
+  // watch(
+  //     () =>[state.currentCate,state.isNewList],
+  //     () => {
+  //       state.searchPlaceholder=state.currentCate&&state.isNewList==false?`在${state.currentCate}中搜索模板`:'搜索模板'
+  //     },
+  // )
+
+  const  clickCate=(event:MouseEvent)=>{
+    //debugger
+      if(state.currentIndex>-1&&state.isNewList==true){
+
+        state.popupVisible=true
+
+         
+         emit("changeCate",state.cateList[state.currentIndex],state.currentIndex)
+         
+         requestAnimationFrame(function(){
+             state.popupVisible=false
+         })
+
+      }else{
+
+        state.popupVisible=false
+
+      }
+
+      state.isNewList=false
+  }
+
+  const toggleNew=()=>{
+      state.isNewList=true
+      state.popupVisible=true
+      emit("changeCate",{label:'最新上架',value:'order-desc'},-1)
+  }
+
+  function action(fn: 'update:modelValue'|'search'|'changeCate', item: any, currentIndex: number | string) {
+      state.currentIndex = currentIndex
+      state.currentCate=state.cateList.length>0?state.cateList[currentIndex].label:"分类"
+      emit(fn, item, currentIndex)
+  }
+
+  function onSearch(value: string, ev: Event) {
+      emit('search', value, ev)
+  }
+
+  defineExpose({
+      ...toRefs(state),
+      action,
+      onSearch,
+  })
+
 </script>
 
 <style lang="less" scoped>
@@ -79,10 +135,13 @@ export default defineComponent({
 }
 
 .search__wrap {
-  padding: 16px 1rem 0rem 0rem;
+  padding: 16px 16px 0rem 16px;
   display: flex;
   cursor: pointer;
   justify-content: center;
+  div{
+     flex: 1;
+  }
 }
 
 .search {
@@ -117,5 +176,10 @@ export default defineComponent({
   &--select {
     color: rgb(var(--primary-6));
   }
+}
+
+.current-cate{
+  margin-right: 10px;
+  display: inline-block;
 }
 </style>

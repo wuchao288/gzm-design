@@ -164,12 +164,14 @@ export interface GradientColorPoint {
 }
 
 export interface GradientColors {
+  type: 'linear' | 'radial';
   points: GradientColorPoint[];
   degree: number;
 }
 
 const REGEXP_LIB = generateRegExp();
 const REG_GRADIENT = /.*gradient\s*\(((?:\([^)]*\)|[^)(]*)*)\)/gim;
+const REG_GRADIENT_LINEAR = /.linear-gradient\s*\(((?:\([^)]*\)|[^)(]*)*)\)/gim;
 
 /**
  * 验证是否是渐变字符串
@@ -179,6 +181,15 @@ const REG_GRADIENT = /.*gradient\s*\(((?:\([^)]*\)|[^)(]*)*)\)/gim;
 export const isGradientColor = (input: string): null | RegExpExecArray => {
   REG_GRADIENT.lastIndex = 0;
   return REG_GRADIENT.exec(input);
+};
+/**
+ * 验证是否是线性渐变字符串
+ * @param input
+ * @returns
+ */
+export const isGradientLinearColor = (input: string): null | RegExpExecArray => {
+    REG_GRADIENT_LINEAR.lastIndex = 0;
+  return REG_GRADIENT_LINEAR.exec(input);
 };
 
 // 边界字符串和角度关系
@@ -207,7 +218,9 @@ export const parseGradientString = (input: string): GradientColors | boolean => 
   if (!match) {
     return false;
   }
+
   const gradientColors: GradientColors = {
+    type: isGradientLinearColor(input)?'linear':'radial',
     points: [],
     degree: 0,
   };

@@ -5,7 +5,7 @@
                 <div class="page-view " v-for="(item,index) in workspacesData"
                      @click="onSelect(item)"
                      @contextmenu.stop="openContextMenu($event,item)"
-                     :class="{'page-selected':workspaces.getCurrentId() === item.key}"
+                     :class="{'page-selected':workspaces.getCurrentId() === item.id}"
                      :key="index">
                     <a-avatar class="page-ava" :size="30" shape="square">{{ index + 1 }}</a-avatar>
                 </div>
@@ -16,29 +16,38 @@
             </a-space>
         </div>
     </a-layout-footer>
+    <div style="background: #f1f2f4;display: none;"  >
+        <div class="flex justify-center flex-items-center p-b-5px" style="color: var(--color-text-2)">
+            <span>本网站由</span>
+            <a-link :hoverable="false" target="_blank"
+                    href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral">
+                <img class="h-28px m-l-4px m-r-4px" src="@/assets/images/又拍云_logo5.png">
+            </a-link>
+            <span>提供CDN加速/云存储服务</span>
+        </div>
+    </div>
 </template>
 <script setup lang="ts">
 import {useEditor} from "@/views/Editor/app";
 import ContextMenu from '@/components/contextMenu'
 
 const {canvas, workspaces, event} = useEditor()
+import {IWorkspace} from '@/views/Editor/core/workspaces/workspacesService'
 
 const pages = computed(() => {
     return canvas.getPages()
 })
 const addOnClick = () => {
     workspaces.setCurrentId(workspaces.add(`${(pages.value.size + 1)}`))
-    canvas.setZoom(1)
+    canvas.zoomToFit()
 }
-const workspacesData = ref([])
+const workspacesData = ref<IWorkspace[]>([])
 const updateWorkspaces = () => {
-    workspacesData.value = workspaces.all().map((workspace) => {
-        return {
-            key: workspace.id,
-            title: workspace.name,
-            cover: workspace.cover,
-        }
-    })
+    workspacesData.value = workspaces.all().map((workspace) => ({
+        id: workspace.id,
+        name: workspace.name,
+        cover: workspace.cover
+    }));
 }
 
 updateWorkspaces()
@@ -53,8 +62,8 @@ onUnmounted(() => {
     event.off('workspaceRemoveAfter', updateWorkspaces)
 })
 
-const onSelect = (item) => {
-    workspaces.setCurrentId(item.key.toString())
+const onSelect = (item: IWorkspace) => {
+    workspaces.setCurrentId(item.id.toString())
 }
 
 const openContextMenu = (e: MouseEvent, node: any) => {
@@ -67,22 +76,22 @@ const openContextMenu = (e: MouseEvent, node: any) => {
             {
                 label: '复制',
                 onClick: async () => {
-                    if (!node.key) return
-                    const workspace = workspaces.get(node.key.toString())
+                    if (!node.id) return
+                    const workspace = workspaces.get(node.id.toString())
                     if (!workspace) return
                     const id = workspaces.add(`${(pages.value.size + 1)}`)
                     workspaces.setCurrentId(id)
                     // 循序不能变， getPageJSON必须在setCurrentId之后执行，否则要复制的页面数据可能还未保存
-                    const json = canvas.getPageJSON(node.key)
+                    const json = canvas.getPageJSON(node.id)
                     canvas.reLoadFromJSON(json)
                 },
             },
             {
                 label: '删除',
-                disabled: workspaces.size() <= 1 || node.key === workspaces.getCurrentId(),
+                disabled: workspaces.size() <= 1 || node.id === workspaces.getCurrentId(),
                 onClick: () => {
-                    if (!node.key) return
-                    workspaces.remove(node.key.toString())
+                    if (!node.id) return
+                    workspaces.remove(node.id.toString())
                 },
                 // divided: true,
             },
@@ -102,7 +111,7 @@ const openContextMenu = (e: MouseEvent, node: any) => {
 
 .dea-footer-page {
   background-color: #f1f2f4;
-  padding: 10px 20px 10px 20px;
+  padding: 10px @contentLayoutPadding 10px @contentLayoutPadding;
   height: @footerBoxHeight;
   overflow: auto;
 

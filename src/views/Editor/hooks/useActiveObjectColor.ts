@@ -5,7 +5,7 @@ import { IMLeaferCanvas } from '@/views/Editor/core/canvas/mLeaferCanvas'
 import ColorPicker from '@/components/colorPicker'
 import { Fn, tryOnScopeDispose } from '@vueuse/core'
 import {typeUtil} from "@/views/Editor/utils/utils";
-import Color from "@/utils/color/color";
+import GColor from "@/utils/color/g-color";
 import NP from 'number-precision'
 import {replaceElementToNewArr} from "@/utils/utils";
 
@@ -86,7 +86,7 @@ export function useColor(
     const colorVal = color.value[index]
     let text = ''
     if (isString(colorVal) || colorVal.type==='solid') {
-      const fabricColor = new Color(colorVal.color)
+      const fabricColor = new GColor(colorVal.color)
       text = fabricColor.hex.toUpperCase()
     } else if (typeUtil.isGradient(colorVal)) {
       text = colorVal.type === 'linear' ? '线性渐变' : '径向渐变'
@@ -141,17 +141,18 @@ export function useColor(
      */
     changeOpacity(value: number | undefined) {
       if (!isString(color.value) || !isDefined(value)) return
-      const fabricColor = new Color(color.value)
+      const fabricColor = new GColor(color.value)
       fabricColor.alpha = NP.divide(value, 100)
       option.onChange(fabricColor.rgba)
     },
     /** 更改颜色 */
     changeColor(value: string) {
+      debugger
       value = value.replace(/^#/, '')
       if (value.length < 6) {
         value = padHexColor(value)
       }
-      const fabricColor = new Color(value)
+      const fabricColor = new GColor(value)
       // fabricColor.alpha = NP.divide(opacity.value || 100, 100)
       option.onChange(fabricColor.rgba)
     },

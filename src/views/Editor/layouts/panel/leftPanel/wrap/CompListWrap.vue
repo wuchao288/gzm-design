@@ -47,7 +47,7 @@ const waterfallOptions = {
     // 唯一key值
     rowKey: 'id',
     // 卡片之间的间隙
-    gutter: 2,
+    gutter: 10,
     // 是否有周围的gutter
     hasAroundGutter: true,
     // 卡片在PC上的宽度
@@ -87,7 +87,7 @@ const waterfallOptions = {
     // 是否懒加载
     lazyload: true
 }
-import imageData from '@/assets/data/imageData.json'
+
 import {computed} from "vue";
 
 const current = ref(1);
@@ -113,7 +113,6 @@ const config = computed(() => {
 const emits = defineEmits(['fetchData'])
 const fetchData = () => {
     emits('fetchData')
-    console.log('reach bottom!');
 }
 </script>
 

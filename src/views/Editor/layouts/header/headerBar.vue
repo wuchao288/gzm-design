@@ -1,11 +1,11 @@
 <template>
     <div class="header-box">
-        <div class="flex items-center h-40px px-2 header-bar">
+        <div class="flex items-center h-60px px-2 header-bar">
             <div class="flex-1 flex items-center">
-                <div class="text-center px-15px">
+                <img src="/logo.png" style="width: 25px"/>
+                <div class="text-center px-5px">
                     <div style="width: max-content">
-                        <icon-home class="m-r-5px" :size="20"/>
-                        <span class="black font-bold">果子米-开源海报设计器</span>
+                        <span class="black font-bold"></span>
                     </div>
                 </div>
                 <a-divider direction="vertical"/>
@@ -16,7 +16,7 @@
                 <a-space size="medium">
                     <a-tooltip effect="dark" content="标尺" mini>
                         <a-button class="icon-btn pd-5px"  @click="changeLineGuides">
-                            <icon-paste :size="18" :class="canvas.enabledRuler?'arco-icon-check':''"/>
+                            <icon-paste :size="18" :class="canvas.ref.enabledRuler.value?'arco-icon-check':''"/>
                         </a-button>
                     </a-tooltip>
                 </a-space>
@@ -61,7 +61,6 @@ const {canvas,keybinding} = useEditor()
 const changeLineGuides = ()=> {
     keybinding.trigger("shift+r")
 }
-
 
 </script>
 <style lang="less">

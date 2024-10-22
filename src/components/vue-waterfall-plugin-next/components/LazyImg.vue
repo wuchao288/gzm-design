@@ -5,101 +5,119 @@
  * @LastEditTime: 2023-03-01 15:38:15
 -->
 <template>
-  <div class="lazy__box">
-    <div class="lazy__resource">
-      <img ref="lazyRef" class="lazy__img">
+    <div class="lazy__box">
+        <div class="lazy__resource">
+            <img ref="lazyRef" class="lazy__img" :title="title" :alt="alt" @load="imageLoad">
+        </div>
     </div>
-  </div>
 </template>
 
 <script lang="ts">
-// import type { Ref } from 'vue'
 import { defineComponent, inject, onMounted, onUnmounted, ref } from 'vue'
-import type Lazy from '../types/lazy'
+import type { LazyType } from '../types/lazy'
 import type { Nullable } from '../types/util'
 
 export default defineComponent({
-  props: {
-    url: {
-      type: String,
-      default: '',
+    props: {
+        url: {
+            type: String,
+            default: '',
+        },
+        title: {
+            type: String,
+            default: '',
+        },
+        alt: {
+            type: String,
+            default: '',
+        },
     },
-  },
 
-  setup(props) {
-    const imgLoaded = inject('imgLoaded') as () => void
-    const lazy = inject('lazy') as Lazy
-    const lazyRef = ref<Nullable<HTMLImageElement>>(null)
+    setup(props, ctx) {
+        const imgLoaded = inject('imgLoaded') as () => void
+        const lazy = inject('lazy') as LazyType
+        const lazyRef = ref<Nullable<any>>(null)
 
-    onMounted(() => {
-      render()
-    })
+        onMounted(() => {
+            render()
+        })
 
-    onUnmounted(() => {
-      unRender()
-    })
+        onUnmounted(() => {
+            unRender()
+        })
 
-    function render() {
-      if (!lazyRef.value)
-        return
+        function render() {
+            if (!lazyRef.value)
+                return
 
-      lazy.mount(lazyRef.value, props.url, () => {
-        imgLoaded()
-      })
-    }
+            lazy.mount(lazyRef.value, props.url, (status) => {
+                imgLoaded()
+                if (status)
+                    ctx.emit('success', props.url)
+                else
+                    ctx.emit('error', props.url)
+            })
+        }
 
-    function unRender() {
-      if (!lazyRef.value)
-        return
+        function unRender() {
+            if (!lazyRef.value)
+                return
 
-      lazy.unmount(lazyRef.value)
-    }
+            lazy.unmount(lazyRef.value)
+        }
 
-    return {
-      lazyRef,
-    }
-  },
+        function imageLoad() {
+            ctx.emit('load', props.url)
+        }
+
+        return {
+            lazyRef,
+            imageLoad,
+        }
+    },
 })
 </script>
 
 <style scoped>
 .lazy__box {
-  width: 100%;
-  height: 0;
-  padding-bottom: 100%;
-  overflow: hidden;
-  position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 6px;
 }
 
 .lazy__resource {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
 }
 
 .lazy__img {
-  display: block;
+    display: block;
 }
 
 .lazy__img[lazy="loading"] {
-  padding: 5em 0;
-  width: 48px;
-  width: 48px;
+    padding: 5em 0;
+    width: 48px;
+    width: 48px;
 }
 
 .lazy__img[lazy="loaded"] {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .lazy__img[lazy="error"] {
-  padding: 5em 0;
-  width: 48px;
-  height: auto;
+    padding: 5em 0;
+    width: 48px;
+    height: auto;
 }
 </style>

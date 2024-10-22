@@ -7,7 +7,36 @@ import {PageParams} from "@/types/page";
  * @param params
  */
 export function queryTemplateList(params:PageParams) {
-  return axios.get('/api/template/templateList',{data:params});
+  let {pageSize,page,cate,search,type}=params//0=图片，1=文字
+  let resut= axios.get('/api/design/list',{params:{pageSize,page,cate,search,type}})
+  
+  return resut
+}
+/**
+ * 模板类别
+ * @param params type=类别（1模板4图片）
+ * @returns 
+ */
+export function queryTemplateTextCateList(params:PageParams) {
+  let resut= axios.get('/api/design/cate',{params:params});
+  return resut
+}
+/**
+ * 文字类别
+ * @returns 
+ */
+export function queryTextCateList() {
+  let resut= axios.get('/api/design/textcate');
+  return resut
+}
+/**
+ * 获取模板（文字）一个
+ * @param params type=模板类型（0模板，1文字组件）id=数据id</param>
+ * @returns 
+ */
+export function queryTemplateTextOne(params:any) {
+  let resut= axios.get('/api/design/temp',{params});
+  return resut
 }
 
 /**
@@ -15,23 +44,48 @@ export function queryTemplateList(params:PageParams) {
  * @param params
  */
 export function queryTextMaterialList(params:PageParams) {
-  return axios.get('/api/text/materialList',{data:params});
+  let {pageSize,page,cate,search,type}=params
+  return axios.get('/api/design/list',{params:{pageSize,page,cate,search,type}});
 }
 
 /**
- * 图片素材
+ * 图片分类
+ * @param params
+ */
+export function queryImageCateList() {
+  let resut= axios.get('/api/design/imagecate');
+  return resut
+}
+/**
+ * 图片列表
  * @param params
  */
 export function queryImageMaterialList(params:PageParams) {
-  return axios.get('/api/image/materialList',{data:params});
+  let {pageSize,page,cate,search}=params
+  return axios.get('/api/design/imgs',{params:{pageSize,page,cate,search}});
 }
-
 /**
- * 素材
+ * 素材顶部分类
  * @param params
  */
-export function queryGraphImageList(params:PageParams) {
-  return axios.get('/api/graph/imageList',{data:params});
+export function queryGraphTopCategory() {
+  return axios.get('/api/design/matetopcate');
+}
+/**
+ * 素材首页分类
+ * @param params
+ */
+export function queryGraphCategory(params?:PageParams) {
+  let {pcate,isIndex}=params
+  return axios.get('/api/design/matecategroup',{params:{pcate,isIndex}});
+}
+/**
+ * 素材列表
+ * @param params
+ */
+export function queryGraphList(params:PageParams) {
+  let {pageSize,page,cate,search}=params
+  return axios.get('/api/design/material',{params:{pageSize,page,cate,search}});
 }
 
 /**
@@ -39,6 +93,23 @@ export function queryGraphImageList(params:PageParams) {
  * @param params
  */
 export function queryBgImgMaterialList(params:PageParams) {
-  return axios.get('/api/background/imageList',{data:params});
+  let {pageSize,page,cate}=params
+  return axios.get('/api/design/imgs',{params:{pageSize,page,cate}});
 }
 
+
+/**
+ * 元素分类
+ * @param params
+ */
+export function queryElementCategory() {
+    return axios.get('/api/design/elementcate');
+}
+/**
+ * 元素分类列表
+ * @param params
+ */
+export function queryElementList(params:PageParams) {
+    let {pageSize,page,cate}=params
+    return axios.get('/api/design/elements',{params:{pageSize,page,cate}});
+}

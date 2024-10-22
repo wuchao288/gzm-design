@@ -12,7 +12,6 @@
             :type="state.gradientType"
             :change-gradient-control="changeGradientControl"
     />
-
     <template v-if="state.gradientType === 'pattern'">
         <div class="pattern-box">
             <div class="upload-box">
@@ -25,14 +24,14 @@
                             :onSuccess="patternUploadSuccess"
                             accept=".png,.jpg,.jpeg"/>
 
-<!--                <a-upload-->
-<!--                    list-type="picture-card"-->
-<!--                    image-preview-->
-<!--                    :limit="1"-->
-<!--                    :onSuccess="patternUploadSuccess"-->
-<!--                    :onError="patternUploadError"-->
-<!--                    :on-before-upload="patternUpload"-->
-<!--                />-->
+                <!--                <a-upload-->
+                <!--                    list-type="picture-card"-->
+                <!--                    image-preview-->
+                <!--                    :limit="1"-->
+                <!--                    :onSuccess="patternUploadSuccess"-->
+                <!--                    :onError="patternUploadError"-->
+                <!--                    :on-before-upload="patternUpload"-->
+                <!--                />-->
             </div>
             <a-row>
                 <a-col>
@@ -50,7 +49,7 @@
                             <div style="text-align: right;padding-right: 12px"><icon-mosaic style="margin-right: 2px"/>透明度</div>
                         </template>
                         <template #suffix>
-                            <div class="absolute top-1 right-1">%</div>
+                            <div>%</div>
                         </template>
                     </SwipeNumber>
                 </a-col>
@@ -77,6 +76,7 @@
                 :update-gradient-left="updateGradientLeft"
                 :add-point="addPoint"
                 :remove-point="removePoint"
+                :degree="state.colorDegree"
         />
         <Preview
                 :red="state.colorRed"
@@ -90,14 +90,13 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive, onMounted, onBeforeUnmount} from 'vue'
+import { reactive, onMounted, onBeforeUnmount } from 'vue'
 import GradientControls from './GradientControls/index.vue'
 import Preview from '../Preview/index.vue'
 import Area from '../Area/index.vue'
 import {clamp} from '@vueuse/core'
 import {ColorType, Props} from '@/components/colorPicker/interface'
-import {RGBA} from '@/utils/color'
-import {Color} from '@/utils/color/color'
+import { Color, RGBA } from '@/utils/color/color'
 import {useActiveObjectModel} from '@/views/Editor/hooks/useActiveObjectModel'
 import {useEditor} from '@/views/Editor/app'
 import {typeUtil} from "@/views/Editor/utils/utils";
@@ -130,6 +129,7 @@ const state = reactive({
     colorSaturation: 1,
     colorValue: 1,
     gradientType: props.gradient.type,
+    colorDegree: props.degree
 })
 
 const object = useActiveObjectModel(state.attr)
@@ -202,6 +202,7 @@ const getChangeData = () => ({
             ? [state.gradientPoints[state.activePointIndex]]
             : state.gradientPoints,
     type: state.gradientType,
+    degree: state.colorDegree
     // style: generateGradientStyle(state.gradientPoints, state.gradientType),
 })
 
@@ -238,8 +239,8 @@ const changeActivePointIndex = (index: number) => {
     state.colorBlue = blue
     state.colorAlpha = alpha
 
-    const color = new Color(`rgba(${red},${green},${blue},alpha)`)
-    const {h, s, v} = color.getHsva()
+    const color = new Color(new RGBA(red, green, blue, 1))
+    const { h, s, v } = color.hsva
 
     state.colorHue = h
     state.colorSaturation = s
@@ -263,6 +264,7 @@ const updateColor = (
         hue,
         saturation,
         value,
+        degree
     }: {
         r?: number
         g?: number
@@ -270,7 +272,8 @@ const updateColor = (
         a?: number
         hue?: number
         saturation?: number
-        value?: number
+        value?: number,
+        degree?: number
     },
     actionName: 'onStartChange' | 'onChange' | 'onEndChange' = 'onChange',
 ) => {
@@ -281,15 +284,16 @@ const updateColor = (
     hue = hue ?? state.colorHue
     saturation = saturation ?? state.colorSaturation
     value = value ?? state.colorValue
+    degree = degree ?? state.colorDegree
 
     const localGradientPoints = state.gradientPoints.slice()
 
     localGradientPoints[state.activePointIndex] = {
-        ...localGradientPoints[state.activePointIndex],
-        red: r,
-        green: g,
-        blue: b,
-        alpha: a,
+      ...localGradientPoints[state.activePointIndex],
+      red: r,
+      green: g,
+      blue: b,
+      alpha: a,
     }
 
     state.colorRed = r
@@ -300,6 +304,7 @@ const updateColor = (
     state.colorSaturation = saturation
     state.colorValue = value
     state.gradientPoints = localGradientPoints
+    state.colorDegree = degree
 
     const action = props[actionName]
 
@@ -321,10 +326,10 @@ const updateGradientLeft = (
 const addPoint = (left: number) => {
     left = clamp(left, 0, 100)
     state.gradientPoints.push({
-        ...state.gradientPoints[state.activePointIndex],
-        left,
-        // todo
-        alpha: 1,
+      ...state.gradientPoints[state.activePointIndex],
+      left,
+      // todo
+      alpha: 1,
     })
 
     state.activePointIndex = state.gradientPoints.length - 1
@@ -332,23 +337,21 @@ const addPoint = (left: number) => {
     onChange()
 }
 const patternUploadSuccess = (response: any) => {
-  console.log('response=',response)
+    console.log('response=',response)
 }
 const patternUploadError = (response: any) => {
-  console.log('response=',response)
+    console.log('response=',response)
 }
 const patternUpload = (files: File[]) => {
     console.log('files=',files)
-  // uploadFile().then(value => {
-      // files
-  // })
+    // uploadFile().then(value => {
+    // files
+    // })
 }
 
-onMounted(() => {
-
-    const color = new Color(`rgba(${state.colorRed},${state.colorGreen},${state.colorBlue},1)`)
-    // const color = new Color(new RGBA(state.colorRed, state.colorGreen, state.colorBlue, 1))
-    const {h, s, v} = color.getHsva()
+  onMounted(() => {
+    const color = new Color(new RGBA(state.colorRed, state.colorGreen, state.colorBlue, 1))
+    const { h, s, v } = color.hsva
 
     state.colorHue = h
     state.colorSaturation = s

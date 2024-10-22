@@ -4,14 +4,27 @@ import {useActiveObjectModel} from '@/views/Editor/hooks/useActiveObjectModel'
 import {useEditor} from '@/views/Editor/app'
 import {useColor} from '@/views/Editor/hooks/useActiveObjectColor'
 import {watch} from "vue";
+import {parseStrokeOrFill} from "@/views/Editor/utils/jsonParse";
 
 const {canvas} = useEditor()
 
 const fill = useActiveObjectModel('fill')
 
+
+
+const fillArray = ref([])
+watchEffect(() => {
+    if (fill.value.modelValue) {
+    debugger
+        fillArray.value = parseStrokeOrFill(fill.value.modelValue)
+    } else {
+        fillArray.value = []
+    }
+})
+
 const {formatValue, colorBlock, changeColor, closeColorPicker, openColorPicker, readonly} =
     useColor(
-        computed(() => fill.value.modelValue),
+        computed(() => fillArray.value),
         {
             attr: 'fill',
             onChange() {
@@ -21,17 +34,6 @@ const {formatValue, colorBlock, changeColor, closeColorPicker, openColorPicker, 
     )
 
 watch(canvas.activeObject, () => closeColorPicker())
-
-
-const fillArray = ref([])
-watchEffect(() => {
-    if (fill.value.modelValue) {
-        fillArray.value = <any>fill.value.modelValue
-    } else {
-        fillArray.value = []
-    }
-})
-
 const refreshFill = () => {
     fill.value.onChange([])
     fill.value.onChange(fillArray.value.length <= 0 ? [] : fillArray.value)
