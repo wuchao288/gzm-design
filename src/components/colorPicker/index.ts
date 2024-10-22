@@ -98,8 +98,7 @@ const openDialog = (
           if (!isDefined(object) || !isDefined(attr)) return
           const colorArr = object.proxyData[attr]
          
-          console.info(colorArr)
-        
+
           if (data.type === 'color') {
 
             debugger
@@ -118,9 +117,6 @@ const openDialog = (
 
             //console.info(shallowReactive(rest))
 
-           
-           
-            console.info(object.proxyData[attr])
              setTimeout(function(){
                  object[attr]=rest
              },50)

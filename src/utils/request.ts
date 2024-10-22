@@ -3,12 +3,14 @@ import type {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {Message} from '@arco-design/web-vue';
 import {useRoute, useRouter, RouteRecordRaw} from 'vue-router';
 
+import app_config, { LocalStorageKey } from '@/config/index'
+
 const router = useRouter();
 // default config
-if (import.meta.env.VITE_API_BASE_URL) {
-    axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
-    axios.defaults.timeout = 60000; // 1 分钟
-}
+
+axios.defaults.baseURL = app_config.API_URL;
+axios.defaults.timeout = 60000; // 1 分钟
+
 
 // request interceptors
 axios.interceptors.request.use(
