@@ -42,7 +42,7 @@ const cateList = reactive([]);
 let searchPlaceholder=ref('搜索')
 
 queryImageCateList().then((res:any)=>{
-   res.response.map((m:any)=>cateList.push({value:m.id,label:m.name}))
+   res.map((m:any)=>cateList.push({value:m.id,label:m.name}))
 });
 
 const changeCate = (e:any) => {
@@ -80,18 +80,18 @@ page.pageSize = 20
 page.cate=currentCate.value.value
 const fetchData = () => {
     queryImageMaterialList(page).then(res =>{
-        if (res.success) {
-            const newDataList = res.response.list
+      
+            const newDataList = res.list
             if (newDataList.length > 0) {
                 page.dataList.push(...newDataList)
                 page.page += 1
             }
-            if (page.dataList.length >= res.response.total) {
+            if (page.dataList.length >= res.total*1) {
                 page.noMore = true
             } else {
                 page.noMore = false
             }
-        }
+        
     })
 }
 const handleClick = (item) => {

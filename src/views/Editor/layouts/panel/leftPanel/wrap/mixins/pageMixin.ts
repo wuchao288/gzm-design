@@ -15,7 +15,7 @@ export default function usePageMixin() {
         page: number,
         noMore?: boolean,
         query:object,
-        cate:string,
+        cate:string|number,
         search:string,
         type:string
     }>({

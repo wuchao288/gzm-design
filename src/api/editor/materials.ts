@@ -1,4 +1,4 @@
-import axios from 'axios';
+import fetch from '@/utils/axios'
 import type { DescData } from '@arco-design/web-vue/es/descriptions/interface';
 import {PageParams} from "@/types/page";
 
@@ -8,7 +8,7 @@ import {PageParams} from "@/types/page";
  */
 export function queryTemplateList(params:PageParams) {
   let {pageSize,page,cate,search,type}=params//0=图片，1=文字
-  let resut= axios.get('/api/design/list',{params:{pageSize,page,cate,search,type}})
+  let resut= fetch('design/list',{params:{pageSize,page,cate,search,type}})
   
   return resut
 }
@@ -18,7 +18,7 @@ export function queryTemplateList(params:PageParams) {
  * @returns 
  */
 export function queryTemplateTextCateList(params:PageParams) {
-  let resut= axios.get('/api/design/cate',{params:params});
+  let resut= fetch('design/cate',{params:params});
   return resut
 }
 /**
@@ -26,7 +26,8 @@ export function queryTemplateTextCateList(params:PageParams) {
  * @returns 
  */
 export function queryTextCateList() {
-  let resut= axios.get('/api/design/textcate');
+  
+  let resut= fetch('design/textcate',{});
   return resut
 }
 /**
@@ -35,7 +36,7 @@ export function queryTextCateList() {
  * @returns 
  */
 export function queryTemplateTextOne(params:any) {
-  let resut= axios.get('/api/design/temp',{params});
+  let resut= fetch('design/temp',{params});
   return resut
 }
 
@@ -45,7 +46,7 @@ export function queryTemplateTextOne(params:any) {
  */
 export function queryTextMaterialList(params:PageParams) {
   let {pageSize,page,cate,search,type}=params
-  return axios.get('/api/design/list',{params:{pageSize,page,cate,search,type}});
+  return fetch('design/list',{params:{pageSize,page,cate,search,type}});
 }
 
 /**
@@ -53,7 +54,7 @@ export function queryTextMaterialList(params:PageParams) {
  * @param params
  */
 export function queryImageCateList() {
-  let resut= axios.get('/api/design/imagecate');
+  let resut= fetch('design/imagecate',{});
   return resut
 }
 /**
@@ -62,14 +63,14 @@ export function queryImageCateList() {
  */
 export function queryImageMaterialList(params:PageParams) {
   let {pageSize,page,cate,search}=params
-  return axios.get('/api/design/imgs',{params:{pageSize,page,cate,search}});
+  return fetch('design/imgs',{params:{pageSize,page,cate,search}});
 }
 /**
  * 素材顶部分类
  * @param params
  */
 export function queryGraphTopCategory() {
-  return axios.get('/api/design/matetopcate');
+  return fetch('design/matetopcate',{});
 }
 /**
  * 素材首页分类
@@ -77,7 +78,7 @@ export function queryGraphTopCategory() {
  */
 export function queryGraphCategory(params?:PageParams) {
   let {pcate,isIndex}=params
-  return axios.get('/api/design/matecategroup',{params:{pcate,isIndex}});
+  return fetch('design/matecategroup',{params:{pcate,isIndex}});
 }
 /**
  * 素材列表
@@ -85,7 +86,7 @@ export function queryGraphCategory(params?:PageParams) {
  */
 export function queryGraphList(params:PageParams) {
   let {pageSize,page,cate,search}=params
-  return axios.get('/api/design/material',{params:{pageSize,page,cate,search}});
+  return fetch('design/material',{params:{pageSize,page,cate,search}});
 }
 
 /**
@@ -94,7 +95,7 @@ export function queryGraphList(params:PageParams) {
  */
 export function queryBgImgMaterialList(params:PageParams) {
   let {pageSize,page,cate}=params
-  return axios.get('/api/design/imgs',{params:{pageSize,page,cate}});
+  return fetch('design/imgs',{params:{pageSize,page,cate}});
 }
 
 
@@ -103,7 +104,7 @@ export function queryBgImgMaterialList(params:PageParams) {
  * @param params
  */
 export function queryElementCategory() {
-    return axios.get('/api/design/elementcate');
+    return fetch('design/elementcate',{});
 }
 /**
  * 元素分类列表
@@ -111,5 +112,5 @@ export function queryElementCategory() {
  */
 export function queryElementList(params:PageParams) {
     let {pageSize,page,cate}=params
-    return axios.get('/api/design/elements',{params:{pageSize,page,cate}});
+    return fetch('design/elements',{params:{pageSize,page,cate}});
 }

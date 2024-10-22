@@ -87,19 +87,18 @@ let config=ref({
 const fetchCateData = () => {
 
     queryGraphTopCategory().then((res:any) =>{
-        if (res.success) {
-            cateAllList.value=res.response
+     
+            cateAllList.value=res
             cateTopList.value = cateAllList.value.filter(m=>m.isTop==1)
-        }
+        
     })
 
     queryGraphCategory({pcate:null,isIndex:1} as any).then((res:any) =>{
        
-        if (res.success) {
-            const list = res.response
-            cateList.value = list
-            cateIndexList.value=JSON.parse(JSON.stringify(list))
-        }
+    
+            cateList.value = res
+            cateIndexList.value=JSON.parse(JSON.stringify(res))
+        
     })
 }
 
@@ -115,7 +114,7 @@ const onSearch = (value:any) => {
 //点击
 const handleClick = (item:any) => {
 
-    console.info(useCenter)
+
 
     let {width,height,url}=item
     
@@ -166,12 +165,7 @@ const backCate = (action:any) => {
        config.value.topHeight=180
        currentCate.value = cateAllList.value.find(m=>m.id==action)
        queryGraphCategory({pcate:action,isIndex:null} as any).then((res:any) =>{
-       
-       if (res.success) {
-
-               const list = res.response
-               cateList.value = list
-           }
+               cateList.value = res
        })
     }
     
@@ -195,11 +189,7 @@ const selectCate = (cate:any) => {
     if(cate.hasChild){
         config.value.topHeight=180
         queryGraphCategory({pcate:cate.id,isIndex:null} as any).then((res:any) =>{
-       
-        if (res.success) {
-                const list = res.response
-                cateList.value = list
-            }
+            cateList.value = res
         })
 
     }else{
@@ -215,18 +205,18 @@ const fetchData = () => {
     page.search=keyword.value
 
     queryGraphList(page).then((res:any) =>{
-        if (res.success) {
-            const newDataList = res.response.list
+       
+            const newDataList = res.list
             if (newDataList.length > 0) {
                 page.dataList.push(...newDataList)
                 page.page += 1
             }
-            if (page.dataList.length >= res.response.total) {
+            if (page.dataList.length >= res.total*1) {
                 page.noMore = true
             } else {
                 page.noMore = false
             }
-        }
+        
     })
 }
 fetchCateData()

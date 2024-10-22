@@ -9,6 +9,7 @@ export default ({ mock, setup }: { mock?: boolean; setup: () => void }) => {
 };
 
 export const successResponseWrap = (response: unknown) => {
+  return response
   return {
     success: true,
     code: 200,

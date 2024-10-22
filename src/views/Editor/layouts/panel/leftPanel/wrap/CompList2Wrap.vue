@@ -78,9 +78,7 @@ const fetchData = () => {
     console.log('reach bottom!');
 }
 
-onActivated(()=>{
-  console.info("onActivated")
-})
+
 </script>
 
 <style lang="less" scoped>

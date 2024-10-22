@@ -41,10 +41,7 @@ const { page } = usePageMixin()
 page.pageSize = 30
 const fetchData = () => {
     queryElementCategory().then((res:any) =>{
-        if (res.success) {
-            const list = res.response
-            cateList.value = list
-        }
+         cateList.value = res
     })
 }
 const handleClick = (item:any) => {
@@ -84,18 +81,18 @@ const loadList = () => {
    
     page.cate = currentCate.value.id
     queryElementList(page).then(res =>{
-        if (res.success) {
-            const newDataList = res.response.list
+       
+            const newDataList = res.list
             if (newDataList.length > 0) {
                 page.dataList.push(...newDataList)
                 page.page += 1
             }
-            if (page.dataList.length >= res.response.total) {
+            if (page.dataList.length >= res.total*1) {
                 page.noMore = true
             } else {
                 page.noMore = false
             }
-        }
+        
     })
 }
 fetchData()

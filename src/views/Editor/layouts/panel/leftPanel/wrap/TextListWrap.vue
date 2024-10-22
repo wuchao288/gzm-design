@@ -215,18 +215,18 @@ const fetchData = () => {
 
     queryTextMaterialList(page).then((res:any) => {
        
-        if (res.success) {
-            const newDataList = res.response.list
+        
+            const newDataList = res.list
             if (newDataList.length > 0) {
                 page.dataList.push(...newDataList)
                 page.page += 1
             }
-            if (page.dataList.length >= res.response.total) {
+            if (page.dataList.length >= res.total*1) {
                 page.noMore = true
             } else {
                 page.noMore = false
             }
-        }
+        
     })
 
     // if (current.value <= 5) {
@@ -260,9 +260,9 @@ const selectCate = (cate:any) => {
 }
 
 const fetchCateData = () => {
-
+    
     queryTextCateList().then((res:any)=>{
-        cateList.value=res.response
+        cateList.value=res
      });
 }
 

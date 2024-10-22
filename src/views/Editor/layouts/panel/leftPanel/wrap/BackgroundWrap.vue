@@ -98,18 +98,18 @@ page.pageSize = 30
 page.cate=40016
 const fetchData = () => {
     queryBgImgMaterialList(page).then(res => {
-        if (res.success) {
-            const newDataList = res.response.list
+        
+            const newDataList = res.list
             if (newDataList.length > 0) {
                 page.dataList.push(...newDataList)
                 page.page += 1
             }
-            if (page.dataList.length >= res.response.total) {
+            if (page.dataList.length >= res.total*1) {
                 page.noMore = true
             } else {
                 page.noMore = false
             }
-        }
+    
     })
 
     // if (current.value <= 5) {

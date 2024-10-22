@@ -67,7 +67,7 @@ page.type="0"
 
 queryTemplateTextCateList({type:1}).then((res)=>{
 
-    res.response.map(m=>cateList.push({value:m.id,label:m.name}))
+    res.map((m:any)=>cateList.push({value:m.id,label:m.name}))
 });
 
 
@@ -100,28 +100,26 @@ const onSearch = (value:any,ev:any) => {
 
 
 const fetchData = () => {
-  debugger
-    queryTemplateList(page).then((res:any) =>{
-
-        if (res.success) {
-            const newDataList = res.response.list
+  
+    queryTemplateList(page as any).then((res:any) =>{
+            const newDataList = res.list
             if (newDataList.length > 0) {
                 page.dataList.push(...newDataList)
                 page.page += 1
             }
-            if (page.dataList.length >= res.response.total) {
+            if (page.dataList.length >= res.total*1) {
                 page.noMore = true
             } else {
                 page.noMore = false
             }
-        }
+        
     })
 }
 const handleClick =async (item:any) => {
 
     const resjson= await queryTemplateTextOne({type:0,id:item.id})
 
-    const jsonData = typeof resjson.response.data === 'string' ? JSON.parse(resjson.response.data) : resjson.response.data
+    const jsonData = typeof resjson.data === 'string' ? JSON.parse(resjson.data) : resjson.data
 
     if(Array.isArray(jsonData)){
 

@@ -3,6 +3,7 @@ import setupMock, { successResponseWrap } from '@/utils/setup-mock';
 import {MockData, MockParams} from "@/types/mock";
 
 setupMock({
+    mock:false,
     setup() {
         Mock.mock(new RegExp('/api/oss/upload'), (params:MockData) => {
             const formData:FormData =params.body

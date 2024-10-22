@@ -81,11 +81,16 @@
 
 <script setup lang="ts">
 import {useEditor} from "@/views/Editor/app";
-
-const {editor,keybinding} = useEditor()
+import { useRoute, useRouter } from 'vue-router'
+const { editor, keybinding} = useEditor()
 import {downFile} from "@/utils/designUtil.js";
 import {v4 as uuidv4} from "uuid";
 import {Notification} from "@arco-design/web-vue";
+import {useUserStore} from '@/store'
+
+import api from '@/api/editor'
+
+const userStore=  useUserStore()
 
 const visiblePreview = ref(false)
 const previewUrl = ref()
@@ -141,6 +146,56 @@ const save = () => {
 const handleDownload = () => {
     resetForm()
     exportVisible.value = true
+}
+
+
+onMounted(async()=>{
+    
+   await checklogin(async(res:any)=>{
+     
+        userStore.changeUser(res.userInfo.UserName,res.userInfo.CompCode,res.managerEdit);
+
+        const { id, tempid: tempId } = route.query
+
+        if(!id && !tempId){
+            return
+        }
+        await load((data)=>{
+           
+        })
+    })
+})
+const route = useRoute()
+const router = useRouter()
+
+async function load(cb: (data:string) => void) {
+
+    
+  const { id, tempid: tempId, tempType: type, w_h } = route.query
+  
+  const apiName = tempId && !id ? 'getTempDetail' : 'getWorks'
+  
+  if (!id && !tempId) {
+    cb(apiName)
+    return
+  }
+
+  const { data: content, title, state: _state, width, height,version,spaceClass,folderId } = await api.home[apiName]({ id: id || tempId, type })
+  if (!content) return
+
+  const data = JSON.parse(content)
+//   state.stateBollean = !!_state
+//   state.title = title
+//   state.version= version;
+//   state.folderId=folderId;
+//   state.spaceClass=spaceClass;
+
+  cb(data)
+}
+
+async function checklogin(cb:(data:string)=>void) {
+  let res=await api.home.checklogin();
+  cb(res)
 }
 
 const handleExport = () => {

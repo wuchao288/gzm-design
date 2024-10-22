@@ -46,10 +46,15 @@ onBeforeMount(() => {
     appInstance.editor.startup()
 })
 
+
+
 onBeforeUnmount(() => {
     appInstance.editor.dispose()
     appInstance.editor = null!
 })
+
+
+
 
 </script>
 <style>

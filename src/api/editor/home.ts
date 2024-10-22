@@ -117,7 +117,6 @@ type TRemoveComp = {
 }
 
 export const removeComp = (params: TRemoveComp) => fetch<void>('design/del', params, 'post')
-// export const getCompDetail = (params: Type.Object = {}) => fetch('/api/template/temp_info', params, 'get')
 
 type TSaveWorksParams = {
   title: string
@@ -141,7 +140,7 @@ export type TSaveWorksResult = {
 
 // 保存作品
 export const saveWorks = (params: TSaveWorksParams) => fetch<any>('design/save', params, 'post')
-//export const checklogin = () => fetch<any>('auth/checkauthenticate',{},"post")
+
 // 保存个人模板
 export const saveMyTemp = (params: Type.Object = {}) => fetch('design/user/temp', params, 'post')
 

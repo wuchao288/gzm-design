@@ -114,9 +114,6 @@ const openDialog = (
               color:colorValue.color,
             }))
 
-
-            //console.info(shallowReactive(rest))
-
              setTimeout(function(){
                  object[attr]=rest
              },50)

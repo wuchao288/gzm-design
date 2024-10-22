@@ -28,8 +28,8 @@ export const useFontStore = defineStore('font', () => {
 
         if (list.length === 0) {
             const res = await getFonts({page: 1, pageSize: 1000})
-            console.info(res)
-            list = res.response.list
+         
+            list = res.list
             localStorage.setItem('FONTS', JSON.stringify(list))
             localStorage.setItem('FONTS_VERSION', nowVersion)
         }
