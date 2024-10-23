@@ -16,7 +16,7 @@ type IGetTempListParam = {
 export type IGetTempListData = {
   cover: string
   height: number
-  id:  string | number
+  id:  string
   state: number
   title: string
   width: number
@@ -38,9 +38,9 @@ type IGetTempListResult = TPageRequestResult<IGetTempListData[]>
 export const getTempList = (params: IGetTempListParam) => fetch<IGetTempListResult>('design/list', params, 'get')
 
 export type TGetTempDetail = {
-  id:  string | number
-  type?: number
-  compcode:string|""
+  id:  string
+  type: string //模板的类型 （1=文字，0=图片）
+  compCode:string
 }
 
 export type TTempDetail = {
@@ -54,11 +54,11 @@ export type TTempDetail = {
   data: string
   /** 高度 */
   height: number
-  id: bigint
+  id: string
   /** 来源 */
   original: string
   resource: string
-  state: string
+  state: number
   tag: string | null
   title: string
   updated_time: string
@@ -68,20 +68,7 @@ export type TTempDetail = {
   folderId:string | number
 }
 
-export const getTempDetail = (params: TGetTempDetail) => fetch<TTempDetail>('design/temp', params, 'get')
-
-type TGetCategoriesParams = {
-  type?: number
-}
-export type TGetCategoriesData = {
-  id: number
-  name: string
-  pid: number
-  type: number
-}
-type TgetCategoriesResult = TCommResResult<TGetCategoriesData>
-
-export const getCategories = (params: TGetCategoriesParams) => fetch<TgetCategoriesResult[]>('design/cate', params, 'get')
+export const getTempDetail = (params: TGetTempDetail) => fetch<TTempDetail>('design/temp', {params}, 'get')
 
 
 // 保存模板

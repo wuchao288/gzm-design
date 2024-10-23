@@ -117,6 +117,8 @@ const fetchData = () => {
 }
 const handleClick =async (item:any) => {
 
+    
+
     const resjson= await queryTemplateTextOne({type:0,id:item.id})
 
     const jsonData = typeof resjson.data === 'string' ? JSON.parse(resjson.data) : resjson.data
@@ -139,6 +141,7 @@ const handleClick =async (item:any) => {
             json.workspaces.push({id:pageItem.id,name:item.title,cover:item.cover})
             json.pages.push({ id:pageItem.id,children:pageItem})
         }
+        console.info(json)
          await   editor.importPages(json,true)
 
     }else{

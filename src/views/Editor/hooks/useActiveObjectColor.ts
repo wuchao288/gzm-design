@@ -109,17 +109,22 @@ export function useColor(
     appInstance.editor.service.invokeFunction((accessor) => {
       const canvas = accessor.get(IMLeaferCanvas)
       if (!isDefined(canvas.activeObject)) return
-      closeFn = ColorPicker.open({
-        object: canvas.activeObject.value,
-        attr: option.attr,
-        index:index,
-        dialogOption: {
-          onClose() {
-            // 关闭后置空
-            closeFn = undefined
+      
+
+      setTimeout(function(){
+        closeFn = ColorPicker.open({
+          object: canvas.activeObject.value,
+          attr: option.attr,
+          index:index,
+          dialogOption: {
+            onClose() {
+              // 关闭后置空
+              closeFn = undefined
+            },
           },
-        },
-      })
+        })
+      },50)
+      
     })
   }
 
@@ -147,7 +152,7 @@ export function useColor(
     },
     /** 更改颜色 */
     changeColor(value: string) {
-      debugger
+      
       value = value.replace(/^#/, '')
       if (value.length < 6) {
         value = padHexColor(value)

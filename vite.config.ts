@@ -7,7 +7,7 @@ import { ArcoResolver } from 'unplugin-vue-components/resolvers'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { resolve } from 'path'
 import viteCompression from 'vite-plugin-compression'
-import { vitePluginForArco } from '@arco-plugins/vite-vue'
+
 
 // https://vitejs.dev/config/
 export default defineConfig({

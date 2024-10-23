@@ -13,6 +13,7 @@ import {ColorPickerOption, Props} from './interface'
 import GColor from "@/utils/color/g-color";
 import {replaceElementToNewArr, calculatePoints, calculateAngle} from "@/utils/utils";
 import {ref,shallowReactive} from 'vue'
+import { isString } from 'lodash'
 
 let dialog: DialogReturn | undefined
 
@@ -35,6 +36,7 @@ const openDialog = (
   let type: ColorType = 'color'
   let degree: number = 0
   const colorArr = <[]>(object && attr ? object.proxyData[attr] : [initialColor])
+
   const colorValue:any = colorArr[index]
   // 渐变
   if (colorValue.type === 'linear' || colorValue.type === 'radial') {
@@ -96,12 +98,13 @@ const openDialog = (
       h(_ColorPicker, {
         onChange(data:any) {
           if (!isDefined(object) || !isDefined(attr)) return
-          const colorArr = object.proxyData[attr]
+          let colorArr = object.proxyData[attr]
          
+          
 
           if (data.type === 'color') {
 
-            debugger
+            
 
             if (data.points.length < 1) return
             const [{ red, green, blue, alpha }] = data.points
@@ -114,8 +117,9 @@ const openDialog = (
               color:colorValue.color,
             }))
 
-             setTimeout(function(){
-                 object[attr]=rest
+            object.proxyData[attr]=rest
+            setTimeout(function(){
+                  object[attr]=rest
              },50)
 
           } else if (data.type === 'linear' || data.type === 'radial') {
@@ -174,6 +178,7 @@ const openDialog = (
 
 const open = (option: ColorPickerOption & Partial<Props>) => {
   if (!dialog) {
+    
     dialog = appInstance.editor.service.invokeFunction(openDialog, option)
   }
   return dialogClose

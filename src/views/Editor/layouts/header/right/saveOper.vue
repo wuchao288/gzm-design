@@ -1,6 +1,6 @@
 <template>
     <a-space>
-        <a-button href="https://gitee.com/sourcenet/gzm-design"
+        <!-- <a-button href="https://gitee.com/sourcenet/gzm-design"
                   target="_blank"
                   type="text"
                   class="!underline underline-offset-5 p-l-5px p-r-5px">
@@ -11,7 +11,7 @@
                   type="text"
                   class="!underline underline-offset-5 p-l-5px p-r-5px">
             <ali-icon type="icon-github" class="mr3px text-size-18px"/>GitHub
-        </a-button>
+        </a-button> -->
 
         <a-divider direction="vertical" />
 
@@ -82,15 +82,29 @@
 <script setup lang="ts">
 import {useEditor} from "@/views/Editor/app";
 import { useRoute, useRouter } from 'vue-router'
+
+import {
+    IUI
+} from "@leafer-ui/interface";
+import {IWorkspace, IWorkspacesService, WorkspacesService} from "@/views/Editor/core/workspaces/workspacesService";
+import { IHierarchyService, HierarchyService } from '@/views/Editor/core/layer/hierarchyService'
+
 const { editor, keybinding} = useEditor()
 import {downFile} from "@/utils/designUtil.js";
 import {v4 as uuidv4} from "uuid";
 import {Notification} from "@arco-design/web-vue";
-import {useUserStore} from '@/store'
+import {useUserStore,useTemplateStore} from '@/store'
 
 import api from '@/api/editor'
+import { Group, UI } from "leafer-ui";
+import { nanoid } from "nanoid";
 
-const userStore=  useUserStore()
+const userStore =  useUserStore()
+
+const templateStore = useTemplateStore()
+
+const route = useRoute()
+const router = useRouter()
 
 const visiblePreview = ref(false)
 const previewUrl = ref()
@@ -132,6 +146,10 @@ const preview = async () => {
     previewUrl.value = url
     visiblePreview.value = true
 }
+
+
+ 
+
 const save = () => {
     Notification.info({
         closable:true,
@@ -148,6 +166,11 @@ const handleDownload = () => {
     exportVisible.value = true
 }
 
+//保存模板（或文字效果）
+async function saveTemp(isClose:boolean|null=true) {
+
+}
+
 
 onMounted(async()=>{
     
@@ -160,37 +183,93 @@ onMounted(async()=>{
         if(!id && !tempId){
             return
         }
-        await load((data)=>{
-           
-        })
+        await loadTempData()
     })
 })
-const route = useRoute()
-const router = useRouter()
 
-async function load(cb: (data:string) => void) {
+//根据url参数查询页面
 
-    
-  const { id, tempid: tempId, tempType: type, w_h } = route.query
+
+async function loadTempData() {
+
+    const id= route.query.id as string
+
+    const tempid= route.query.tempid as string
+
+    const type= route.query.type as string
+
+    const apiName = tempid && !id ? 'getTempDetail' : 'getWorks'
   
-  const apiName = tempId && !id ? 'getTempDetail' : 'getWorks'
-  
-  if (!id && !tempId) {
-    cb(apiName)
-    return
-  }
+   if (!id && !tempid) {
+       return
+   }
 
-  const { data: content, title, state: _state, width, height,version,spaceClass,folderId } = await api.home[apiName]({ id: id || tempId, type })
+   const { data: content, title, state, width, height,version:ver,spaceClass,folderId,cover }
+   = await api.home[apiName]({ id : id || tempid , type : type  ,compCode:"" })
+
   if (!content) return
 
-  const data = JSON.parse(content)
-//   state.stateBollean = !!_state
-//   state.title = title
-//   state.version= version;
-//   state.folderId=folderId;
-//   state.spaceClass=spaceClass;
+  templateStore.setTemplateData({
+    wmBollean:false,
+    ver,
+    spaceClass,
+    folderId,
+    state,
+    id,
+    tempid,
+    type
+  })
 
-  cb(data)
+  let jsonData = typeof content === 'string' ? JSON.parse(content) : content
+
+  if(type==="1"){//文本
+    jsonData.x=0
+    jsonData.y=0
+    jsonData=[{
+        "tag": "Frame",
+        "id": nanoid(),
+        "name": "workspace",
+        "width": width*1,
+        "height": height*1,
+        "fill": [
+          {
+            "type": "solid",
+            "color": "#FFFFFF"
+          }
+        ],
+        children:[jsonData]
+    }]
+  }
+
+    if(Array.isArray(jsonData)){
+
+    let json:{
+        workspaces: IWorkspace[]
+        pages: {
+            id: string
+            children: IUI[]
+        }[]
+    }={
+        workspaces:[],
+        pages: []
+    }
+
+    for (let index = 0; index < jsonData.length; index++) {
+
+        const pageItem = jsonData[index];
+
+        json.workspaces.push({id:pageItem.id,name:title,cover:cover})
+
+        json.pages.push({ id:pageItem.id,children:pageItem})
+
+    }
+    
+        await   editor.importPages(json,true)
+
+    
+    }else{
+        editor.importJsonToCurrentPage(jsonData,true)
+    }
 }
 
 async function checklogin(cb:(data:string)=>void) {

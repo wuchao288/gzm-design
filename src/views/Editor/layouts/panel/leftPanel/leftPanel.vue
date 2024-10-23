@@ -31,6 +31,8 @@
     </a-layout-sider>
 </template>
 <script setup lang="ts">
+
+  
 import TempListWrap from "./wrap/TempListWrap.vue";
 import ElementListWrap from "./wrap/ElementListWrap.vue";
 import TextListWrap from "./wrap/TextListWrap.vue";
@@ -40,7 +42,11 @@ import GraphListWrap from "./wrap/GraphListWrap.vue";
 import ToolsWrap from "./wrap/ToolsWrap.vue";
 import Help from "@/views/Editor/layouts/panel/leftPanel/help.vue";
 
-const widgetClassifyList =  [
+import {useUserStore} from "@/store";
+
+const userStore =  useUserStore()
+
+const widgetClassifyList =ref([
     {
         name: '模板',
         icon: 'icon-apps',
@@ -93,10 +99,18 @@ const widgetClassifyList =  [
         icon: 'icon-user',
         show: false,
     },
-]
+])
+
+
+if(userStore.managerEdit){
+  //let hideIcon=['icon-apps']
+  //widgetClassifyList.value=widgetClassifyList.value.filter(m=>hideIcon.includes(m.icon)==false)
+}
+
+
 const activeWidgetClassify =  ref(0)
 const active =  ref(true)
-const activeComponent =  ref(widgetClassifyList[0]?.component)
+const activeComponent =  ref(widgetClassifyList.value[0]?.component)
 const clickClassify = (index: number) => {
     if (activeWidgetClassify.value  === index){
         active.value = !active.value
@@ -104,9 +118,13 @@ const clickClassify = (index: number) => {
     }else {
         activeWidgetClassify.value = index
         active.value = true
-        activeComponent.value = widgetClassifyList[index].component
+        activeComponent.value = widgetClassifyList.value[index].component
     }
 }
+
+
+
+
 const getStyle = (index: number) => {
     return {
         display: activeWidgetClassify.value === index ? '' : 'none',

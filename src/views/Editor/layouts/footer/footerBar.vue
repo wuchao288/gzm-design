@@ -39,6 +39,7 @@ const pages = computed(() => {
 })
 const addOnClick = () => {
     workspaces.setCurrentId(workspaces.add(`${(pages.value.size + 1)}`))
+    console.info(workspaces)
     canvas.zoomToFit()
 }
 const workspacesData = ref<IWorkspace[]>([])

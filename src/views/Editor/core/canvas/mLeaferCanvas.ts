@@ -222,6 +222,7 @@ export class MLeaferCanvas {
         this.pageId = this.workspacesService.getCurrentId()
         this.initWorkspace()
         this.initPageEditor()
+        console.info("initPageEditor")
         this.initWatch()
         useFontStore().initFonts().then(value => {
             addCustomFonts(value)
@@ -243,6 +244,7 @@ export class MLeaferCanvas {
 
     // 工作区 | 页面管理
     private initWorkspace() {
+        debugger
         this.workspacesService.all().forEach((workspace) => {
             this.setPageJSON(workspace.id, {
                 children: [],
@@ -257,6 +259,7 @@ export class MLeaferCanvas {
             this.pages.delete(id)
         })
         this.eventbus.on('workspaceChangeBefore', ({oldId}) => {
+            
             if (!oldId || !this.pages.has(oldId)) return
             const page = this.pages.get(oldId)
             if (!page) return
@@ -267,6 +270,9 @@ export class MLeaferCanvas {
         })
         this.eventbus.on('workspaceChangeAfter', ({newId}) => {
             // 切换后恢复当前工作区
+            console.info("切换后恢复当前工作区")
+            console.info(newId)
+            console.info(this.pageId)
             if (this.pageId !== newId) {
                 useAppStore().activeTool = 'select'
                 this.discardActiveObject()
@@ -301,12 +307,18 @@ export class MLeaferCanvas {
                 color:'#ffffff'
             }]
         })
+       
         this.contentLayer.add(frame)
         this.contentFrame = frame
         this.setActiveObjectValue(this.contentFrame)
 
         this.app.editor.on(EditorEvent.SELECT, (arg: EditorEvent) => {
-            debugger
+            
+            
+            if(arg.editor.list.length>0){
+                console.info(arg.editor.list[0])
+                console.info(arg.editor.list[0].proxyData)
+            }
             this.setActiveObjectValue(arg.editor.element)
             // this.ruler.forceRender()
         })
@@ -391,6 +403,7 @@ export class MLeaferCanvas {
             this.app.editor.config.lockRatio = false
         }
         // setTimeout(()=>{
+            
         this.activeObject.value = object
         // },200)
     }
@@ -508,6 +521,7 @@ export class MLeaferCanvas {
      * @param clearHistory 是否清除历史画布数据
      */
     public  importJsonToCurrentPage(json: any, clearHistory?: boolean) {
+        debugger
         if (clearHistory) {
             this.contentFrame.clear()
         }
@@ -548,6 +562,8 @@ export class MLeaferCanvas {
      */
     public async importPages(json: any, clearHistory?: boolean) {
         
+        console.info(json)
+
         if (!json) {
             return Promise.reject(new Error('`json` is undefined'))
         }
@@ -600,6 +616,12 @@ export class MLeaferCanvas {
     }
     public zoomToFit() {
         this.app.tree.zoom('fit')
+        this.ref.zoom.value = <number>this.contentLayer.scale
+    }
+
+    public zoomTo100(zoom: IUI|number) {
+        //this.app.tree.zoom(100)
+        this.app.tree.zoom(zoom) 
         this.ref.zoom.value = <number>this.contentLayer.scale
     }
 

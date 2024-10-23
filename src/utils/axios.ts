@@ -132,6 +132,8 @@ const fetch = <T = any> (
     // store.commit('loading', '加载中..');
   }
 
+  
+
   const token = defaultToken//localStorage.getItem(LocalStorageKey.tokenKey)
   const headerObject: Record<string, any> = {}
   token && (headerObject.Authorization = token)
