@@ -7,7 +7,7 @@
 <template>
     <div class="lazy__box">
         <div class="lazy__resource">
-            <img ref="lazyRef" class="lazy__img" :title="title" :alt="alt" @load="imageLoad">
+            <img ref="lazyRef" loading="lazy" class="lazy__img" :title="title" :alt="alt" @load="imageLoad">
         </div>
     </div>
 </template>

@@ -6,7 +6,7 @@
          @search="onSearch"/>
         <a-divider style="margin-bottom: 6px;margin-top: 16px;" />
         <div class="other-text-wrap">
-            <comp-list-wrap @fetchData="fetchData" :data="page.dataList" :noMore="page.noMore" max-height="calc(100vh - 185px)">
+            <comp-list-wrap @fetchData="fetchData" :config="config" :data="page.dataList" :noMore="page.noMore" max-height="calc(100vh - 185px)">
                 <template #item="{ item, url, index }">
                     <a-card hoverable @click="handleClick(item)" class="cursor-pointer drop-shadow" :body-style="{ padding: '0px' }">
                         <div class="">
@@ -73,7 +73,9 @@ fetchData()
 }
 
 
-
+const config = {
+    imgSelector: 'thumb'
+}
 
 const { page } = usePageMixin()
 page.pageSize = 20

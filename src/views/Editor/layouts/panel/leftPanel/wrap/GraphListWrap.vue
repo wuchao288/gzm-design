@@ -27,7 +27,7 @@
                 <a-row :gutter="6">
                     <a-col  :span="6" class="top-cate-btn" v-for="(item, index) in cateTopList" :key="index">
                         <a-button @click="selectCate(item)" :title="item.id"  :style="'background-color:'+(item.bgcolor?item.bgcolor:'')"  >
-                        <img style="width: 16px;height: auto;" :src="item.icon"/>
+                        <img style="width: 16px;height: auto;"  :src="item.icon"/>
                         <span>{{item.name}}</span></a-button>
                     </a-col>
                 </a-row>
