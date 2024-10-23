@@ -9,18 +9,18 @@ import textData from '@/assets/data/textData.json'
 import bgImgData from '@/assets/data/bgImgData.json'
 import elementData from '@/assets/data/elementData.json'
 import {MockParams} from "@/types/mock";
-import textCateData from '@/assets/data/textCateData.json'
+
 
 /**
  * TODO 优化图库，抓取unsplash图片
  */
 setupMock({
-    mock:false,
+    mock:true,
     setup() {
         
         Mock.mock(new RegExp('/api/design/textcate'), (params:MockParams) => {
-
-            var lreturn=  successResponseWrap(textCateData.cate);
+ 
+            var lreturn=  successResponseWrap(textData.cate);
         
             return lreturn
         });
@@ -36,10 +36,19 @@ setupMock({
             //0=图片，1=文字
             console.info(params)
             const { page:pageNum, pageSize,type } = qs.parse(params.url.split("?")[1])//JSON.parse(params.body);
-            var newDataList = templateData.list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
-            var lreturn=  successResponseWrap({list:newDataList,total:templateData.list.length});
-        
-            return lreturn
+           
+            if(type==1){
+                var newDataList = textData.list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
+                var lreturn=  successResponseWrap({list:newDataList,total:textData.list.length});
+                return lreturn
+            }else{
+                var newtDataList = templateData.list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
+                var lreturn=  successResponseWrap({list:newtDataList,total:templateData.list.length});
+                return lreturn
+            }
+           
+
+         
         });
 
         Mock.mock(new RegExp('/api/text/materialList'), (params:MockParams) => {
@@ -61,14 +70,20 @@ setupMock({
             return successResponseWrap(graphData.cate);
         });
         Mock.mock(new RegExp('/api/design/material'), (params:MockParams) => {
-            const { page:pageNum, pageSize, query } = qs.parse(params.url.split("?")[1])
+            const { page:pageNum, pageSize, cate } = qs.parse(params.url.split("?")[1])
             const list = graphData.list.filter(v=>{
-                return v.category == query.cate
+                return v.category == cate
             })
             var newDataList = list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
             return successResponseWrap({list:newDataList,total:list.length});
         });
 
+        Mock.mock(new RegExp('/api/design/temp'), (params:MockParams) => {
+            const { type,id } = qs.parse(params.url.split("?")[1])
+            const temp=  templateData.list.find(m=>m.id==id)
+            return successResponseWrap(temp)
+        });
+       
         Mock.mock(new RegExp('/api/design/imgs'), (params:MockParams) => {
             const { page:pageNum, pageSize } = qs.parse(params.url.split("?")[1])
             var newDataList = bgImgData.list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
@@ -80,12 +95,12 @@ setupMock({
         });
 
         Mock.mock(new RegExp('/api/design/elementcate'), () => {
-            return successResponseWrap({list:elementData.cate,total:elementData.cate.length});
+            return successResponseWrap(elementData.cate);
         });
         Mock.mock(new RegExp('/api/design/elements'), (params:MockParams) => {
-            const { page:pageNum, pageSize, query } =  qs.parse(params.url.split("?")[1]);
+            const { page:pageNum, pageSize, cate } =  qs.parse(params.url.split("?")[1]);
             const list = elementData.list.filter(v=>{
-                return v.category == query.cate
+                return v.category == cate
             })
             var newDataList = list.slice((pageNum - 1) * pageSize, pageNum * pageSize)
             return successResponseWrap({list:newDataList,total:list.length});

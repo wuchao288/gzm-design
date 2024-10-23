@@ -174,17 +174,17 @@ async function saveTemp(isClose:boolean|null=true) {
 
 onMounted(async()=>{
     
-   await checklogin(async(res:any)=>{
+//    await checklogin(async(res:any)=>{
      
-        userStore.changeUser(res.userInfo.UserName,res.userInfo.CompCode,res.managerEdit);
+//         userStore.changeUser(res.userInfo.UserName,res.userInfo.CompCode,res.managerEdit);
 
-        const { id, tempid: tempId } = route.query
+//         const { id, tempid: tempId } = route.query
 
-        if(!id && !tempId){
-            return
-        }
-        await loadTempData()
-    })
+//         if(!id && !tempId){
+//             return
+//         }
+//         await loadTempData()
+//     })
 })
 
 //根据url参数查询页面

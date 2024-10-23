@@ -30,7 +30,7 @@ axios.interceptors.request.use(
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       config.url = url.startsWith('/') ? baseUrl + url : config.url = baseUrl + '/' + url
     }
-
+  
     if (config.method === 'get') {
      
       config.params = Object.assign(config.params||{}, values)
@@ -43,6 +43,7 @@ axios.interceptors.request.use(
     return config
   },
   (error) => {
+
     return Promise.reject(error)
   },
 )
@@ -87,7 +88,7 @@ axios.interceptors.response.use((res: AxiosResponse<any>) => {
   },
   (error) => {
    
-    console.info("res.data[statusSuccess]==error")
+    console.info(error)
 
     if(error.response.status === 401){
 
