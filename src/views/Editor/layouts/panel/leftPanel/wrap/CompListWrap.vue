@@ -23,14 +23,6 @@
                     :delay="config.delay"
             >
                 <template #item="{ item, url, index }">
-                    <!--                  <a-card hoverable class="cursor-pointer drop-shadow" :body-style="{ padding: '0px' }">-->
-                    <!--                      <div class="">-->
-                    <!--                          <LazyImg :url="url" class="img" />-->
-                    <!--                      </div>-->
-                    <!--&lt;!&ndash;                      <div class="p5px">&ndash;&gt;-->
-                    <!--&lt;!&ndash;                          <span class="name truncated">{{ item.name }}</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-                    <!--                  </a-card>-->
                     <slot name="item" :item="item" :index="index" :url="url"></slot>
                 </template>
             </Waterfall>
@@ -103,7 +95,7 @@ const props = withDefaults(
     }>(),
     {
         config:{},
-        maxHeight: 'calc(100vh - 140px)',
+        maxHeight: 'calc(100vh - 160px)',
         noMore: false
     }
 )

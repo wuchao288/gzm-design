@@ -10,7 +10,7 @@
         <a-divider style="margin-bottom: 0px;margin-top: 16px;" />
         <div class="temp-wrap">
            
-            <comp-list-wrap @fetchData="fetchData" :data="page.dataList" :config="config" :noMore="page.noMore" max-height="calc(100vh - 145px)">
+            <comp-list-wrap @fetchData="fetchData" :data="page.dataList" :config="config" :noMore="page.noMore" max-height="calc(100vh - 165px)">
                 <template #item="{ item, url, index }">
                     <a-card hoverable @click="handleClick(item)" :bordered="false" :body-style="{ padding: '0px',cursor:'pointer' }">
                         <div class="">
@@ -60,7 +60,7 @@ const cateList = reactive([]);
 
 const { page } = usePageMixin()
 
-page.pageSize = 20
+page.pageSize = 30
 page.cate=currentCate.value.value
 page.search=keyword.value
 page.type="0"
@@ -152,7 +152,7 @@ const handleClick =async (item:any) => {
     
 }
 
-fetchData()
+// fetchData()
 </script>
 
 <style lang="less" scoped>
