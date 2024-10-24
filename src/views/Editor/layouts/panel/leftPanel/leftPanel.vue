@@ -103,8 +103,8 @@ const widgetClassifyList =ref([
 
 
 if(userStore.managerEdit){
-  //let hideIcon=['icon-apps']
-  //widgetClassifyList.value=widgetClassifyList.value.filter(m=>hideIcon.includes(m.icon)==false)
+  let hideIcon=['icon-apps','icon-user','icon-team']
+  widgetClassifyList.value=widgetClassifyList.value.filter(m=>hideIcon.includes(m.icon)==false)
 }
 
 

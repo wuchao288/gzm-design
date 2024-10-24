@@ -59,7 +59,7 @@
                                         :height="config.imgHeight"
                                         width="100%"
                                         fit="contain"
-                                       
+                                        :title="item.id"
                                         :src="item[props.option.coverKey]"
                                 />
                             </div>
@@ -67,7 +67,9 @@
                     </template>
                     <template #scroll-loading >
                         <div v-if="props.noMore">没有更多了</div>
-                        <a-spin v-else/>
+                       
+                        <a-spin v-else  />
+                        <!-- <p>{{props.noMore}}</p> -->
                     </template>
                 </a-list>
             </div>

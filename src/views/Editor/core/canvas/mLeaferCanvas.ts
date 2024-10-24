@@ -521,7 +521,7 @@ export class MLeaferCanvas {
      * @param clearHistory 是否清除历史画布数据
      */
     public  importJsonToCurrentPage(json: any, clearHistory?: boolean) {
-        debugger
+        
         if (clearHistory) {
             this.contentFrame.clear()
         }

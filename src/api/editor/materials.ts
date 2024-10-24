@@ -45,6 +45,7 @@ export function queryTemplateTextOne(params:any) {
  * @param params
  */
 export function queryTextMaterialList(params:PageParams) {
+  
   let {pageSize,page,cate,search,type}=params
   return fetch('design/list',{params:{pageSize,page,cate,search,type}});
 }

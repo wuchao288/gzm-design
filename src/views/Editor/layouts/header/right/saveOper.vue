@@ -155,15 +155,25 @@ const save = () => {
         closable:true,
         content:'请到控制台查看打印的JSON值'
     })
-    console.log('多页面JSON：',editor.getPages())
-    editor.getCurrentPage()
-    let json = editor.contentFrame.toJSON()
-    console.log('当前页JSON：',json)
+    // console.log('多页面JSON：',editor.getPages())
+    // editor.getCurrentPage()
+    // let json = editor.contentFrame.toJSON()
+    // console.log('当前页JSON：',json)
+
+    //先上传图片
+    console.info(templateStore.)
+
+    console.info(Array.from(editor.getPages().values()))
+
 }
 
 const handleDownload = () => {
     resetForm()
     exportVisible.value = true
+}
+
+const  createCover=async ()=>{
+   
 }
 
 //保存模板（或文字效果）
@@ -174,17 +184,19 @@ async function saveTemp(isClose:boolean|null=true) {
 
 onMounted(async()=>{
     
-//    await checklogin(async(res:any)=>{
+   await checklogin(async(res:any)=>{
      
-//         userStore.changeUser(res.userInfo.UserName,res.userInfo.CompCode,res.managerEdit);
+        const edit= Boolean(route.query.edit)
 
-//         const { id, tempid: tempId } = route.query
+        userStore.changeUser(res.userInfo.UserName,res.userInfo.CompCode,res.managerEdit&&edit);
 
-//         if(!id && !tempId){
-//             return
-//         }
-//         await loadTempData()
-//     })
+        const { id, tempid: tempId } = route.query
+
+        if(!id && !tempId){
+            return
+        }
+        await loadTempData()
+    })
 })
 
 //根据url参数查询页面

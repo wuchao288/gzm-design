@@ -214,7 +214,7 @@ const fetchData = () => {
 
     queryTextMaterialList(page).then((res:any) => {
        
-        
+          
             const newDataList = res.list
             if (newDataList.length > 0) {
                 page.dataList.push(...newDataList)
@@ -261,7 +261,7 @@ const selectCate = (cate:any) => {
 const fetchCateData = () => {
     
     queryTextCateList().then((res:any)=>{
-        debugger
+        
         cateList.value=res
      });
 }

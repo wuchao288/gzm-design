@@ -3,7 +3,7 @@
         <a-list :max-height="props.maxHeight" @reach-bottom="fetchData" :scrollbar="scrollbar" :bordered="false">
             <template #scroll-loading>
                 <div v-if="props.noMore">没有更多了</div>
-                <a-spin v-else/>
+                <a-spin v-else></a-spin>
             </template>
             <Waterfall
                     :list="props.data"

@@ -15,7 +15,7 @@ const fill = useActiveObjectModel('fill')
 const fillArray = ref([])
 watchEffect(() => {
     if (fill.value.modelValue) {
-       debugger
+       
         fillArray.value = parseStrokeOrFill(fill.value.modelValue)
     } else {
         fillArray.value = []
@@ -28,7 +28,7 @@ const {formatValue, colorBlock, changeColor, closeColorPicker, openColorPicker, 
         {
             attr: 'fill',
             onChange() {
-                debugger
+                
                 fill.value.onChange(fillArray.value)
             },
         },

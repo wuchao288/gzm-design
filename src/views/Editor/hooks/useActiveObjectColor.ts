@@ -47,11 +47,11 @@ export function useColor(
     onChange: (value: string | null | undefined) => void
   },
 ) {
-  debugger
+  
   /** 小方块颜色图标 */
   const colorBlock=computed(()=>(index:number)=>{
     // const colorBlock = computed(() => {
-      debugger
+      
     const colorVal = color.value[index]
     let background = ''
     if (isString(colorVal)) {

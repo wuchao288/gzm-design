@@ -84,7 +84,7 @@ import {reactive, toRefs, watch} from 'vue'
   // )
 
   const  clickCate=(event:MouseEvent)=>{
-    //debugger
+  
       if(state.currentIndex>-1&&state.isNewList==true){
 
         state.popupVisible=true
