@@ -59,6 +59,7 @@
                                         :height="config.imgHeight"
                                         width="100%"
                                         fit="contain"
+                                       
                                         :src="item[props.option.coverKey]"
                                 />
                             </div>

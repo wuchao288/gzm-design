@@ -14,6 +14,7 @@ import GColor from "@/utils/color/g-color";
 import {replaceElementToNewArr, calculatePoints, calculateAngle} from "@/utils/utils";
 import {ref,shallowReactive} from 'vue'
 import { isString } from 'lodash'
+import {parseStrokeOrFill} from "@/views/Editor/utils/jsonParse";
 
 let dialog: DialogReturn | undefined
 
@@ -35,6 +36,9 @@ const openDialog = (
   let points: ColorPoint[]
   let type: ColorType = 'color'
   let degree: number = 0
+
+  object.proxyData[attr]=isString(object.proxyData[attr])?parseStrokeOrFill(object.proxyData[attr]):object.proxyData[attr]
+
   const colorArr = <[]>(object && attr ? object.proxyData[attr] : [initialColor])
 
   const colorValue:any = colorArr[index]

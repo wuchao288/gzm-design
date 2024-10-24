@@ -244,7 +244,7 @@ export class MLeaferCanvas {
 
     // 工作区 | 页面管理
     private initWorkspace() {
-        debugger
+        
         this.workspacesService.all().forEach((workspace) => {
             this.setPageJSON(workspace.id, {
                 children: [],

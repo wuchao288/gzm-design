@@ -40,7 +40,9 @@ const cateList = ref([])
 const { page } = usePageMixin()
 page.pageSize = 30
 const fetchData = () => {
+    debugger
     queryElementCategory().then((res:any) =>{
+        debugger
          cateList.value = res
     })
 }

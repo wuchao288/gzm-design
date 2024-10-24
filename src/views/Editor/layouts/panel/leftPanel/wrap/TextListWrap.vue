@@ -23,7 +23,7 @@
         <div   v-else >
            
         
-            <comp-cate-list-wrap   :data="page.dataList" :cate-list="cateList"
+            <comp-cate-list-wrap  :option="{coverKey:'cover'}"  :data="page.dataList" :cate-list="cateList"
                     :current-cate="currentCate" max-height="calc(100vh - 115px)"  :no-more="page.noMore"
                                 @fetch-data="fetchData"
                                 @back-cate="backCate"
@@ -199,7 +199,6 @@ const handleClick = (item: any) => {
         text = new Group(item.json)
     }
 
-    console.log('text=', text)
     editor.add(text)
 }
 const {page} = usePageMixin()
@@ -262,6 +261,7 @@ const selectCate = (cate:any) => {
 const fetchCateData = () => {
     
     queryTextCateList().then((res:any)=>{
+        debugger
         cateList.value=res
      });
 }

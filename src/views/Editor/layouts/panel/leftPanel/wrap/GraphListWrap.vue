@@ -95,7 +95,7 @@ const fetchCateData = () => {
 
     queryGraphCategory({pcate:null,isIndex:1} as any).then((res:any) =>{
        
-    
+    debugger
             cateList.value = res
             cateIndexList.value=JSON.parse(JSON.stringify(res))
         
