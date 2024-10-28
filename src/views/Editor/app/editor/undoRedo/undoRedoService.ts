@@ -75,13 +75,28 @@ export class EditorUndoRedoService extends Disposable {
                 this.saveState()
             }
         })
-
+        function __typeof__(objClass:any)
+        {
+            if ( objClass && objClass.constructor )
+            {
+                var strFun = objClass.constructor.toString();
+                var className = strFun.substr(0, strFun.indexOf('('));
+                className = className.replace('function', '');
+                return className.replace(/(^\s*)|(\s*$)/ig, '');  
+            }
+            return typeof(objClass);
+        }
 
         let oldValue: null | string = null
         canvas.app.editor.on(InnerEditorEvent.BEFORE_OPEN, arg => {
             // 关闭文本默认全选
-            arg.innerEditor.config.selectAll = false
-            oldValue = arg.editTarget.text
+            if(arg.innerEditor.constructor.name=="CustomEditor"){
+
+            }else{
+                arg.innerEditor.config.selectAll = false
+                oldValue = arg.editTarget.text
+            }
+
         })
         canvas.app.editor.on(InnerEditorEvent.CLOSE, arg => {
             if (oldValue !== arg.editTarget.text) {

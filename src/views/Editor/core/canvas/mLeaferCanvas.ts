@@ -50,7 +50,7 @@ import { nanoid } from 'nanoid'
 import {PenDraw, SignaturePluginOptions} from "@/views/Editor/core/canvas/penDraw";
 import { forEach, isString } from 'lodash';
 
-import {CustomEditor} from "@/views/Editor/app/CustomEditor"
+import  "@/views/Editor/app/CustomEditor"
 
 type ExtendedOption = {
     width: number
