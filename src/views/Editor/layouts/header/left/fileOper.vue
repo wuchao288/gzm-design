@@ -69,6 +69,10 @@ import {parseGroup} from "@/utils/psd/parser/group";
 import {parseMask} from "@/utils/psd/parser/mask";
 import ImageOrgSvg from '@/assets/images/imageOrg.svg?raw';
 import {Layer} from 'ag-psd';
+
+import api from '@/api/editor'
+import { nanoid } from "nanoid";
+
 const {proxy} = getCurrentInstance()
 const {canvas, keybinding} = useEditor()
 
@@ -110,14 +114,23 @@ const insertImg = async (clear = false) => {
             // workspaces.removeAll()
         }
         Array.from(fileList).forEach(async (item) => {
+
+            const formData = new FormData()
+
+            formData.append('file',item,new Date().getTime()+"_"+nanoid(6)+"."+item.name.split(".")[1])
+
+            let imgsrc= await api.upload.uploadFile(formData)
             // const {arrayBuffer} = await toArrayBuffer(item)
-            const url = URL.createObjectURL(item);
+            //const url = URL.createObjectURL(item);
+
             let image = new Image({
-                name: getDefaultName(canvas.contentFrame),
-                url: url,
+                name: getDefaultName(canvas.contentFrame)+"_"+item.name,
+                url: imgsrc.url,
                 editable: true
             });
             canvas.add(image)
+
+
         })
     })
 }

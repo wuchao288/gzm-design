@@ -18,7 +18,7 @@
                                             :height="95"
                                             width="100%"
                                             fit="contain"
-                                            :src="item[props.option.coverKey]"
+                                            :src="item[props.option.coverKey]+'?'+item.last_time"
                                     />
                                 </div>
                             </slot>

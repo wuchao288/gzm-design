@@ -29,7 +29,7 @@
                                          width="100%"
                                          :preview="false"
                                          fit="contain"
-                                         :src="item[props.option.coverKey]"
+                                         :src="item[props.option.coverKey]+'?'+item.last_time"
                                 />
                             </a-col>
                           </a-row>
@@ -60,7 +60,7 @@
                                         width="100%"
                                         fit="contain"
                                         :title="item.id"
-                                        :src="item[props.option.coverKey]"
+                                        :src="item[props.option.coverKey]+'?'+item.last_time"
                                 />
                             </div>
                         </a-list-item>

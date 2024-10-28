@@ -91,3 +91,21 @@ export function parseLineHeightOrLetterSpacing(value:any) {
     }
     return value
 }
+
+/**
+ * 转换圆角
+ * @param value 
+ * @returns 
+ */
+export function parseCornerRadius(value:any) {
+    if (value){
+        if (!isArray(value)) {
+            value = [
+                {...value}
+            ]
+        }
+    }else {
+        value = []
+    }
+    return value
+}

@@ -17,7 +17,7 @@
             <div class="upload-box">
                 <m-a-upload :prefix="baseUrl"
                             list-type="picture-card"
-                            :action="baseUrl+'/upload'"
+                            :action="uploadUrl"
                             v-model="image"
                             :limit="1"
                             imagePreview
@@ -104,7 +104,17 @@ import MAUpload from "@/components/upload/m-a-upload.vue";
 import {replaceElementToNewArr} from "@/utils/utils";
 import SwipeNumber from "@/components/swipeNumber/swipeNumber.vue";
 import NP from "number-precision";
-const baseUrl = import.meta.env.VITE_UPLOAD_BASE_URL;
+
+
+
+import  config from "@/config/index"
+
+
+
+const  uploadUrl=config.IMAGEUPLOAD_BASE_URL+config.IMAGEUPLOAD_URL;
+
+
+
 const {canvas, undoRedo} = useEditor()
 const options = reactive([
     {value: 'cover', label: '覆盖'},

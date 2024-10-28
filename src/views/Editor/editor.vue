@@ -1,6 +1,6 @@
 <template>
     <div class="layout-box">
-        <a-spin :loading="loading" tip="正在初始化" style="height: 100%;width: 100%">
+        <a-spin :loading="baseStoreSet.isloading.value" :tip="baseStoreSet.isloadingTip.value" style="height: 100%;width: 100%">
             <a-layout style="height: 100%">
                 <a-layout-header>
                     <headerBar/>
@@ -34,26 +34,30 @@ import CanvasEdit from "@/views/Editor/layouts/canvasEdit/canvasEdit.vue";
 import {getActiveCore} from '@/views/Editor/core'
 import {appInstance} from '@/views/Editor/app'
 import {EditorMain} from '@/views/Editor/app/editor'
+import {useBaseStore} from '@/store'
 
+import { storeToRefs } from 'pinia'
+
+const baseStore=useBaseStore()
 
 const position = ref('1')
-const loading = ref(true)
+const baseStoreSet = storeToRefs(baseStore)
+
 
 onBeforeMount(() => {
-    loading.value = false
+
+    baseStoreSet.isloading.value = false
     const { service } = getActiveCore()
     appInstance.editor = service.createInstance(EditorMain)
     appInstance.editor.startup()
+    
 })
-
 
 
 onBeforeUnmount(() => {
     appInstance.editor.dispose()
     appInstance.editor = null!
 })
-
-
 
 
 </script>

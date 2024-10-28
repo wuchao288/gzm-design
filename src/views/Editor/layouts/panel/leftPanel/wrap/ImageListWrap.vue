@@ -97,13 +97,14 @@ const fetchData = () => {
     })
 }
 const handleClick = (item) => {
+
     const image = new Image({
         name:getDefaultName(editor.contentFrame),
         // draggable: true,
         editable: true,
         x:0,
         y:0,
-        ...item,
+        ...item
     })
     editor.add(image)
 }

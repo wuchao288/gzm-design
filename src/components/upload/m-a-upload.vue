@@ -14,6 +14,8 @@
                 :multiple="multiple"
                 :limit="limit"
                 :tip="tip"
+                :headers="{'X-Requested-With':'XMLHttpRequest'}"
+                :withCredentials="true"
                 :image-preview="imagePreview"
                 :before-upload="before"
                 @success="success"
@@ -34,18 +36,19 @@
 <script>
 // import config from '@/config/upload'
 // import {FileItem} from "@arco-design/web-vue";
-
+import configBase from '@/config/index'
 const config = {
     // apiObj: API.common.upload, // 上传请求API对象
     filename: 'file', // form请求时文件的key
     successCode: 200, // 请求完成代码
     maxSize: 10, // 最大文件大小 默认10MB
-    parseData: function (resStr) {
-        let res = JSON.parse(resStr)
+    parseData: function (res) {
+        //debugger
+        //let res = JSON.parse(resStr)
         return {
-            code: res.code, // 分析状态字段结构
-            src: res.data.url, // 分析图片远程地址结构
-            msg: res.msg // 分析描述字段结构
+            code: res[configBase.statusCode], // 分析状态字段结构
+            src: res[configBase.statusResult].url, // 分析图片远程地址结构
+            msg: res[configBase.msg] // 分析描述字段结构
         }
     },
     // apiObjFile: API.common.uploadFile, // 附件上传请求API对象
@@ -161,6 +164,7 @@ export default {
             }
         },
         success(fileItem) {
+          
             var os = this.onSuccess(fileItem.response, fileItem.file)
             if (os !== undefined && os === false) {
                 return false
@@ -170,6 +174,7 @@ export default {
             fileItem.url = response.src
         },
         error(err) {
+            
             this.$notify.error({
                 title: '上传文件未成功',
                 message: err
@@ -193,6 +198,7 @@ export default {
             window.open(uploadFile.url)
         },
         request(param) {
+            
             var apiObj = config.apiObjFile
             if (this.apiObj) {
                 apiObj = this.apiObj
@@ -210,6 +216,7 @@ export default {
                     }
                 })
                 .then((res) => {
+                    
                     var response = config.parseData(res)
                     if (response.code === config.successCode) {
                         param.onSuccess(res)

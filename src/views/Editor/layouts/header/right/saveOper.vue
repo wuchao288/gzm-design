@@ -21,7 +21,15 @@
             </template>
             预览
         </a-button>
-        <a-button type="primary" @click="save()">
+
+        
+        <a-button type="primary" v-if="userState.managerEdit" @click="saveTemp()">
+            <template #icon>
+                <icon-save />
+            </template>
+            保存模板
+        </a-button>
+        <a-button type="primary" v-if="!userState.managerEdit" @click="save()">
             <template #icon>
                 <icon-save />
             </template>
@@ -92,14 +100,27 @@ import { IHierarchyService, HierarchyService } from '@/views/Editor/core/layer/h
 const { editor, keybinding} = useEditor()
 import {downFile} from "@/utils/designUtil.js";
 import {v4 as uuidv4} from "uuid";
-import {Notification} from "@arco-design/web-vue";
-import {useUserStore,useTemplateStore} from '@/store'
+import {Message, Notification} from "@arco-design/web-vue";
+import {useUserStore,useTemplateStore,useBaseStore} from '@/store'
+
+import { storeToRefs } from 'pinia'
+
+const baseStore=useBaseStore()
+
+const position = ref('1')
+
+const baseStoreSet = storeToRefs(baseStore)
 
 import api from '@/api/editor'
 import { Group, UI } from "leafer-ui";
 import { nanoid } from "nanoid";
 
 const userStore =  useUserStore()
+
+
+const userState=toRef(userStore)
+
+
 
 const templateStore = useTemplateStore()
 
@@ -161,7 +182,9 @@ const save = () => {
     // console.log('当前页JSON：',json)
 
     //先上传图片
-    console.info(templateStore.)
+    console.info(templateStore.templateState)
+
+    
 
     console.info(Array.from(editor.getPages().values()))
 
@@ -173,11 +196,67 @@ const handleDownload = () => {
 }
 
 const  createCover=async ()=>{
-   
+    
+    
+    const result = await editor.contentFrame.export('png', {blob: true})
+    const formData = new FormData()
+    formData.append('file',result.data,new Date().getTime()+"_"+nanoid(6)+".png")
+    return await api.upload.uploadFile(formData)
 }
+
 
 //保存模板（或文字效果）
 async function saveTemp(isClose:boolean|null=true) {
+
+    let reqObj;
+    if(templateStore.templateState.type==1){
+       if( editor.contentFrame.children.length>1){
+          Message.error("文字效果，请编组后再保存(1)")
+          return false
+       }else{
+          if(editor.contentFrame.children[0].tag!="Group"){
+            Message.error("文字效果，请编组后再保存(2)")
+            return false
+          }
+       }
+       reqObj=editor.contentFrame.children[0]
+    }else{
+        reqObj=  Array.from(editor.getPages().values())
+    }
+
+    baseStoreSet.isloading.value=true
+    baseStoreSet.isloadingTip.value="正在保存"
+
+    try{
+        const  res= await createCover() as any;
+
+        let req={...templateStore.templateState}
+
+        req.width=editor.contentFrame.width
+
+        req.height=editor.contentFrame.height
+
+        req.cover=res.fileId+"|"+res.fileName
+
+        req.content=JSON.stringify(reqObj)
+
+        await api.home.saveTemp(req)
+
+        await loadTempData()
+
+        Message.success("保存成功")
+
+        var messageData = { type: 'update', content: '' };
+
+        // 发送给父窗口
+        parent.postMessage(messageData, '*'); // '*' 表示任何源都可以接收
+
+   }catch(e){
+       
+   }
+   finally{
+      baseStoreSet.isloading.value=false
+   }
 
 }
 
@@ -216,21 +295,26 @@ async function loadTempData() {
        return
    }
 
-   const { data: content, title, state, width, height,version:ver,spaceClass,folderId,cover }
+   const { data: content, title, state, width, height,version:version,spaceClass,folderId,cover }
    = await api.home[apiName]({ id : id || tempid , type : type  ,compCode:"" })
 
   if (!content) return
 
   templateStore.setTemplateData({
-    wmBollean:false,
-    ver,
-    spaceClass,
-    folderId,
     state,
+    version,
+    wmBollean: false,//水印
     id,
     tempid,
-    type
-  })
+    type,
+    spaceClass,
+    folderId,
+    cover,
+    width,
+    height,
+    title,
+    content
+})
 
   let jsonData = typeof content === 'string' ? JSON.parse(content) : content
 

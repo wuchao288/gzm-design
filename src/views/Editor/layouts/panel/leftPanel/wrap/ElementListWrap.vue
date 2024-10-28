@@ -65,6 +65,7 @@ const handleClick = (item:any) => {
     }else {
         group = UI.one(item.json)
     }
+
     editor.add(group)
 }
 const backCate = () => {

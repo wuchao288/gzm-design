@@ -10,7 +10,7 @@
                     <a-avatar class="page-ava" :size="30" shape="square">{{ index + 1 }}</a-avatar>
                 </div>
 
-                <div class="page-add page-view" @click="addOnClick">
+                <div class="page-add page-view" v-if="userState.managerEdit&&templateStore.templateState.type==0" @click="addOnClick">
                     <icon-plus size="20"/>
                 </div>
             </a-space>
@@ -30,6 +30,12 @@
 <script setup lang="ts">
 import {useEditor} from "@/views/Editor/app";
 import ContextMenu from '@/components/contextMenu'
+import {useUserStore,useTemplateStore} from '@/store'
+
+const userStore =  useUserStore()
+const templateStore =  useTemplateStore()
+
+const userState=toRef(userStore)
 
 const {canvas, workspaces, event} = useEditor()
 import {IWorkspace} from '@/views/Editor/core/workspaces/workspacesService'

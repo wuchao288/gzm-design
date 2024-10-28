@@ -20,6 +20,7 @@ import {
     surfaceType,
     DragEvent, Box,
     version,
+    Star
 } from "leafer-ui";
 import leaferConfig from "@/config/leaferConfig";
 import '@leafer-in/editor'
@@ -37,6 +38,8 @@ import {useAppStore, useFontStore} from "@/store";
 import {EditTool} from "app";
 import {toFixed} from "@/utils/math";
 
+
+
 // 重写 proxyData，全局只需引入一次
 import './proxyData'
 import './initAttr'
@@ -45,8 +48,9 @@ import {BOTTOM_CANVAS_NAME} from "@/views/Editor/utils/constants";
 import {v4 as uuidv4} from 'uuid'
 import { nanoid } from 'nanoid'
 import {PenDraw, SignaturePluginOptions} from "@/views/Editor/core/canvas/penDraw";
-import { forEach } from 'lodash';
+import { forEach, isString } from 'lodash';
 
+import {CustomEditor} from "@/views/Editor/app/CustomEditor"
 
 type ExtendedOption = {
     width: number
@@ -202,7 +206,6 @@ export class MLeaferCanvas {
 
 
 
-
         // 启用滚动条
         // new ScrollBar(app)
         this.wrapperEl = app.canvas.view
@@ -313,8 +316,7 @@ export class MLeaferCanvas {
         this.setActiveObjectValue(this.contentFrame)
 
         this.app.editor.on(EditorEvent.SELECT, (arg: EditorEvent) => {
-            
-            
+
             if(arg.editor.list.length>0){
                 console.info(arg.editor.list[0])
                 console.info(arg.editor.list[0].proxyData)
@@ -322,6 +324,8 @@ export class MLeaferCanvas {
             this.setActiveObjectValue(arg.editor.element)
             // this.ruler.forceRender()
         })
+
+
         // 子元素添加事件
         this.contentLayer.on(ChildEvent.ADD, (arg: ChildEvent) => {
             // this.selectObject(arg.target)
@@ -438,6 +442,7 @@ export class MLeaferCanvas {
     }
 
     public activeObjectIsType(...types: ObjectType[]) {
+        
         return types.includes(<ObjectType>this.activeObject.value?.tag)
     }
 
@@ -477,6 +482,7 @@ export class MLeaferCanvas {
      */
     public add(_child: IUI, _index?: number) {
         
+      
         if (this.objectIsTypes(_child,'Group','Box')){
             this.bindDragDrop(_child)
         }
@@ -486,6 +492,13 @@ export class MLeaferCanvas {
         }
 
         _child.id=nanoid()
+
+        if ("width" in _child && isString(_child["width"])) {
+            _child['width']=Number(_child['width'])
+        }
+        if ("heigth" in _child && isString(_child["width"])) {
+            _child['heigth']=Number(_child['heigth'])
+        }
 
         this.contentFrame.add(_child, _index)
         // 选中提添加的元素
@@ -500,8 +513,17 @@ export class MLeaferCanvas {
 
         _children.forEach((_child)=>{
             _child.id=nanoid()
+
+            if ("width" in _child && isString(_child["width"])) {
+                _child['width']=Number(_child['width'])
+            }
+            if ("heigth" in _child && isString(_child["width"])) {
+                _child['heigth']=Number(_child['heigth'])
+            }
+
         })
         this.contentFrame.addMany(..._children)
+        
         this.childrenEffect()
     }
 

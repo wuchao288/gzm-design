@@ -1,7 +1,7 @@
 //const prefix = process.env
 const prefix = import.meta.env
 const isDev = prefix.NODE_ENV === 'development'
-import { version } from '/package.json'
+import { version } from '../../package.json'
 console.info(isDev,"isDev")
 export default {
   isDev,
@@ -14,11 +14,12 @@ export default {
   supportSubFont: false, // 是否开启服务端字体压缩
   serverPath:"editor",
   statusCode:"status",
+  statusMsg:"msg",
   statusResult:'response',
   statusSuccess:"success",
   loginUrl: isDev ? 'http://localhost:9200' : 'http://localhost:9200', 
-
-  IMAGEUPLOAD_URL:"/api/desgin/uploadimage"
+  IMAGEUPLOAD_BASE_URL:"/api",
+  IMAGEUPLOAD_URL:"/design/uploadimg"
 }
 
 export const LocalStorageKey = {

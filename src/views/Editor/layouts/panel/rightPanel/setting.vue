@@ -15,6 +15,8 @@ import QrcodeAttr from "./attrs/qrcodeAttr.vue";
 import BarcodeAttr from "./attrs/barcodeAttr.vue";
 import GroupAttr from "./attrs/groupAttr.vue";
 import PenAttr from "./attrs/penAttr.vue";
+import CornerRadiusAttr from "./attrs/cornerRadiusAttr.vue";
+
 import {appInstance, useEditor} from "@/views/Editor/app";
 import {typeUtil} from "@/views/Editor/utils/utils";
 import {useAppStore} from "@/store";
@@ -35,7 +37,13 @@ onMounted(() => {
 
 const componentList = computed(() => {
     const activeObject = editor.activeObject.value
-    return [
+   
+    let isDef=isDefined(activeObject)
+
+    let isVir=typeUtil.isVirtualOrBottom(activeObject)
+
+
+    const arr= [
         {
             name: 'CanvasAttr',
             component: CanvasAttr,
@@ -44,17 +52,17 @@ const componentList = computed(() => {
         {
             name: 'VirtualElementAttr',
             component: VirtualElementAttr,
-            visual: typeUtil.isVirtualElement(activeObject),
+            visual: isVir,
         },
         {
             name: 'BaseAttr',
             component: BaseAttr,
-            visual: !typeUtil.isVirtualOrBottom(activeObject),
+            visual: !isVir,
         },
         {
             name: 'LayerAttr',
             component: LayerAttr,
-            visual: isDefined(activeObject) && !typeUtil.isVirtualOrBottom(activeObject),
+            visual: isDef && !isVir,
         },
         {
             name: 'BoxAttr',
@@ -64,60 +72,68 @@ const componentList = computed(() => {
         {
             name: 'TextAttr',
             component: TextAttr,
-            visual: isDefined(activeObject) && editor.activeObjectIsType('Text'),
+            visual: isDef && editor.activeObjectIsType('Text'),
         },
         {
             name: 'HtmlTextAttr',
             component: HtmlTextAttr,
-            visual: isDefined(activeObject) && editor.activeObjectIsType('HTMLText'),
+            visual: isDef && editor.activeObjectIsType('HTMLText'),
         },
         {
             name: 'QrcodeAttr',
             component: QrcodeAttr,
             visual:
-                isDefined(activeObject)
-                &&!typeUtil.isVirtualOrBottom(activeObject)
+            isDef
+                &&!isVir
                 && editor.activeObjectIsType('QrCode')
         },
         {
             name: 'BarcodeAttr',
             component: BarcodeAttr,
             visual:
-                isDefined(activeObject)
-                &&!typeUtil.isVirtualOrBottom(activeObject)
+            isDef
+                &&!isVir
                 && editor.activeObjectIsType('BarCode')
         },
         {
             name: 'FillAttr',
             component: FillAttr,
             visual:
-                isDefined(activeObject)
-                &&!typeUtil.isVirtualOrBottom(activeObject)
+            isDef
+                &&!isVir
                 && !editor.activeObjectIsType('Image','Pen','HTMLText','QrCode','BarCode','Group')
-                ,
         },
         {
             name: 'StrokeAttr',
             component: StrokeAttr,
             visual:
-                isDefined(activeObject)
-                &&!typeUtil.isVirtualOrBottom(activeObject)
+            isDef
+                &&!isVir
                 && !editor.activeObjectIsType('Pen','Group')
         },
+        {
+            name: 'CornerRadiusAttr',
+            component: CornerRadiusAttr,
+            visual:
+            isDef
+                &&!isVir
+                && editor.activeObjectIsType('Rect',"Image")
+        },
+        
         {
             name: 'ShadowAttr',
             component: ShadowAttr,
             visual:
-                isDefined(activeObject)
-                &&!typeUtil.isVirtualOrBottom(activeObject)
+            isDef
+                &&!isVir
                 && !editor.activeObjectIsType('Pen','Group')
         },
         {
             name: 'GroupAttr',
             component: GroupAttr,
             visual:
-                isDefined(activeObject)
-                &&!typeUtil.isVirtualOrBottom(activeObject)
+            isDef
+                &&!isVir
                 &&typeUtil.isCollection(activeObject)
                 && !editor.activeObjectIsType('Pen')
         },
@@ -129,6 +145,9 @@ const componentList = computed(() => {
         // 阴影
         // 模糊
     ]
+
+    return arr
+    console.info(arr)
 })
 
 const pluginSolts = appInstance.editor.getPluginSlots('rightPanel')

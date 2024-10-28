@@ -1,5 +1,7 @@
-import { useClipboard, useFileDialog, useBase64 } from '@vueuse/core';
+import { useClipboard, useFileDialog, useBase64, } from '@vueuse/core';
 import { Message } from '@arco-design/web-vue';
+
+
 import {readPsd} from "ag-psd";
 interface Font {
   type: string;
@@ -47,6 +49,8 @@ export function selectFiles(options: {
     open();
   });
 }
+
+
 
 /**
  * @description: 前端下载文件

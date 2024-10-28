@@ -1,15 +1,24 @@
 
 import { Store, defineStore } from "pinia"
 
+type TStoreBaseState = {
+  templateState:TTemplateStoreState
+}
+
 type TTemplateStoreState = {
   state: number,
   wmBollean: boolean,//水印
-  ver: string | number
+  version: string | number
   id: string | number
   tempid:string | number
   type:string | number //文字效果 =0 模板=1
   spaceClass:string|number
   folderId:string|number
+  cover:string
+  width:string|number
+  height:string|number
+  title:string
+  content:string
 }
 
 type TTemplateAction = {
@@ -18,25 +27,23 @@ type TTemplateAction = {
 }
 
 
-const useTemplateStore = defineStore<'templateStore', TTemplateStoreState, {}, TTemplateAction>('templateStore', {
+const useTemplateStore = defineStore<'templateStore', TStoreBaseState, {}, TTemplateAction>('templateStore', {
   state: () => ({
-    state:1,
-    wmBollean:false,
-    ver: "",
-    id: "",
-    tempid:"",
-    type:"",
-    spaceClass:"",
-    folderId:""
+    templateState:{
+      state: 1,
+      wmBollean: false,//水印
+      version: 1,
+      id: '',
+      tempid:'',
+      type:'',//文字效果 =0 模板=1
+      spaceClass:'',
+      folderId:'',
+      cover:''
+    } as TTemplateStoreState
   }),
   actions: {
     setTemplateData(model: TTemplateStoreState) {
-      this.ver = model.ver
-      this.id = model.id
-      this.tempid = model.tempid
-      this.type = model.type
-      this.folderId=model.folderId
-      this.spaceClass=model.spaceClass
+        this.templateState=model
     }
   }
 })
