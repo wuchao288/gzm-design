@@ -1,4 +1,4 @@
-import {isArray, isObject, isString} from "lodash";
+import {isArray, isNumber, isObject, isString} from "lodash";
 const KEY_STROKE_FILL = ['stroke','fill']
 const KEY_SHADOW = ['shadow','innerShadow']
 const KEY_LINEHEIGHT_LETTERSPACING = ['lineHeight','letterSpacing']
@@ -98,14 +98,19 @@ export function parseLineHeightOrLetterSpacing(value:any) {
  * @returns 
  */
 export function parseCornerRadius(value:any) {
-    if (value){
-        if (!isArray(value)) {
-            value = [
-                {...value}
-            ]
-        }
-    }else {
-        value = []
+    debugger
+
+   if(isArray(value)){
+
+        return value
+
+    }else if(isNumber(value*1)){
+
+        return [value*1,value*1,value*1,value*1]
+
+    }else{
+
+        return []
+        
     }
-    return value
 }

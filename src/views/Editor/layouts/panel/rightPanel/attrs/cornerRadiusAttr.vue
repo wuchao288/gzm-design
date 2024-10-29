@@ -11,17 +11,25 @@ import {parseCornerRadius} from "@/views/Editor/utils/jsonParse";
 
 const {canvas} = useEditor()
 
-const cornerRadius = useActiveObjectModel('cornerRadius')
+const cornerRadius = useActiveObjectModel('cornerRadius',[0,0,0,0],parseCornerRadius)
+
+const cornerRadiusArray = ref([])
 
 
-const refreshRadius = (value:any) => {
-    cornerRadius.value.onChange(value)
-}
+watchEffect(() => {
+    if (cornerRadius.value.modelValue) {
+
+        cornerRadiusArray.value = parseCornerRadius(cornerRadius.value.modelValue)
+
+    } else {
+        cornerRadiusArray.value = []
+    }
+})
 
 </script>
 
 <template>
-    <Panel
+    <Panel :hiddenAdd="true"
             title="圆角" 
     >
         <a-space direction="vertical" style="padding: 8px;" >

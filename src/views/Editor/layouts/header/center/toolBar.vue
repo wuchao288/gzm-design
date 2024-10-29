@@ -2,12 +2,12 @@
     <div>
         <a-tooltip effect="dark" content="创建分组" mini>
             <a-button class="icon-btn pd-5px"  @click="handleGroupBtnClick" :disabled="!isGroupBtnEnabled">
-                <SvgIcon name="object-group"></SvgIcon>
+                <SvgIcon name="object-group" :size="24" ></SvgIcon>
             </a-button>
         </a-tooltip>
         <a-tooltip effect="dark" content="解除分组" mini>
             <a-button class="icon-btn pd-5px"  @click="handleUnGroupBtnClick" :disabled="!isUnGroupBtnEnabled">
-                <SvgIcon name="object-ungroup"></SvgIcon>
+                <SvgIcon name="object-ungroup"  :size="24" ></SvgIcon>
             </a-button>
         </a-tooltip>
     </div>

@@ -317,10 +317,7 @@ export class MLeaferCanvas {
 
         this.app.editor.on(EditorEvent.SELECT, (arg: EditorEvent) => {
 
-            if(arg.editor.list.length>0){
-                console.info(arg.editor.list[0])
-                console.info(arg.editor.list[0].proxyData)
-            }
+            console.info(arg.editor.list)
             this.setActiveObjectValue(arg.editor.element)
             // this.ruler.forceRender()
         })

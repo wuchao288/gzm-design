@@ -32,7 +32,11 @@ export class ClipboardService {
 
   public async readBlob(): Promise<Blob[] | undefined> {
     try {
+      
+
+
       const clipboardItems = await navigator.clipboard.read()
+      console.info(clipboardItems)
       const blobs: Blob[] = []
       for (const clipboardItem of clipboardItems) {
         for (const type of clipboardItem.types) {

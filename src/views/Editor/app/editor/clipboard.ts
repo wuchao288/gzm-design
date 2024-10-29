@@ -5,12 +5,18 @@ import {ClipboardService, IClipboardService} from '@/views/Editor/core/clipboard
 import { IEditorUndoRedoService, EditorUndoRedoService } from '@/views/Editor/app/editor/undoRedo/undoRedoService'
 import {clamp, clone} from 'lodash'
 import {appInstance} from '@/views/Editor/app'
-import {PointerEvent, Point, Group, LeafList} from 'leafer-ui'
-import {IGroup, IUI} from '@leafer-ui/interface'
+import {PointerEvent, Point, Group, LeafListm,Text} from 'leafer-ui'
+import {IGroup, IUI, } from '@leafer-ui/interface'
+import { HTMLText} from '@leafer-in/html'
 import {typeUtil} from "@/views/Editor/utils/utils";
 import {EditorHelper} from "@leafer-in/editor/src/helper/EditorHelper";
 import {MEditorHelper} from "@/views/Editor/utils/MEditorHelper";
 import {Matrix} from "@leafer-ui/core";
+import { nanoid } from 'nanoid'
+import Image2 from '../../core/shapes/Image2'
+import api from '@/api/editor'
+import {getDefaultName} from "@/views/Editor/utils/utils";
+import mousetrap, {ExtendedKeyboardEvent} from 'mousetrap'
 
 export class Clipboard extends Disposable {
 
@@ -26,12 +32,17 @@ export class Clipboard extends Disposable {
     ) {
         super()
 
+        document.addEventListener("paste",this.paste2)
+
         keybinding.bind({
             'mod+x': this.clip.bind(this),
             'mod+c': this.copy.bind(this),
-            'mod+v': this.paste.bind(this, false),
+            //'mod+v': this.paste.bind(this, false),
             'mod+shift+v': this.paste.bind(this, true),
         })
+
+        
+
         canvas.app.tree.on(PointerEvent.MOVE, (arg: PointerEvent) => {
             this.pointer = new Point(arg.x, arg.y)
         })
@@ -60,51 +71,178 @@ export class Clipboard extends Disposable {
         // 转json
         const json = JSON.stringify(this.group.toJSON())
 
+        this.clipboard.writeText("")
         // 写剪贴板
         this.clipboard.writeText(json)
     }
 
-    private paste(currentLocation = false) {
+   private paste2= async (event:any)=>{
+   
+    console.info(event.type)
+
+      let serialized: any | undefined
+
+      let items=( event.clipboardData.items)
+
+      const  IMAGE_MIME_REGEX=/^image\/(p?jpeg|gif|png)$/i
+
+      let isImgFile=false
+
+      for (let i = 0; i< items.length; i++) {
+
+        if (IMAGE_MIME_REGEX.test(items[i].type)) {
+           
+           var file=(items[i].getAsFile());
+
+           const formData = new FormData()
+
+           formData.append('file',file,new Date().getTime()+"_"+nanoid(6)+".png")
+
+           let imgsrc= await api.upload.uploadFile(formData)
+
+           let image = new Image2({
+               name: getDefaultName(this.canvas.contentFrame)+"-截图",
+               url: imgsrc.url,
+               editable: true,
+               id:nanoid()
+           });
+
+           serialized=new Group({
+               id:nanoid(),
+               editable:true,
+               children:[image]
+           })  
+
+           this.addObjects(serialized.toJSON(),false)
+           isImgFile=true
+            break
+        }
+      }
+    
+      if(isImgFile==false){
+        this.paste(false,event)
+      }
+     
+   } 
+    
+    private   addObjects = (groupData: object,currentLocation:boolean) => {
+           
+            const group = new Group(groupData)
+            // 粘贴到当前位置
+            if (currentLocation) {
+                const {x, y} = appInstance.editor.contextMenu?.pointer || this.pointer
+                const point =this.activeObject&& this.activeObject.parent ? this.activeObject.parent.getInnerPoint({
+                    x: x,
+                    y: y
+                }) : this.canvas.contentFrame.getInnerPoint({x: x, y: y})
+                group.x = point.x
+                group.y = point.y
+            } else {
+                // 略微在原基础上偏移粘贴
+                group.x += 15
+                group.y += 15
+            }
+            this.canvas.add(group)
+            // 选中元素
+            this.canvas.setActiveObjects(group.children)
+            // 解组
+            MEditorHelper.ungroup([group])
+
+        }
+
+    private paste=(currentLocation:boolean,event:any)=>{
+
         this.clipboard.readBlob().then((blobs) => {
+            
             if (!blobs) return
-            blobs.forEach(async (blob) => {
+         
+            blobs.forEach(async (blob,index) => {
+                if(index!=0){
+                    return
+                }
                 // 读取json
-                const json = await blob.text()
                 let serialized: any | undefined
 
-                if (json) {
-                    try {
-                        serialized = JSON.parse(json)
-                    } catch (error) {
-                        //
+
+                if(blob.type=="text/plain"){
+
+                    const json = await blob.text()
+
+                    if (json) {
+
+                        try {
+                            serialized = JSON.parse(json)
+                            serialized.editable=true
+                            serialized.id=nanoid()
+                            this.addObjects(serialized,currentLocation)
+
+                        } catch (error) {
+
+                            //
+                            serialized=new Group({
+                                id:nanoid(),
+                                editable:true,
+                                children:[new Text({
+                                    text:json,
+                                    editable:true,
+                                    id:nanoid(),
+                                    name: getDefaultName(this.canvas.contentFrame)+"-复制文本",
+                                    fontSize:18
+                                })]
+                            })  
+
+                            this.addObjects(serialized.toJSON(),currentLocation)
+                        }
                     }
+                   
+                }else if(blob.type=="text/html"){
+
+                    const json = await blob.text()
+
+                    const obj=new HTMLText({
+                        text:json,
+                        id:nanoid(),
+                        editable:true,
+                        name: getDefaultName(this.canvas.contentFrame)+"-复制文本"
+                    })
+
+                    serialized=new Group({
+                        id:nanoid(),
+                        editable:true,
+                        children:[obj]
+                    })  
+
+                    this.addObjects(serialized.toJSON(),currentLocation)
+
+                }else if(blob.type=="image/png"){
+
+                    const item = new File([blob], 'blob', { type: 'image/png' })
+                    
+                    const formData = new FormData()
+
+                    formData.append('file',item,new Date().getTime()+"_"+nanoid(6)+".png")
+        
+                    let imgsrc= await api.upload.uploadFile(formData)
+        
+                    let image = new Image2({
+                        name: getDefaultName(this.canvas.contentFrame)+"-截图",
+                        url: imgsrc.url,
+                        editable: true,
+                        id:nanoid()
+                    });
+
+                    serialized=new Group({
+                        id:nanoid(),
+                        editable:true,
+                        children:[image]
+                    })  
+
+                    this.addObjects(serialized.toJSON(),currentLocation)
                 }
-                // 插入元素到画板内
-                const addObjects = (groupData: object) => {
-                    const group = new Group(groupData)
-                    // 粘贴到当前位置
-                    if (currentLocation) {
-                        const {x, y} = appInstance.editor.contextMenu?.pointer || this.pointer
-                        const point = this.activeObject.parent ? this.activeObject.parent.getInnerPoint({
-                            x: x,
-                            y: y
-                        }) : this.canvas.contentFrame.getInnerPoint({x: x, y: y})
-                        group.x = point.x
-                        group.y = point.y
-                    } else {
-                        // 略微在原基础上偏移粘贴
-                        group.x += 15
-                        group.y += 15
-                    }
-                    this.canvas.add(group)
-                    // 选中元素
-                    this.canvas.setActiveObjects(group.children)
-                    // 解组
-                    MEditorHelper.ungroup([group])
-                }
-                addObjects(serialized)
-                // this.undoRedo.saveState()
+                //  this.undoRedo.saveState()
                 currentLocation && (appInstance.editor.contextMenu!.pointer = undefined)
+
+                
             })
         })
     }
@@ -117,5 +255,6 @@ export class Clipboard extends Disposable {
     public dispose(): void {
         super.dispose()
         this.keybinding.unbind(['mod+x', 'mod+c', 'mod+v', 'mod+shift+v'])
+        document.removeEventListener("paste",this.paste2)
     }
 }

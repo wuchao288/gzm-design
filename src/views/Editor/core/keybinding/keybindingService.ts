@@ -55,6 +55,7 @@ export class KeybindingService extends mousetrap {
 
     trigger(keys: string, action?: string | undefined) {
         runWhenIdle(() => {
+            
             super.trigger(keys, action)
         })
         return this

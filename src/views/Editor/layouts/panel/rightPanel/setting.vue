@@ -16,6 +16,9 @@ import BarcodeAttr from "./attrs/barcodeAttr.vue";
 import GroupAttr from "./attrs/groupAttr.vue";
 import PenAttr from "./attrs/penAttr.vue";
 import CornerRadiusAttr from "./attrs/cornerRadiusAttr.vue";
+import AlignmentAttr from "./attrs/alignmentAttr.vue";
+
+
 
 import {appInstance, useEditor} from "@/views/Editor/app";
 import {typeUtil} from "@/views/Editor/utils/utils";
@@ -42,6 +45,8 @@ const componentList = computed(() => {
 
     let isVir=typeUtil.isVirtualOrBottom(activeObject)
 
+    let isSingle= editor.app.editor.single
+
 
     const arr= [
         {
@@ -63,6 +68,14 @@ const componentList = computed(() => {
             name: 'LayerAttr',
             component: LayerAttr,
             visual: isDef && !isVir,
+        },
+        {
+            name: 'AlignmentAttr',
+            component: AlignmentAttr,
+            visual:
+            isDef
+                &&!isVir
+                && (!isSingle||editor.activeObjectIsType('Group'))
         },
         {
             name: 'BoxAttr',
@@ -101,7 +114,7 @@ const componentList = computed(() => {
             visual:
             isDef
                 &&!isVir
-                && !editor.activeObjectIsType('Image','Pen','HTMLText','QrCode','BarCode','Group')
+                && !editor.activeObjectIsType('Image','Pen','HTMLText','QrCode','BarCode','Group')&&isSingle
         },
         {
             name: 'StrokeAttr',
@@ -109,7 +122,7 @@ const componentList = computed(() => {
             visual:
             isDef
                 &&!isVir
-                && !editor.activeObjectIsType('Pen','Group')
+                && !editor.activeObjectIsType('Pen','Group')&&isSingle
         },
         {
             name: 'CornerRadiusAttr',
@@ -117,16 +130,16 @@ const componentList = computed(() => {
             visual:
             isDef
                 &&!isVir
-                && editor.activeObjectIsType('Rect',"Image")
+                && editor.activeObjectIsType('Rect',"Image")&&isSingle
         },
-        
+
         {
             name: 'ShadowAttr',
             component: ShadowAttr,
             visual:
             isDef
                 &&!isVir
-                && !editor.activeObjectIsType('Pen','Group')
+                && !editor.activeObjectIsType('Pen','Group')&&isSingle
         },
         {
             name: 'GroupAttr',
@@ -135,12 +148,12 @@ const componentList = computed(() => {
             isDef
                 &&!isVir
                 &&typeUtil.isCollection(activeObject)
-                && !editor.activeObjectIsType('Pen')
+                && !editor.activeObjectIsType('Pen')&&isSingle
         },
         {
             name: 'PenAttr',
             component: PenAttr,
-            visual: activeTool.value === 'pen',
+            visual: activeTool.value === 'pen'&&isSingle,
         },
         // 阴影
         // 模糊
