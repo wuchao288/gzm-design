@@ -51,19 +51,19 @@ type TUserStoreState = {
       },
       managerEdit(status: boolean) {
         
-        if(this.manager==true){//为编辑模板时不能取消
-          this.tempEditing=true;
-        }else{
-          this.tempEditing = status
-        }
+        this.tempEditing = status
+        // if(this.manager==true){//为编辑模板时不能取消
+        //   this.tempEditing=true;
+        // }else{
+        //   this.tempEditing = status
+        // }
   
-        if(status==false){
-          //admin弹窗编辑时
-          if((window.parent as any).closeEditorWin){
-              (window.parent as any).closeEditorWin();
-          }
-          
-        }
+        // if(status==false){
+        //   //admin弹窗编辑时
+        //   if((window.parent as any).closeEditorWin){
+        //       (window.parent as any).closeEditorWin();
+        //   }
+        // }
         
       },
       changeloginVisible(status: boolean){

@@ -118,9 +118,7 @@ import { nanoid } from "nanoid";
 const userStore =  useUserStore()
 
 
-const userState=toRef(userStore)
-
-
+const userState=storeToRefs(userStore)
 
 const templateStore = useTemplateStore()
 
@@ -265,15 +263,16 @@ onMounted(async()=>{
     
    await checklogin(async(res:any)=>{
      
-        const edit= Boolean(route.query.edit)
+        const edit= route.query.edit
+        const tempId= route.query.tempid
 
-        userStore.changeUser(res.userInfo.UserName,res.userInfo.CompCode,res.managerEdit&&edit);
+        //alert(res.managerEdit&&edit&&tempId)
 
-        const { id, tempid: tempId } = route.query
+        userStore.changeUser(res.userInfo.UserName,res.userInfo.CompCode,res.managerEdit);
 
-        if(!id && !tempId){
-            return
-        }
+        userStore.managerEdit(res.managerEdit&&edit&&tempId)
+
+        debugger
         await loadTempData()
     })
 })
@@ -285,7 +284,11 @@ async function loadTempData() {
 
     const id= route.query.id as string
 
+
+
     const tempid= route.query.tempid as string
+
+   
 
     const type= route.query.type as string
 
@@ -294,8 +297,9 @@ async function loadTempData() {
    if (!id && !tempid) {
        return
    }
-
+   alert(apiName)
    const { data: content, title, state, width, height,version:version,spaceClass,folderId,cover }
+
    = await api.home[apiName]({ id : id || tempid , type : type  ,compCode:"" })
 
   if (!content) return

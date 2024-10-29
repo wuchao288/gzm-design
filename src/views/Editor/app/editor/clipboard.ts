@@ -29,6 +29,7 @@ export class Clipboard extends Disposable {
         @IKeybindingService readonly keybinding: KeybindingService,
         @IClipboardService private readonly clipboard: ClipboardService,
         @IEditorUndoRedoService private readonly undoRedo: EditorUndoRedoService,
+        
     ) {
         super()
 
@@ -148,7 +149,9 @@ export class Clipboard extends Disposable {
             // 解组
             MEditorHelper.ungroup([group])
 
-        }
+            this.undoRedo.saveState()
+
+    }
 
     private paste=(currentLocation:boolean,event:any)=>{
 
