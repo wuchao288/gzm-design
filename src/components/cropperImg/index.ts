@@ -39,6 +39,7 @@ const openDialog = (
     hideCancel:false,
     titleAlign:"start",
     footer:false,
+    bodyStyle:"padding-bottom: 0px;",
     content: () =>
       h(_CropperImg, {
         sizeData,
@@ -47,7 +48,7 @@ const openDialog = (
         aspectRatio,
         viewMode,
         autoCropArea,
-        onChange:onChange,
+        onUpdateSrc:onChange,
         onClose(){
           dialogClose()
         }

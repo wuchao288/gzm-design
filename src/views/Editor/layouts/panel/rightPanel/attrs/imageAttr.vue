@@ -102,6 +102,7 @@
 
 
    const openCropperImg = () => {
+
     const fillModel=editor.activeObject.value.fill
    
     appInstance.editor.service.invokeFunction((accessor) => {
@@ -119,9 +120,6 @@
             },
             onChange(obj:any){
 
-                //Object.assign(fillModel,{url:obj.imageSrc})
-                console.info(obj)
-                console.info(fillModel)
                 let fillObj= JSON.parse(JSON.stringify(fillModel))
                 fillObj.url=obj.imgsrc.url
                 editor.activeObject.value.fill=fillObj

@@ -3,9 +3,9 @@ import setupMock, { successResponseWrap } from '@/utils/setup-mock';
 import {MockData, MockParams} from "@/types/mock";
 
 setupMock({
-    mock:false,
+    mock:true,
     setup() {
-        Mock.mock(new RegExp('/api/oss/upload'), (params:MockData) => {
+        Mock.mock(new RegExp('/api/design/uploadimg'), (params:MockData) => {
             const formData:FormData =params.body
             const file = <File>formData.get("file")
             const url = URL.createObjectURL(file)

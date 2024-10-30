@@ -1,7 +1,15 @@
 <template>
-   <a-spin ref="arcomodalwrap" class="arco-modal-wrap" :loading="state.isUploading" tip="This may take a while...">
-      <div ref="arcomodalimg" class="arco-modal-img">
-              <img ref="imageRef" :src="props.imageSrc" alt="image" style="object-fit: contain;">
+   <a-spin ref="arcomodalwrap" :style="{height:arcomodalwrapH+'px'}"  class="arco-modal-wrap" :loading="state.isUploading" tip="This may take a while...">
+      <div ref="arcomodalimg"
+       :style="{height:arcomodalimgH+'px',
+    backgroundSize: 'contain',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'}"
+
+        class="arco-modal-img">
+              <img ref="imageRef"
+               :src="props.imageSrc"
+               alt="image" style="object-fit: contain;opacity: 1;width:100%;height:100%;">
       </div>
       <div ref="arcomodalfooter" class="arco-modal-footer">
             <a-button @click="props.onClose">取消 </a-button>
@@ -30,42 +38,43 @@ import { nanoid } from 'nanoid';
     viewMode: 1,
     //autoCropArea: 设置裁剪区域占图片的大小 值为 0-1 默认 0.8 表示 80%的区域
     autoCropArea:0.8,
-    onChange:(obj:any)=>{},
+
     onClose:()=>{}
   })
   //绑定图片的dom对象
   const imageRef = ref(null)
 
+  const arcomodalwrapH = ref(600)
+
+  arcomodalwrapH.value=window.innerHeight*0.8
+
+  if(arcomodalwrapH.value>800){
+    arcomodalwrapH.value=800
+  }
+
+
+
+  const arcomodalfooterH = ref(64)
+
+  const arcomodalimgH = ref(arcomodalwrapH.value-arcomodalfooterH.value)
+
   let state=ref({
-    isUploading:true
+    isUploading:true,
   })
 
   let arcomodalwrap=   useTemplateRef('arcomodalwrap')
-  let arcomodalimg=  useTemplateRef('arcomodalimg')
-  let arcomodalfooter = useTemplateRef('arcomodalfooter')
+  let arcomodalimg=  useTemplateRef<HTMLDivElement>('arcomodalimg')
+  let arcomodalfooter = useTemplateRef<HTMLDivElement>('arcomodalfooter')
 
   let cropper:any = null;
 
   //使用Cropper构造函数创建裁剪器实例，并将图片元素和一些裁剪选项传入
   onMounted(() => {
 
+    state.value.isUploading=true
 
 
-    let arcomodalwrapH=arcomodalwrap.value.$el.height
-
-    let arcomodalimgH=arcomodalimg.value.clientHeight
-
-    let arcomodalfooterH=arcomodalfooter.value.clientHeight
-
-
-    console.info(arcomodalwrap)
-
-    console.info(arcomodalimgH)
-
-    console.info(arcomodalfooterH)
-
-
-      state.value.isUploading=true
+     
       cropper = new Cropper(imageRef.value, {
       aspectRatio: props.aspectRatio,
       autoCropArea:props.autoCropArea,
@@ -82,13 +91,16 @@ import { nanoid } from 'nanoid';
 
 
   onUnmounted(()=>{
+    state.value.isUploading=false
       if(cropper!=null){
         cropper?.destroy()
       }
-      console.info("onUnmounted")
   })
+
+  const emits=defineEmits(["updateSrc"])
+
   const cropImage =async () => {
-     
+    state.value.isUploading=true
       const canvas = cropper.getCroppedCanvas();
       let cropData=  cropper.getCropBoxData()
       const sizeData = cropper.getData();
@@ -100,11 +112,15 @@ import { nanoid } from 'nanoid';
         formData.append('file',blob,new Date().getTime()+"_"+nanoid(6)+".png")
 
         let imgsrc= await api.upload.uploadFile(formData)
-        props.onChange({imgsrc,cropData,sizeData})
+
+        emits("updateSrc",{imgsrc,cropData,sizeData})
+
         props.onClose()
         if(cropper!=null){
          cropper?.destroy()
         }
+
+        state.value.isUploading=false
       })
 
   }
@@ -112,12 +128,11 @@ import { nanoid } from 'nanoid';
 
 <style lang="less" scoped>
    .arco-modal-wrap{
-      height: 600px;
       width: 100%;
       display: flex;
       flex-direction: column;
    }
-   :deep(.arco-modal-footer){
-       
+   :deep(.arco-modal-img){
+    overflow: hidden;
    }
 </style>
