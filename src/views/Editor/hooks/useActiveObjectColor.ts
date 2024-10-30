@@ -111,8 +111,6 @@ export function useColor(
     appInstance.editor.service.invokeFunction((accessor) => {
       const canvas = accessor.get(IMLeaferCanvas)
       if (!isDefined(canvas.activeObject)) return
-      
-
       setTimeout(function(){
         closeFn = ColorPicker.open({
           object: canvas.activeObject.value,

@@ -79,8 +79,6 @@ export class Clipboard extends Disposable {
 
    private paste2= async (event:any)=>{
    
-    console.info(event.type)
-
       let serialized: any | undefined
 
       let items=( event.clipboardData.items)

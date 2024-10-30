@@ -136,7 +136,7 @@ const isAlign = computed(() => {
 const handleGroupBtnClick = () => {
     
     if (isGroupBtnEnabled) {
-        debugger
+        
         keybinding.trigger(keybindMap.group);
     }
 };

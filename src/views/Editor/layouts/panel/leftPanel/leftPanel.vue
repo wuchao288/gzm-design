@@ -46,7 +46,7 @@ import {useUserStore} from "@/store";
 
 const userStore =  useUserStore()
 
-const widgetClassifyList =ref([
+const widgetClassifyList =shallowRef([
     {
         name: '模板',
         icon: 'icon-apps',

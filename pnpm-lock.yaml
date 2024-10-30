@@ -56,6 +56,9 @@ importers:
       convert-units:
         specifier: 3.0.0-beta.6
         version: 3.0.0-beta.6
+      cropperjs:
+        specifier: ^1.6.2
+        version: 1.6.2
       fontfaceobserver:
         specifier: ^2.3.0
         version: 2.3.0
@@ -982,6 +985,9 @@ packages:
   cors@2.8.5:
     resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
     engines: {node: '>= 0.10'}
+
+  cropperjs@1.6.2:
+    resolution: {integrity: sha512-nhymn9GdnV3CqiEHJVai54TULFAE3VshJTXSqSJKa8yXAKyBKDWdhHarnlIPrshJ0WMFTGuFvG02YjLXfPiuOA==}
 
   css-select@4.3.0:
     resolution: {integrity: sha512-wPpOYtnsVontu2mODhA19JrqWxNsfdatRKd64kmpRbQgh1KtItko5sTnEpPdpSaJszTOhEMlF/RPz28qj4HqhQ==}
@@ -3377,6 +3383,8 @@ snapshots:
     dependencies:
       object-assign: 4.1.1
       vary: 1.1.2
+
+  cropperjs@1.6.2: {}
 
   css-select@4.3.0:
     dependencies:

@@ -11,9 +11,9 @@ import {parseCornerRadius} from "@/views/Editor/utils/jsonParse";
 
 const {canvas} = useEditor()
 
-const cornerRadius = useActiveObjectModel('cornerRadius',[0,0,0,0],parseCornerRadius)
+const cornerRadius = useActiveObjectModel('cornerRadius')
 
-const cornerRadiusArray = ref([])
+const cornerRadiusArray = ref([0,0,0,0])
 
 
 watchEffect(() => {
@@ -22,7 +22,7 @@ watchEffect(() => {
         cornerRadiusArray.value = parseCornerRadius(cornerRadius.value.modelValue)
 
     } else {
-        cornerRadiusArray.value = []
+        cornerRadiusArray.value = [0,0,0,0]
     }
 })
 
@@ -35,10 +35,10 @@ watchEffect(() => {
         <a-space direction="vertical" style="padding: 8px;" >
             <a-row  >
                 <a-col :span="12">
-                    <a-slider :max="200" :min="1" :style="{ width: '100px' }" v-bind="cornerRadius"  />
+                    <a-slider :max="100" :min="1" :style="{ width: '100px' }" v-bind="cornerRadius"  />
                 </a-col>
                 <a-col :span="12">
-                    <SwipeNumber size="small" :max="200" :min="1"  v-bind="cornerRadius"  :hide-button="false"/>
+                    <SwipeNumber size="small" :max="100" :min="1"  v-bind="cornerRadius"  :hide-button="false"/>
                 </a-col>
             </a-row>
         </a-space>

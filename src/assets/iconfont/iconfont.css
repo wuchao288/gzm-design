@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4714161 */
-  src: url('iconfont.woff2?t=1730172936352') format('woff2'),
-       url('iconfont.woff?t=1730172936352') format('woff'),
-       url('iconfont.ttf?t=1730172936352') format('truetype');
+  src: url('iconfont.woff2?t=1730257595300') format('woff2'),
+       url('iconfont.woff?t=1730257595300') format('woff'),
+       url('iconfont.ttf?t=1730257595300') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,50 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-koutu1:before {
+  content: "\e683";
+}
+
+.icon-shuipingfanzhuanchuizhifanzhuanchuizhifanzhuanchuizhifanzhuan:before {
+  content: "\e75b";
+}
+
+.icon-shuipingfanzhuanchuizhifanzhuanchuizhifanzhuanchuizhifanzhuan1:before {
+  content: "\e61d";
+}
+
+.icon-shengchenglunkuo:before {
+  content: "\e728";
+}
+
+.icon-xiguan:before {
+  content: "\e77b";
+}
+
+.icon-crop-full:before {
+  content: "\ea33";
+}
+
+.icon-AIkoutu:before {
+  content: "\e606";
+}
+
+.icon-zhuti_tiaosepan_o:before {
+  content: "\eb6e";
+}
+
+.icon-koutu:before {
+  content: "\e6ab";
+}
+
+.icon-tiaose:before {
+  content: "\e752";
+}
+
+.icon-lvjingmoshi:before {
+  content: "\e627";
 }
 
 .icon-shuipingfenbu:before {

@@ -45,6 +45,8 @@ import {useEditor} from "@/views/Editor/app";
 import useCenter from "@/hooks/useCenter";
 
 import {Image,Platform} from "leafer-ui";
+import Image2 from "@/views/Editor/core/shapes/Image2";
+
 import {getDefaultName} from "@/views/Editor/utils/utils";
 import CompCateListWrap from "@/views/Editor/layouts/panel/leftPanel/wrap/CompCateListWrap.vue";
 import CompList2Wrap from "@/views/Editor/layouts/panel/leftPanel/wrap/CompList2Wrap.vue";
@@ -121,7 +123,7 @@ const handleClick = (item:any) => {
     if(item.type=="svg"&&item.model){
         loadSvg(item.url,JSON.parse(item.model).colors).then((m)=>{
            
-            const image = new Image({
+            const image = new Image2({
                 name:getDefaultName(editor.contentFrame),
                 editable: true,
                 x:0,
@@ -134,7 +136,7 @@ const handleClick = (item:any) => {
              editor.add(image)
         })
     }else{
-        const image = new Image({
+        const image = new Image2({
             name:getDefaultName(editor.contentFrame),
             editable: true,
             x:0,

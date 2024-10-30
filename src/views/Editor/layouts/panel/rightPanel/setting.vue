@@ -17,7 +17,7 @@ import GroupAttr from "./attrs/groupAttr.vue";
 import PenAttr from "./attrs/penAttr.vue";
 import CornerRadiusAttr from "./attrs/cornerRadiusAttr.vue";
 import AlignmentAttr from "./attrs/alignmentAttr.vue";
-
+import ImageAttr from "./attrs/imageAttr.vue";
 
 
 import {appInstance, useEditor} from "@/views/Editor/app";
@@ -70,6 +70,11 @@ const componentList = computed(() => {
             visual: isDef && !isVir,
         },
         {
+            name: 'ImageAttr',
+            component: ImageAttr,
+            visual: isDef &&!isVir && isSingle&&editor.activeObjectIsType('Image2','Image')
+        },
+        {
             name: 'AlignmentAttr',
             component: AlignmentAttr,
             visual:
@@ -114,7 +119,7 @@ const componentList = computed(() => {
             visual:
             isDef
                 &&!isVir
-                && !editor.activeObjectIsType('Image','Pen','HTMLText','QrCode','BarCode','Group')&&isSingle
+                && !editor.activeObjectIsType('Image2','Image','Pen','HTMLText','QrCode','BarCode','Group')&&isSingle
         },
         {
             name: 'StrokeAttr',
@@ -130,7 +135,7 @@ const componentList = computed(() => {
             visual:
             isDef
                 &&!isVir
-                && editor.activeObjectIsType('Rect',"Image")&&isSingle
+                && editor.activeObjectIsType('Rect',"Image","Image2")&&isSingle
         },
 
         {
@@ -160,7 +165,6 @@ const componentList = computed(() => {
     ]
 
     return arr
-    console.info(arr)
 })
 
 const pluginSolts = appInstance.editor.getPluginSlots('rightPanel')
@@ -187,8 +191,9 @@ const pluginSolts = appInstance.editor.getPluginSlots('rightPanel')
 
 <style scoped lang="less">
 .ovf{
-    height: calc(100vh - 95px);
+    // height: calc(100vh - 95px);
     overflow-y: auto;
     overflow-x: hidden;
+    // height: 100%;
 }
 </style>

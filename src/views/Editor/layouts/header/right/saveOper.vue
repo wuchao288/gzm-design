@@ -272,7 +272,7 @@ onMounted(async()=>{
 
         userStore.managerEdit(res.managerEdit&&edit&&tempId)
 
-        debugger
+        
         await loadTempData()
     })
 })
@@ -297,7 +297,7 @@ async function loadTempData() {
    if (!id && !tempid) {
        return
    }
-   alert(apiName)
+   
    const { data: content, title, state, width, height,version:version,spaceClass,folderId,cover }
 
    = await api.home[apiName]({ id : id || tempid , type : type  ,compCode:"" })

@@ -3,14 +3,20 @@
         <div ref="widgetPanel" id="s-widget-panel">
             <div ref="widgetWrap" class="s-widget-wrap">
                 <div class="wrap" ref="tabBoxRef">
-                    <a-tabs default-active-key="1" class="" type="line"  justify>
-                        <a-tab-pane key="1" title="设置">
-                            <setting/>
-                        </a-tab-pane>
-                        <a-tab-pane key="2" title="图层">
-                            <layers/>
-                        </a-tab-pane>
-                    </a-tabs>
+                   
+                        <a-tabs default-active-key="1" class="" type="line"  justify>
+                            
+                                <a-tab-pane key="1" title="设置">
+                                    <a-scrollbar style="height:calc(100vh - 95px);overflow: auto;">
+                                       <setting/> 
+                                    </a-scrollbar>
+                                </a-tab-pane>
+                                <a-tab-pane key="2" title="图层">
+                                    <layers/>
+                                </a-tab-pane>
+                           
+                        </a-tabs>
+                   
                 </div>
             </div>
         </div>
@@ -96,5 +102,8 @@ onMounted(() => {
         height: 26px;
         width: 26px;
     }
+}
+:deep(.arco-scrollbar-track-direction-vertical){
+   width: 10px;
 }
 </style>

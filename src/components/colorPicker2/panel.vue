@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script  lang="ts">
 import {defineComponent, ref, computed, h, PropType} from 'vue';
 import { getPrefixCls } from '../_utils/global-config';
 import { hexToRgb, rgbToHsv } from '../_utils/color';

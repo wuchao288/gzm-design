@@ -8,6 +8,7 @@ import imageData from '@/assets/data/imageData.json'
 import textData from '@/assets/data/textData.json'
 import bgImgData from '@/assets/data/bgImgData.json'
 import elementData from '@/assets/data/elementData.json'
+import templateObj from '@/assets/data/templateObj.json'
 import {MockParams} from "@/types/mock";
 
 
@@ -15,9 +16,20 @@ import {MockParams} from "@/types/mock";
  * TODO 优化图库，抓取unsplash图片
  */
 setupMock({
-    mock:true,
+    mock:false,
     setup() {
         
+        Mock.mock(new RegExp('/api/design/temp'), (params:MockParams) => {
+
+            
+            const { id,type,edit } = qs.parse(params.url.split("?")[1])//JSON.parse(params.body);
+           
+            var lreturn=  successResponseWrap(templateObj.find(m=>m.tmpid==id));
+        
+            return lreturn
+        });
+
+
         Mock.mock(new RegExp('/api/design/textcate'), (params:MockParams) => {
  
             var lreturn=  successResponseWrap(textData.cate);
@@ -34,7 +46,7 @@ setupMock({
 
         Mock.mock(new RegExp('/api/design/list'), (params:MockParams) => {
             //0=图片，1=文字
-            console.info(params)
+          
             const { page:pageNum, pageSize,type } = qs.parse(params.url.split("?")[1])//JSON.parse(params.body);
            
             if(type==1){
@@ -78,11 +90,11 @@ setupMock({
             return successResponseWrap({list:newDataList,total:list.length});
         });
 
-        Mock.mock(new RegExp('/api/design/temp'), (params:MockParams) => {
-            const { type,id } = qs.parse(params.url.split("?")[1])
-            const temp=  templateData.list.find(m=>m.id==id)
-            return successResponseWrap(temp)
-        });
+        // Mock.mock(new RegExp('/api/design/temp'), (params:MockParams) => {
+        //     const { type,id } = qs.parse(params.url.split("?")[1])
+        //     const temp=  templateData.list.find(m=>m.id==id)
+        //     return successResponseWrap(temp)
+        // });
        
         Mock.mock(new RegExp('/api/design/imgs'), (params:MockParams) => {
             const { page:pageNum, pageSize } = qs.parse(params.url.split("?")[1])

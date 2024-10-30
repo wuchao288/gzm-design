@@ -27,6 +27,8 @@ import {LazyImg} from '@/components/vue-waterfall-plugin-next'
 
 import {useEditor} from "@/views/Editor/app";
 import {Image} from "leafer-ui";
+import Image2 from "@/views/Editor/core/shapes/Image2";
+
 import {getDefaultName} from "@/views/Editor/utils/utils";
 import CompListWrap from "@/views/Editor/layouts/panel/leftPanel/wrap/CompListWrap.vue";
 import usePageMixin from "@/views/Editor/layouts/panel/leftPanel/wrap/mixins/pageMixin";
@@ -98,12 +100,13 @@ const fetchData = () => {
 }
 const handleClick = (item) => {
 
-    const image = new Image({
+    const image = new Image2({
         name:getDefaultName(editor.contentFrame),
         // draggable: true,
         editable: true,
         x:0,
         y:0,
+
         ...item
     })
     editor.add(image)

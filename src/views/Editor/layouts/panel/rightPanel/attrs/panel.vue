@@ -4,10 +4,12 @@
       title?: string
       hiddenAdd?: boolean
       disableAdd?: boolean
+      hiddenTitle?:boolean
     }>(),
     {
       hiddenAdd: false,
       disableAdd: false,
+      hiddenTitle:false
     },
   )
 
@@ -23,12 +25,12 @@
 
 <template>
   <div class="p2 attr-panel">
-    <div
+    <div v-if="!hiddenTitle"
       class="h28px font-bold text-xs flex justify-between items-center"
       :class="[!disableAdd && !hiddenAdd ? 'hover-add' : '',disableAdd ?'disable-add':'mb2px']"
       @click.self="clickAdd"
     >
-      <slot name="title">
+      <slot name="title" >
           <span>{{ title }}</span>
       </slot>
       <div>
@@ -46,7 +48,6 @@
         </a-button>
       </div>
     </div>
-<!--    <slot v-if="disableAdd || hiddenAdd"></slot>-->
     <slot></slot>
   </div>
 </template>
