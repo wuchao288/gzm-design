@@ -105,6 +105,8 @@ import { nanoid } from 'nanoid';
       let cropData=  cropper.getCropBoxData()
       const sizeData = cropper.getData();
       //const croppedImage = canvas.toDataURL();
+      console.info(cropData)
+      console.info(sizeData)
 
       cropper.getCroppedCanvas().toBlob(async (blob:any) => {
 
