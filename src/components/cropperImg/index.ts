@@ -27,7 +27,7 @@ const openDialog = (
   { sizeData, cropData,imageSrc,
     aspectRatio,
     viewMode,
-    onChange,
+    onUpdateSrc,
     autoCropArea }: Partial<Props>
 ) => {
 
@@ -48,7 +48,7 @@ const openDialog = (
         aspectRatio,
         viewMode,
         autoCropArea,
-        onUpdateSrc:onChange,
+        onUpdateSrc:onUpdateSrc,
         onClose(){
           dialogClose()
         }

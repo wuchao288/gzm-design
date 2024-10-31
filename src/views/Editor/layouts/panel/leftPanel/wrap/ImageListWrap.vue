@@ -106,7 +106,6 @@ const handleClick = (item) => {
         editable: true,
         x:0,
         y:0,
-
         ...item
     })
     editor.add(image)

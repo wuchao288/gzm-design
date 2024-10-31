@@ -58,6 +58,7 @@
 <script setup lang="ts">
 import {checkFileExt, getImgStr, selectFiles, toArrayBuffer} from "@/utils/designUtil";
 import {Image} from "leafer-ui";
+import Image2 from "@/views/Editor/core/shapes/Image2";
 import {parsePsdFile,PsdParseResult} from "@/utils/psd";
 import {useEditor} from "@/views/Editor/app";
 import {IUI} from "@leafer-ui/interface";
@@ -123,10 +124,11 @@ const insertImg = async (clear = false) => {
             // const {arrayBuffer} = await toArrayBuffer(item)
             //const url = URL.createObjectURL(item);
 
-            let image = new Image({
+            let image = new Image2({
                 name: getDefaultName(canvas.contentFrame)+"_"+item.name,
                 url: imgsrc.url,
-                editable: true
+                editable: true,
+                id:nanoid()
             });
             canvas.add(image)
 

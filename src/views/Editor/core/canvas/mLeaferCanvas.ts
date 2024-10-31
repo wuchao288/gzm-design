@@ -48,7 +48,7 @@ import {BOTTOM_CANVAS_NAME} from "@/views/Editor/utils/constants";
 import {v4 as uuidv4} from 'uuid'
 import { nanoid } from 'nanoid'
 import {PenDraw, SignaturePluginOptions} from "@/views/Editor/core/canvas/penDraw";
-import { forEach, isString } from 'lodash';
+import { first, forEach, isString } from 'lodash';
 
 import  "@/views/Editor/app/CustomEditor"
 
@@ -320,6 +320,14 @@ export class MLeaferCanvas {
             console.info(arg.editor.list)
             this.setActiveObjectValue(arg.editor.element)
             // this.ruler.forceRender()
+            
+            if(!arg.editor.element){
+                this.contentFrame.findId("MaskBox")?.destroy()
+            }
+        })
+
+        this.app.editor.on("editor.move", (arg) => {
+              console.info(arg)
         })
 
 
@@ -493,8 +501,8 @@ export class MLeaferCanvas {
         if ("width" in _child && isString(_child["width"])) {
             _child['width']=Number(_child['width'])
         }
-        if ("heigth" in _child && isString(_child["width"])) {
-            _child['heigth']=Number(_child['heigth'])
+        if ("height" in _child && isString(_child["height"])) {
+            _child['height']=Number(_child['height'])
         }
 
         this.contentFrame.add(_child, _index)
@@ -514,8 +522,8 @@ export class MLeaferCanvas {
             if ("width" in _child && isString(_child["width"])) {
                 _child['width']=Number(_child['width'])
             }
-            if ("heigth" in _child && isString(_child["width"])) {
-                _child['heigth']=Number(_child['heigth'])
+            if ("height" in _child && isString(_child["height"])) {
+                _child['height']=Number(_child['height'])
             }
 
         })

@@ -1,32 +1,63 @@
-import {registerUI, Rect, dataProcessor, UIData} from "leafer-ui";
-import {IUIData, IUIInputData} from "@leafer-ui/interface";
+import {registerUI, Rect, dataProcessor, UIData,boundsType,dataType} from "leafer-ui";
+import {IUIData, IUIInputData,IImagePaint} from "@leafer-ui/interface";
 
 // 定义数据
 
 // 输入数据接口
 interface ICustomInputData extends IUIInputData {
+    sizeData?:ISizeData
+    cropData?:ISizeData
+    originalUrl?:string
 }
 
 // 元素数据接口
 interface ICustomData extends IUIData {
+
+    sizeData?:ISizeData
+    cropData?:ISizeData
+    originalUrl?:string
 }
 
 class CustomData extends UIData implements ICustomData {
+
+    _sizeData:ISizeData
     // 元素数据，负责元素的数据处理
+    setSizeData(value: ISizeData): void {
+        this._width = Math.ceil(value.width)
+        this._height = Math.ceil(value.height)
+        // 通过 this.__leaf 可访问元素自身
+        this._sizeData=value
+    }
+   
 }
 
+export  type ISizeData={
+    x:number,
+    y:number,
+    width:number,
+    height:number
+}
+
+export  type ICropData={
+    top:number,
+    left:number,
+    width:number,
+    height:number
+}
 /**
  * 自定义元素实现图片功能
  * 自定义此元素的目的：解决官方Image元素不能在初始化时设置fill的opacity问题
  */
 @registerUI()
 class Image2 extends Rect {
-    private _url: string;
-    private _fillOpacity: number;
+    private _url: string
+
+    private _fillOpacity: number
 
     public get __tag() {
         return 'Image2'
     }
+
 
     // 使用自定义数据类，防止污染通用 UI 数据
     @dataProcessor(CustomData)
@@ -37,11 +68,16 @@ class Image2 extends Rect {
     }
 
     get url(): string {
+        
         return this._url;
     }
 
     set url(value: string) {
-        this.fill = {type: 'image', url: value, opacity: 1}
+        
+        this.fill =  {type: 'image', url: value, opacity: 1,mode:'stretch'} as IImagePaint
+        if(!this.originalUrl){
+           this.originalUrl=value
+        }
         this._url = value;
     }
 
@@ -51,8 +87,19 @@ class Image2 extends Rect {
 
     set fillOpacity(value: number) {
         this._fillOpacity = value;
-        this.fill = {type: 'image', url: this._url, opacity: value}
+        this.fill = {type: 'image', url: this._url, opacity: value,mode:'stretch'}  as IImagePaint
     }
+
+
+    @dataType(0)
+    declare public sizeData: ISizeData | null
+
+    @dataType(0)
+    declare public cropData: ICropData | null
+
+    @dataType(0)
+    declare public originalUrl: string | null
+
 }
 
 export default Image2

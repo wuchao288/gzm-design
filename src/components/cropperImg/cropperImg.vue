@@ -25,7 +25,7 @@
   import "cropperjs/dist/cropper.css";
   import api from '@/api/editor'
   import { Props } from '@/components/cropperImg/interface'
-import { nanoid } from 'nanoid';
+  import { nanoid } from 'nanoid';
 
   const props = withDefaults(defineProps<Props>(), {
     sizeData:null,
@@ -52,8 +52,6 @@ import { nanoid } from 'nanoid';
     arcomodalwrapH.value=800
   }
 
-
-
   const arcomodalfooterH = ref(64)
 
   const arcomodalimgH = ref(arcomodalwrapH.value-arcomodalfooterH.value)
@@ -62,18 +60,15 @@ import { nanoid } from 'nanoid';
     isUploading:true,
   })
 
-  let arcomodalwrap=   useTemplateRef('arcomodalwrap')
-  let arcomodalimg=  useTemplateRef<HTMLDivElement>('arcomodalimg')
-  let arcomodalfooter = useTemplateRef<HTMLDivElement>('arcomodalfooter')
 
   let cropper:any = null;
 
   //使用Cropper构造函数创建裁剪器实例，并将图片元素和一些裁剪选项传入
   onMounted(() => {
 
+  
+
     state.value.isUploading=true
-
-
      
       cropper = new Cropper(imageRef.value, {
       aspectRatio: props.aspectRatio,
@@ -85,6 +80,12 @@ import { nanoid } from 'nanoid';
       zoomOnWheel:false,
       ready:function(){
         state.value.isUploading=false
+        if(props.sizeData){
+           cropper.setData(props.sizeData)
+        }
+        if(props.cropData){
+           cropper.setCropBoxData(props.cropData)
+        }
       }
     })
   });
