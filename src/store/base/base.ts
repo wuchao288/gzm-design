@@ -16,7 +16,7 @@ type TBaseAction = {
 const useBaseStore = defineStore<'baseStore', TStoreBaseState, {}, TBaseAction>('baseStore', {
   state: () => ({
     isloading:false,
-    isloadingTip:"正在初化化"
+    isloadingTip:"This may take a while..."
   }),
   actions: {
     setBaseData(model: TStoreBaseState) {
@@ -26,7 +26,7 @@ const useBaseStore = defineStore<'baseStore', TStoreBaseState, {}, TBaseAction>(
   }
 })
 
-export type TTemplateStore = Store<'templateStore', TStoreBaseState, {}, TBaseAction>
+export type TStoreBaseSetState = Store<'storeBaseSetStore', TStoreBaseState, {}, TBaseAction>
 
 export default useBaseStore
 

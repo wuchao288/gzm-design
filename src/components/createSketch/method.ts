@@ -396,6 +396,7 @@ const pencilTextureCanvas = document.createElement('canvas');
 let watermarkImageEl;
 let pencilTextureEl;
  const louvreInit = onOver=>{
+	
 	loadImage(new URL("@/assets/images/pencil-texture.jpg",import.meta.url).href,el=>{
 		pencilTextureEl = el;
 		onOver();

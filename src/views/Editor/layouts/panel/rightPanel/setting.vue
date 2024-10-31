@@ -18,7 +18,7 @@ import PenAttr from "./attrs/penAttr.vue";
 import CornerRadiusAttr from "./attrs/cornerRadiusAttr.vue";
 import AlignmentAttr from "./attrs/alignmentAttr.vue";
 import ImageAttr from "./attrs/imageAttr.vue";
-
+import SvgAttr from "./attrs/svgAttr.vue";
 
 import {appInstance, useEditor} from "@/views/Editor/app";
 import {typeUtil} from "@/views/Editor/utils/utils";
@@ -72,6 +72,11 @@ const componentList = computed(() => {
         {
             name: 'ImageAttr',
             component: ImageAttr,
+            visual: isDef &&!isVir && isSingle&&editor.activeObjectIsType('Image2','Image')
+        },
+        {
+            name: 'SvgAttr',
+            component: SvgAttr,
             visual: isDef &&!isVir && isSingle&&editor.activeObjectIsType('Image2','Image')
         },
         {

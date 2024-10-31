@@ -4,6 +4,8 @@ import App from './App.vue'
 import router from '@/router'
 import pinia from '@/store'
 import ArcoVue from '@arco-design/web-vue';
+ import { Message } from '@arco-design/web-vue';
+
 import '@arco-design/web-vue/dist/arco.css';
 // CSS
 import '@unocss/reset/tailwind-compat.css'
@@ -18,10 +20,18 @@ import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import IconFontPlugin from './plugins/iconFontPlugin';
 
 import {createCore} from '@/views/Editor/core'
+
+
 const core = createCore()
+
 import { myPlugin } from '@/views/testPlugin'
+
 core.use(myPlugin)
+
 const app = createApp(App)
+
+ Message._context = app._context;
+
 app.use(pinia)
 app.use(router)
 app.use(ArcoVue);
@@ -29,3 +39,4 @@ app.use(core)
 app.use(ArcoVueIcon);
 app.use(IconFontPlugin);
 app.mount('#app')
+

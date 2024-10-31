@@ -1,6 +1,6 @@
 
 export type SketchProps = {
   imageSrc: string
-  onUpdateSrc?: (obj:any) => void
+  onUpdateImageSrc?: (obj:any) => void
   onClose?:() => void
 }

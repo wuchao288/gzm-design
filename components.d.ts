@@ -85,6 +85,7 @@ declare module 'vue' {
     ContextMenuContextSubMenu: typeof import('./src/components/contextMenu/ContextSubMenu.vue')['default']
     ContextMenuContextSubMenuWrapper: typeof import('./src/components/contextMenu/ContextSubMenuWrapper.vue')['default']
     CreateSketch: typeof import('./src/components/CreateSketch/Index.vue')['default']
+    CreateSketchCreateSketch: typeof import('./src/components/createSketch/createSketch.vue')['default']
     CropperImgCropperImg: typeof import('./src/components/cropperImg/cropperImg.vue')['default']
     DialogDialog: typeof import('./src/components/dialog/dialog.vue')['default']
     DropdownDropdownButton: typeof import('./src/components/dropdown/dropdownButton.vue')['default']

@@ -12,6 +12,6 @@ export type Props = {
   viewMode: number
 
   autoCropArea:number
-  onUpdateSrc?: (obj:any) => void
+  onUpdateImageSrc?: (obj:any) => void
   onClose?:() => void
 }

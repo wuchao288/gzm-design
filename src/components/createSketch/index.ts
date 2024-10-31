@@ -1,12 +1,9 @@
-import Dialog from '@/components/dialog'
-import _CropperImg from './cropperImg.vue'
+
+import _CreateSketch from './createSketch.vue'
 import {DialogReturn} from '@/components/dialog/interface'
 import {appInstance} from '@/views/Editor/app'
-import {isDefined} from '@vueuse/core'
-import {IMLeaferCanvas} from '@/views/Editor/core/canvas/mLeaferCanvas'
 import {ServicesAccessor} from '@/views/Editor/core/instantiation/instantiation'
-import { isString } from 'lodash'
-import {Props} from './interface'
+import {SketchProps} from './interface'
 
 import { h } from 'vue';
 import { Modal, Button } from '@arco-design/web-vue';
@@ -24,30 +21,21 @@ const dialogClose = () => {
 
 const openDialog = (
   accessor: ServicesAccessor,
-  { sizeData, cropData,imageSrc,
-    aspectRatio,
-    viewMode,
-    onUpdateImageSrc,
-    autoCropArea }: Partial<Props>
+  { imageSrc,onUpdateImageSrc }: Partial<SketchProps>
 ) => {
 
   return Modal.open({
     width: 1024,
     alignCenter:true,
-    title: '图片裁剪',
+    title: '生成线稿',
     closable:true,
     hideCancel:false,
     titleAlign:"start",
     footer:false,
     bodyStyle:"padding-bottom: 0px;",
     content: () =>
-      h(_CropperImg, {
-        sizeData,
-        cropData,
+      h(_CreateSketch, {
         imageSrc,
-        aspectRatio,
-        viewMode,
-        autoCropArea,
         onUpdateImageSrc:onUpdateImageSrc,
         onClose(){
           dialogClose()
@@ -59,7 +47,7 @@ const openDialog = (
   })
 }
 
-const open = (option: Partial<Props>) => {
+const open = (option: Partial<SketchProps>) => {
   if (!dialog) {
     
     dialog = appInstance.editor.service.invokeFunction(openDialog, option)
@@ -67,8 +55,6 @@ const open = (option: Partial<Props>) => {
   return dialogClose
 }
 
+const CreateSketchImg = Object.assign(_CreateSketch, { open, close: dialogClose })
 
-
-const CropperImg = Object.assign(_CropperImg, { open, close: dialogClose })
-
-export default CropperImg
+export default CreateSketchImg

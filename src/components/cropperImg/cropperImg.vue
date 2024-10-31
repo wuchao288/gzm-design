@@ -98,25 +98,28 @@
       }
   })
 
-  const emits=defineEmits(["updateSrc"])
+  const emits=defineEmits(["updateImageSrc"])
 
   const cropImage =async () => {
     state.value.isUploading=true
       const canvas = cropper.getCroppedCanvas();
       let cropData=  cropper.getCropBoxData()
       const sizeData = cropper.getData();
-      //const croppedImage = canvas.toDataURL();
-      console.info(cropData)
-      console.info(sizeData)
 
       cropper.getCroppedCanvas().toBlob(async (blob:any) => {
 
         const formData = new FormData()
         formData.append('file',blob,new Date().getTime()+"_"+nanoid(6)+".png")
 
-        let imgsrc= await api.upload.uploadFile(formData)
+        let srcObj= await api.upload.uploadFile(formData)
 
-        emits("updateSrc",{imgsrc,cropData,sizeData})
+        emits("updateImageSrc",{
+          imageData:{
+                url:srcObj.url
+           }
+          ,
+          cropData,
+          sizeData})
 
         props.onClose()
         if(cropper!=null){

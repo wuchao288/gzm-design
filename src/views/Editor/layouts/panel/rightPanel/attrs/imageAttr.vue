@@ -40,7 +40,7 @@
             </a-col> 
 
             <a-col :span="6" >
-               <a-button size="large" style="width: 100%;" :style="{height:height}"  class="action__icon">
+               <a-button size="large" @click="openCreateSketchImg" style="width: 100%;" :style="{height:height}"  class="action__icon">
                    <template #default>
                     <i class="iconfont  icon-shengchenglunkuo" ></i>
                    </template>
@@ -84,6 +84,8 @@ import { Text, defineKey } from 'leafer-ui'
     import { IMLeaferCanvas } from '@/views/Editor/core/canvas/mLeaferCanvas'
 
     import CropperImg from '@/components/cropperImg'
+
+    import CreateSketchImg from '@/components/createSketch'
 
     import { Fn, tryOnScopeDispose } from '@vueuse/core'
 
@@ -168,9 +170,9 @@ import { Text, defineKey } from 'leafer-ui'
             onClose(){
                 closeCropperImg()
             },
-            onUpdateSrc(obj:any){
+            onUpdateImageSrc(obj:any){
                 
-                fillModel.url=obj.imgsrc.url
+                fillModel.url=obj.imageData.url
                 fillModel.sizeData=obj.sizeData
                 fillModel.cropData=obj.cropData
             }
@@ -205,6 +207,31 @@ import { Text, defineKey } from 'leafer-ui'
     })
 }
 
+
+const  openCreateSketchImg=()=>{
+
+    const fillModel=editor.activeObject.value as Image2
+    
+    appInstance.editor.service.invokeFunction((accessor) => {
+
+      const canvas = accessor.get(IMLeaferCanvas)
+
+      if (!isDefined(canvas.activeObject)) return
+
+        closeFn = CreateSketchImg.open({
+            imageSrc:fillModel.originalUrl?fillModel.originalUrl:(fillModel.fill as IImagePaint).url,
+            onClose(){
+                closeCropperImg()
+            },
+            onUpdateImageSrc(obj:any){
+
+                fillModel.url=obj.imageData.url
+                fillModel.originalUrl=fillModel.url
+
+            }
+        })
+    })
+}
  
 
 </script>
