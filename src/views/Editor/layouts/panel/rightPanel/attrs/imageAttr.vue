@@ -21,7 +21,7 @@
                 <p class="action__text">裁剪</p>
             </a-col> 
             <a-col :span="6" >
-               <a-button size="large" style="width: 100%;" :style="{height:height}"  class="action__icon">
+               <a-button size="large" @click="test" style="width: 100%;" :style="{height:height}"  class="action__icon">
                    <template #default>
                     <i class="iconfont icon-koutu" ></i>
                    </template>
@@ -71,7 +71,7 @@
 </template>
 <script lang="ts" setup>
 
-import { Text, defineKey } from 'leafer-ui'
+  import { Text, defineKey } from 'leafer-ui'
 
    import { ref,onActivated,watch,computed,onMounted } from 'vue';
 
@@ -99,7 +99,10 @@ import { Text, defineKey } from 'leafer-ui'
 
     import { nanoid } from 'nanoid';
 
+    import {loadIng} from '@/components/loading'
+
     import api from '@/api/editor'
+
 
     const btn = useTemplateRef('action_btn')
 
@@ -109,6 +112,13 @@ import { Text, defineKey } from 'leafer-ui'
 
    onMounted(()=>height.value=(btn.value.$el.offsetWidth)+"px")
 
+   const  test=()=>{
+      const load=  loadIng()
+      console.info(load)
+      setTimeout(function(){
+        load.close()
+      },5000)
+   }
 
    let closeFn: Fn | undefined
 
@@ -261,4 +271,4 @@ const  openCreateSketchImg=()=>{
     :deep(.arco-col-6){
         margin-bottom: 16px
     }
-</style>
+</style>@/components/loading/loading

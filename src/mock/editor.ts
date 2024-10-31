@@ -16,7 +16,7 @@ import {MockParams} from "@/types/mock";
  * TODO 优化图库，抓取unsplash图片
  */
 setupMock({
-    mock:false,
+    mock:true,
     setup() {
         
         Mock.mock(new RegExp('/api/design/temp'), (params:MockParams) => {
